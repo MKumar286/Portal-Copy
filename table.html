@@ -624,14 +624,17 @@ body{
         <h3>Total Offers</h3>
         <p id="totalOffers">0</p>
     </div>
-
-    <div class="cgpa-tools">
+<div class="cgpa-tools">
 
     <div class="cgpa-box">
 
         <h3>CGPA ≤</h3>
 
-        <input type="number" step="0.01" placeholder="Enter CGPA">
+        <input
+        type="number"
+        step="0.01"
+        id="cgpaLessEqual"
+        placeholder="Enter">
 
     </div>
 
@@ -639,7 +642,11 @@ body{
 
         <h3>CGPA ≥</h3>
 
-        <input type="number" step="0.01" placeholder="Enter CGPA">
+        <input
+        type="number"
+        step="0.01"
+        id="cgpaGreaterEqual"
+        placeholder="Enter">
 
     </div>
 
@@ -649,9 +656,17 @@ body{
 
         <div class="between-inputs">
 
-            <input type="number" step="0.01" placeholder="Min">
+            <input
+            type="number"
+            step="0.01"
+            id="cgpaMin"
+            placeholder="Min">
 
-            <input type="number" step="0.01" placeholder="Max">
+            <input
+            type="number"
+            step="0.01"
+            id="cgpaMax"
+            placeholder="Max">
 
         </div>
 
@@ -743,6 +758,11 @@ const genderFilter = document.getElementById("genderFilter");
 const cgpaFilter = document.getElementById("cgpaFilter");
 const registeredFilter = document.getElementById("registeredFilter");
 const offersFilter = document.getElementById("offersFilter");
+    
+    const cgpaLessEqual = document.getElementById("cgpaLessEqual");
+    const cgpaGreaterEqual = document.getElementById("cgpaGreaterEqual");
+    const cgpaMin = document.getElementById("cgpaMin");
+    const cgpaMax = document.getElementById("cgpaMax");
 
 /* EVENTS */
 
@@ -754,6 +774,14 @@ genderFilter.addEventListener("change",applyFilters);
 cgpaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
+    
+    cgpaLessEqual.addEventListener("input",applyFilters);
+
+cgpaGreaterEqual.addEventListener("input",applyFilters);
+
+cgpaMin.addEventListener("input",applyFilters);
+
+cgpaMax.addEventListener("input",applyFilters);
 
 /* POPULATE FILTERS */
 
@@ -824,7 +852,7 @@ function applyFilters(){
     };
 
     let filtered = originalData.filter(row=>{
-
+        const cgpa = parseFloat(row[indexes.cgpa]) || 0;
         const rowText = row.join(" ").toLowerCase();
 
         return (
@@ -865,6 +893,34 @@ function applyFilters(){
 
             (!filters.offers ||
             row[indexes.offers] === filters.offers)
+
+            &&
+
+(!cgpaLessEqual.value ||
+cgpa <= parseFloat(cgpaLessEqual.value))
+
+&&
+
+(!cgpaGreaterEqual.value ||
+cgpa >= parseFloat(cgpaGreaterEqual.value))
+
+&&
+
+(
+    (!cgpaMin.value && !cgpaMax.value)
+
+    ||
+
+    (
+        cgpa >=
+        (parseFloat(cgpaMin.value) || 0)
+
+        &&
+
+        cgpa <=
+        (parseFloat(cgpaMax.value) || 10)
+    )
+)
 
         );
 
