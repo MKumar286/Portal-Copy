@@ -862,104 +862,39 @@ function applyFilters(){
     ) || 0;
 
     /* CUSTOM CGPA FILTERS */
+let cgpaCondition = true;
 
-    let cgpaCondition = true;
+/* ONLY ONE CGPA FILTER ACTIVE */
 
-    /* <= */
+if(cgpaLessEqual.value){
 
-    if(cgpaLessEqual.value){
+    cgpaCondition =
+    cgpa <=
+    parseFloat(cgpaLessEqual.value);
+}
 
-        cgpaCondition =
-        cgpa <=
-        parseFloat(cgpaLessEqual.value);
-    }
+else if(cgpaGreaterEqual.value){
 
-    /* >= */
+    cgpaCondition =
+    cgpa >=
+    parseFloat(cgpaGreaterEqual.value);
+}
 
-    if(cgpaGreaterEqual.value){
+else if(
+    cgpaMin.value &&
+    cgpaMax.value
+){
 
-        cgpaCondition =
-        cgpaCondition &&
+    cgpaCondition =
 
-        cgpa >=
-        parseFloat(cgpaGreaterEqual.value);
-    }
+    cgpa >=
+    parseFloat(cgpaMin.value)
 
-    /* BETWEEN */
+    &&
 
-    if(cgpaMin.value && cgpaMax.value){
-
-        cgpaCondition =
-        cgpaCondition &&
-
-        cgpa >=
-        parseFloat(cgpaMin.value)
-
-        &&
-
-        cgpa <=
-        parseFloat(cgpaMax.value);
-    }
-
-    return(
-
-        rowText.includes(search)
-
-        &&
-
-        (!filters.branch ||
-
-        row[indexes.branch]
-        === filters.branch)
-
-        &&
-
-        (!filters.backlog ||
-
-        row[indexes.backlog]
-        === filters.backlog)
-
-        &&
-
-        (!filters.gender ||
-
-        row[indexes.gender]
-        === filters.gender)
-
-        &&
-
-        (!filters.cgpa ||
-
-        row[indexes.cgpa]
-        === filters.cgpa)
-
-        &&
-
-        (!filters.registered ||
-
-        row[indexes.registered]
-        .toLowerCase()
-        .trim()
-
-        ===
-
-        filters.registered
-        .toLowerCase()
-        .trim())
-
-        &&
-
-        (!filters.offers ||
-
-        row[indexes.offers]
-        === filters.offers)
-
-        &&
-
-        cgpaCondition
-    );
-
-});
+    cgpa <=
+    parseFloat(cgpaMax.value);
+}
     createTable(headers,filtered);
 
     updateStatistics(filtered);
