@@ -853,35 +853,85 @@ function applyFilters(){
 
    let filtered = originalData.filter(row=>{
 
-    const cgpa =
-    parseFloat(row[indexes.cgpa]) || 0;
-
     const rowText =
     row.join(" ").toLowerCase();
 
-    return (
+    const cgpa =
+    parseFloat(
+        row[indexes.cgpa]
+    ) || 0;
+
+    /* CUSTOM CGPA FILTERS */
+
+    let cgpaCondition = true;
+
+    /* <= */
+
+    if(cgpaLessEqual.value){
+
+        cgpaCondition =
+        cgpa <=
+        parseFloat(cgpaLessEqual.value);
+    }
+
+    /* >= */
+
+    if(cgpaGreaterEqual.value){
+
+        cgpaCondition =
+        cgpaCondition &&
+
+        cgpa >=
+        parseFloat(cgpaGreaterEqual.value);
+    }
+
+    /* BETWEEN */
+
+    if(cgpaMin.value && cgpaMax.value){
+
+        cgpaCondition =
+        cgpaCondition &&
+
+        cgpa >=
+        parseFloat(cgpaMin.value)
+
+        &&
+
+        cgpa <=
+        parseFloat(cgpaMax.value);
+    }
+
+    return(
 
         rowText.includes(search)
 
         &&
 
         (!filters.branch ||
-        row[indexes.branch] === filters.branch)
+
+        row[indexes.branch]
+        === filters.branch)
 
         &&
 
         (!filters.backlog ||
-        row[indexes.backlog] === filters.backlog)
+
+        row[indexes.backlog]
+        === filters.backlog)
 
         &&
 
         (!filters.gender ||
-        row[indexes.gender] === filters.gender)
+
+        row[indexes.gender]
+        === filters.gender)
 
         &&
 
         (!filters.cgpa ||
-        row[indexes.cgpa] === filters.cgpa)
+
+        row[indexes.cgpa]
+        === filters.cgpa)
 
         &&
 
@@ -889,7 +939,9 @@ function applyFilters(){
 
         row[indexes.registered]
         .toLowerCase()
-        .trim() ===
+        .trim()
+
+        ===
 
         filters.registered
         .toLowerCase()
@@ -898,55 +950,16 @@ function applyFilters(){
         &&
 
         (!filters.offers ||
-        row[indexes.offers] === filters.offers)
 
-        /* CGPA <= */
-
-        &&
-
-        (!cgpaLessEqual.value ||
-
-        cgpa <=
-        parseFloat(cgpaLessEqual.value))
-
-        /* CGPA >= */
+        row[indexes.offers]
+        === filters.offers)
 
         &&
 
-        (!cgpaGreaterEqual.value ||
-
-        cgpa >=
-        parseFloat(cgpaGreaterEqual.value))
-
-        /* BETWEEN */
-
-        &&
-
-        (
-
-            (!cgpaMin.value &&
-             !cgpaMax.value)
-
-            ||
-
-            (
-
-                cgpa >=
-                (parseFloat(cgpaMin.value) || 0)
-
-                &&
-
-                cgpa <=
-                (parseFloat(cgpaMax.value) || 10)
-
-            )
-
-        )
-
+        cgpaCondition
     );
 
 });
-
     createTable(headers,filtered);
 
     updateStatistics(filtered);
