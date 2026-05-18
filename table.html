@@ -864,69 +864,35 @@ function applyFilters(){
     /* CUSTOM CGPA FILTERS */
 let cgpaCondition = true;
 
-/* ONLY ONE CGPA FILTER ACTIVE */
+/* CGPA <= */
 
-if(cgpaLessEqual.value){
-
-    cgpaCondition =
-    cgpa <=
-    parseFloat(cgpaLessEqual.value);
-}
-
-else if(cgpaGreaterEqual.value){
+if (cgpaLessEqual.value !== "") {
 
     cgpaCondition =
-    cgpa >=
-    parseFloat(cgpaGreaterEqual.value);
+    cgpa <= Number(cgpaLessEqual.value);
+
 }
 
-else if(
-    cgpaMin.value &&
-    cgpaMax.value
-){
+/* CGPA >= */
+
+else if (cgpaGreaterEqual.value !== "") {
 
     cgpaCondition =
+    cgpa >= Number(cgpaGreaterEqual.value);
 
-    cgpa >=
-    parseFloat(cgpaMin.value)
-
-    &&
-
-    cgpa <=
-    parseFloat(cgpaMax.value);
-}
-    createTable(headers,filtered);
-
-    updateStatistics(filtered);
 }
 
-/* CREATE TABLE */
+/* BETWEEN */
 
-function createTable(headers,rows){
+else if (
+    cgpaMin.value !== "" &&
+    cgpaMax.value !== ""
+) {
 
-    let tableHTML = "<tr>";
-
-    headers.forEach(header=>{
-
-        tableHTML += `<th>${header}</th>`;
-
-    });
-
-    tableHTML += "</tr>";
-
-    rows.forEach(row=>{
-
-        tableHTML += "<tr>";
-
-        row.forEach(cell=>{
-
-            tableHTML += `<td>${cell}</td>`;
-
-        });
-
-        tableHTML += "</tr>";
-    });
-
+    cgpaCondition =
+        cgpa >= Number(cgpaMin.value) &&
+        cgpa <= Number(cgpaMax.value);
+}
     document.getElementById("dataTable").innerHTML = tableHTML;
 
 }
