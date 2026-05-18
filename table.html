@@ -851,80 +851,101 @@ function applyFilters(){
         offers: headers.indexOf("No. of Offers")
     };
 
-    let filtered = originalData.filter(row=>{
-        const cgpa = parseFloat(row[indexes.cgpa]) || 0;
-        const rowText = row.join(" ").toLowerCase();
+   let filtered = originalData.filter(row=>{
 
-        return (
+    const cgpa =
+    parseFloat(row[indexes.cgpa]) || 0;
 
-            rowText.includes(search)
+    const rowText =
+    row.join(" ").toLowerCase();
 
-            &&
+    return (
 
-            (!filters.branch ||
-            row[indexes.branch] === filters.branch)
-
-            &&
-
-            (!filters.backlog ||
-            row[indexes.backlog] === filters.backlog)
-
-            &&
-
-            (!filters.gender ||
-            row[indexes.gender] === filters.gender)
-
-            &&
-
-            (!filters.cgpa ||
-            row[indexes.cgpa] === filters.cgpa)
-
-            &&
-
-            (!filters.registered ||
-            row[indexes.registered]
-            .toLowerCase()
-            .trim() ===
-            filters.registered
-            .toLowerCase()
-            .trim())
-
-            &&
-
-            (!filters.offers ||
-            row[indexes.offers] === filters.offers)
-
-            &&
-
-(!cgpaLessEqual.value ||
-cgpa <= parseFloat(cgpaLessEqual.value))
-
-&&
-
-(!cgpaGreaterEqual.value ||
-cgpa >= parseFloat(cgpaGreaterEqual.value))
-
-&&
-
-(
-    (!cgpaMin.value && !cgpaMax.value)
-
-    ||
-
-    (
-        cgpa >=
-        (parseFloat(cgpaMin.value) || 0)
+        rowText.includes(search)
 
         &&
 
+        (!filters.branch ||
+        row[indexes.branch] === filters.branch)
+
+        &&
+
+        (!filters.backlog ||
+        row[indexes.backlog] === filters.backlog)
+
+        &&
+
+        (!filters.gender ||
+        row[indexes.gender] === filters.gender)
+
+        &&
+
+        (!filters.cgpa ||
+        row[indexes.cgpa] === filters.cgpa)
+
+        &&
+
+        (!filters.registered ||
+
+        row[indexes.registered]
+        .toLowerCase()
+        .trim() ===
+
+        filters.registered
+        .toLowerCase()
+        .trim())
+
+        &&
+
+        (!filters.offers ||
+        row[indexes.offers] === filters.offers)
+
+        /* CGPA <= */
+
+        &&
+
+        (!cgpaLessEqual.value ||
+
         cgpa <=
-        (parseFloat(cgpaMax.value) || 10)
-    )
-)
+        parseFloat(cgpaLessEqual.value))
 
-        );
+        /* CGPA >= */
 
-    });
+        &&
+
+        (!cgpaGreaterEqual.value ||
+
+        cgpa >=
+        parseFloat(cgpaGreaterEqual.value))
+
+        /* BETWEEN */
+
+        &&
+
+        (
+
+            (!cgpaMin.value &&
+             !cgpaMax.value)
+
+            ||
+
+            (
+
+                cgpa >=
+                (parseFloat(cgpaMin.value) || 0)
+
+                &&
+
+                cgpa <=
+                (parseFloat(cgpaMax.value) || 10)
+
+            )
+
+        )
+
+    );
+
+});
 
     createTable(headers,filtered);
 
