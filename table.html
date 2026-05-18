@@ -67,18 +67,29 @@ body{
 /* CARDS */
 
 .cards-container{
-    width:100%;
-    margin-top:6px;
-    margin-bottom:6px;
 
-    display:grid;
-    grid-template-columns:repeat(5, 1fr);
-    gap:8px;
+    width:100%;
+
+    margin:3px 0;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    justify-content:flex-start;
+
+    align-items:center;
 }
 
 .card{
 
-    padding:3px 6px;
+    min-width:140px;
+
+    max-width:160px;
+
+    padding:4px 8px;
 
     border-radius:14px;
 
