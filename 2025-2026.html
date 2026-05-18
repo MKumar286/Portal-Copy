@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2025-2026</title>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial;
+    background:#f2f5ff;
+}
+
+h1{
+    text-align:center;
+    color:#0b3d91;
+}
+
+h2{
+    text-align:center;
+    color:#444;
+}
+
+.cards-container{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:25px;
+}
+
+.card{
+    height:70px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+table{
+    width:100%;
+    margin-top:25px;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#0b3d91;
+    color:white;
+}
+
+.loading{
+    text-align:center;
+    margin-top:20px;
+    font-size:20px;
+    color:#0b3d91;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Mahatma Gandhi Institute of Technology</h1>
+<h2>Training and Placement Cell</h2>
+<h2>Academic Year 2025-2026</h2>
+
+<div class="cards-container" id="cardsContainer"></div>
+
+<div class="loading" id="loading"></div>
+
+<table id="dataTable"></table>
+
+<script>
+
+const csvLinks = {
+
+A:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSOuipD2-NGSfsSNYmZtQiaOyxCrTGMUhdXXbTfOeP46d53qe7jLaCzgWp-hYw4_A/pub?gid=1397944008&single=true&output=csv",
+
+B:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSb-y0j0bmZw_m5r33iFrUg_mjVdy4QT7lTaHJPxgijcb2_gW2uFc6hdlS77pCI0g/pub?output=csv",
+C:"",
+D:"",
+E:"",
+F:"",
+G:"",
+H:"",
+I:"",
+J:"",
+K:"",
+L:"",
+M:"",
+N:"",
+O:"",
+P:"",
+Q:"",
+R:""
+
+};
+
+const colors = [
+"#ff6b6b",
+"#6c5ce7",
+"#00b894",
+"#0984e3",
+"#fdcb6e",
+"#e17055",
+"#00cec9",
+"#2d3436",
+"#d63031",
+"#8e44ad",
+"#27ae60",
+"#f39c12",
+"#16a085",
+"#2c3e50",
+"#c0392b",
+"#7f8c8d",
+"#6d214f",
+"#1abc9c"
+];
+
+const container = document.getElementById("cardsContainer");
+
+Object.keys(csvLinks).forEach((key,index)=>{
+
+    const card=document.createElement("div");
+
+    card.className="card";
+
+    card.style.background=colors[index];
+
+    card.innerHTML=key;
+
+    card.onclick = () => {
+
+    localStorage.setItem("csvURL", csvLinks[key]);
+
+    window.location.href = "table.html";
+
+};
+
+    container.appendChild(card);
+
+});
+
+function loadCSV(url){
+
+    if(url===""){
+        alert("CSV Link Not Added");
+        return;
+    }
+
+    document.getElementById("loading").innerHTML="Loading Data...";
+
+    Papa.parse(url,{
+
+        download:true,
+
+        complete:function(results){
+
+            let data=results.data;
+
+            let tableHTML="";
+
+            data.forEach((row,rowIndex)=>{
+
+                tableHTML+="<tr>";
+
+                row.forEach(cell=>{
+
+                    if(rowIndex===0){
+                        tableHTML+=`<th>${cell}</th>`;
+                    }else{
+                        tableHTML+=`<td>${cell}</td>`;
+                    }
+
+                });
+
+                tableHTML+="</tr>";
+
+            });
+
+            document.getElementById("dataTable").innerHTML=tableHTML;
+
+            document.getElementById("loading").innerHTML="";
+
+        },
+
+        error:function(){
+
+            document.getElementById("loading").innerHTML="Unable to Load CSV Data";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
