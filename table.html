@@ -489,6 +489,21 @@ body{
     letter-spacing:0.5px;
 }
 
+    .cgpa-box{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.cgpa-box input{
+    padding:7px 10px;
+    border-radius:10px;
+    border:none;
+    min-width:90px;
+    font-size:13px;
+    background:white;
+}
+
 </style>
 
 </head>
@@ -555,10 +570,14 @@ body{
     <select id="genderFilter">
         <option value="">Gender</option>
     </select>
+    
+    <div class="cgpa-box">
+        
+    <input type="number" id="cgpaMin" placeholder="CGPA ≥">
+    <input type="number" id="cgpaMax" placeholder="CGPA ≤">
 
-    <select id="cgpaFilter">
-        <option value="">CGPA</option>
-    </select>
+    </div>
+   
 
     <select id="registeredFilter">
         <option value="">Registered for Placements</option>
@@ -613,6 +632,9 @@ Papa.parse(csvURL, {
 
 const searchInput = document.getElementById("searchInput");
 
+const cgpaMin = document.getElementById("cgpaMin");
+const cgpaMax = document.getElementById("cgpaMax");
+
 const branchFilter = document.getElementById("branchFilter");
 const backlogFilter = document.getElementById("backlogFilter");
 const genderFilter = document.getElementById("genderFilter");
@@ -628,8 +650,11 @@ branchFilter.addEventListener("change",applyFilters);
 backlogFilter.addEventListener("change",applyFilters);
 genderFilter.addEventListener("change",applyFilters);
 cgpaFilter.addEventListener("change",applyFilters);
+cgpaMin.addEventListener("input", applyFilters);
+cgpaMax.addEventListener("input", applyFilters);    
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
+    
 
 /* POPULATE FILTERS */
 
@@ -684,7 +709,7 @@ function applyFilters(){
         branch: branchFilter.value,
         backlog: backlogFilter.value,
         gender: genderFilter.value,
-        cgpa: cgpaFilter.value,
+       
         registered: registeredFilter.value,
         offers: offersFilter.value
     };
@@ -699,9 +724,17 @@ function applyFilters(){
         offers: headers.indexOf("No. of Offers")
     };
 
+    const minCGPA = parseFloat(cgpaMin.value);
+    const maxCGPA = parseFloat(cgpaMax.value);
+
     let filtered = originalData.filter(row=>{
 
         const rowText = row.join(" ").toLowerCase();
+        const cgpaValue = parseFloat(row[indexes.cgpa]) || 0;
+
+    const cgpaCondition =
+    (!cgpaMin.value || cgpaValue >= minCGPA) &&
+    (!cgpaMax.value || cgpaValue <= maxCGPA);
 
         return (
 
@@ -724,11 +757,6 @@ function applyFilters(){
 
             &&
 
-            (!filters.cgpa ||
-            row[indexes.cgpa] === filters.cgpa)
-
-            &&
-
             (!filters.registered ||
             row[indexes.registered]
             .toLowerCase()
@@ -741,6 +769,8 @@ function applyFilters(){
 
             (!filters.offers ||
             row[indexes.offers] === filters.offers)
+
+            && cgpaCondition
 
         );
 
