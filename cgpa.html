@@ -73,6 +73,103 @@ tr:nth-child(even){
 tr:hover{
     background:#dbe9ff;
 }
+    /* CGPA CARD */
+
+.cgpa-card{
+
+    width:95%;
+
+    margin:20px auto;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.12);
+}
+
+.cgpa-card h2{
+
+    margin-top:0;
+
+    text-align:center;
+
+    color:#0b3d91;
+}
+
+/* FILTERS */
+
+.cgpa-filters{
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+/* EACH BOX */
+
+.filter-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    min-width:250px;
+}
+
+/* LABEL */
+
+.filter-box label{
+
+    font-weight:bold;
+
+    color:#1e3a5f;
+
+    font-size:14px;
+}
+
+/* INPUTS */
+
+.filter-box input{
+
+    padding:10px;
+
+    border-radius:10px;
+
+    border:1px solid #b0c4de;
+
+    font-size:14px;
+}
+
+/* BETWEEN BOXES */
+
+.between-boxes{
+
+    display:flex;
+
+    gap:10px;
+}
+
+/* FOCUS */
+
+.filter-box input:focus{
+
+    outline:none;
+
+    border:2px solid #1565c0;
+
+    box-shadow:
+        0 0 8px rgba(21,101,192,0.3);
+}
 
 </style>
 
@@ -87,6 +184,75 @@ tr:hover{
     <h1>CGPA Analysis Dashboard</h1>
 
 </div>
+    </div>
+
+<!-- CGPA FILTER CARD -->
+
+<div class="cgpa-card">
+
+    <h2>CGPA Conditions</h2>
+
+    <div class="cgpa-filters">
+
+        <!-- GREATER THAN -->
+
+        <div class="filter-box">
+
+            <label>
+                CGPA Greater Than or Equal To
+            </label>
+
+            <input type="number"
+                   id="minCGPA"
+                   step="0.01"
+                   placeholder="Enter CGPA">
+
+        </div>
+
+        <!-- LESS THAN -->
+
+        <div class="filter-box">
+
+            <label>
+                CGPA Less Than or Equal To
+            </label>
+
+            <input type="number"
+                   id="maxCGPA"
+                   step="0.01"
+                   placeholder="Enter CGPA">
+
+        </div>
+
+        <!-- BETWEEN -->
+
+        <div class="filter-box">
+
+            <label>
+                Between CGPA
+            </label>
+
+            <div class="between-boxes">
+
+                <input type="number"
+                       id="betweenMin"
+                       step="0.01"
+                       placeholder="From">
+
+                <input type="number"
+                       id="betweenMax"
+                       step="0.01"
+                       placeholder="To">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TABLE -->
 
 <!-- TABLE -->
 
