@@ -996,25 +996,17 @@ function applyFilters(){
 
 /* RENDER TABLE */
 
-function renderTable(data) {
+```javascript
+function renderTable(data){
 
-    let tableHTML = "";
-
-    /* TABLE HEADERS */
-
-    tableHTML += "<thead><tr>";
+    let tableHTML = "<thead><tr>";
 
     headers.forEach(header => {
 
-        tableHTML +=
-        `<th>${header}</th>`;
+        tableHTML += `<th>${header}</th>`;
     });
 
-    tableHTML += "</tr></thead>";
-
-    /* TABLE BODY */
-
-    tableHTML += "<tbody>";
+    tableHTML += "</tr></thead><tbody>";
 
     data.forEach(row => {
 
@@ -1022,8 +1014,7 @@ function renderTable(data) {
 
         row.forEach(cell => {
 
-            tableHTML +=
-            `<td>${cell}</td>`;
+            tableHTML += `<td>${cell}</td>`;
         });
 
         tableHTML += "</tr>";
@@ -1034,6 +1025,7 @@ function renderTable(data) {
     document.getElementById("dataTable")
     .innerHTML = tableHTML;
 }
+```
 
 /* UPDATE STATISTICS */
 
