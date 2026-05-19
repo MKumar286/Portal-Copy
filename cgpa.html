@@ -18,43 +18,61 @@ body{
 }
 
 /* FILTERS */
+/* FILTER CONTAINER */
 
 .filter-container{
 
     width:100%;
+
     margin-bottom:10px;
 
-    padding:10px;
+    padding:8px;
 
     display:flex;
 
-    gap:10px;
+    gap:8px;
 
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
+
+    overflow-x:auto;
 
     background:linear-gradient(
-    135deg,
-    #8fa8c7,
-    #6f8fb8,
-    #5f7faa,
-    #4f6f99
+        135deg,
+        #8fa8c7,
+        #6f8fb8,
+        #5f7faa,
+        #4f6f99
     );
 
     border-radius:12px;
 }
 
+/* FILTER INPUTS */
+
 .filter-container input,
 .filter-container select{
 
-    padding:8px 10px;
+    padding:7px 8px;
 
     border-radius:8px;
 
     border:none;
 
-    min-width:180px;
+    min-width:140px;
 
-    font-size:13px;
+    width:140px;
+
+    flex-shrink:0;
+
+    font-size:12px;
+
+    background:white;
+}
+
+/* REMOVE SCROLLBAR */
+
+.filter-container::-webkit-scrollbar{
+    height:0px;
 }
 
 /* TABLE */
