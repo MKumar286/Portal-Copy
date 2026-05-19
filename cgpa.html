@@ -2,43 +2,44 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Data Table</title>
+<title>Student Table</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 
-body{
-
-    margin:0;
-
-    padding:10px;
-
-    font-family:Arial, sans-serif;
-
-    background:#f5f7ff;
+*{
+    box-sizing:border-box;
 }
 
-/* FILTER SECTION */
+body{
+    margin:0;
+    padding:8px;
+    font-family:Arial;
+    background:#f5f7ff;
+    overflow-x:hidden;
+}
+
+/* FILTERS */
 
 .filter-container{
 
+    width:100%;
+
+    margin-bottom:10px;
+
+    padding:8px;
+
     display:flex;
+
+    gap:8px;
 
     flex-wrap:nowrap;
 
     overflow-x:auto;
-
-    gap:10px;
-
-    padding:12px;
-
-    margin-bottom:15px;
 
     background:linear-gradient(
         135deg,
@@ -49,29 +50,43 @@ body{
     );
 
     border-radius:12px;
+
+    scrollbar-width:none;
 }
 
-/* FILTER INPUTS */
+.filter-container::-webkit-scrollbar{
+    height:0px;
+}
 
 .filter-container input,
 .filter-container select{
 
-    padding:8px 12px;
-
-    border:none;
+    padding:7px 8px;
 
     border-radius:8px;
 
-    min-width:180px;
+    border:none;
+
+    min-width:135px;
+
+    width:135px;
 
     flex-shrink:0;
 
-    font-size:13px;
+    font-size:12px;
 
-    outline:none;
+    background:white;
 }
 
-/* TABLE AREA */
+.filter-container input:focus,
+.filter-container select:focus{
+
+    outline:none;
+
+    box-shadow:0 0 6px rgba(0,0,0,0.2);
+}
+
+/* TABLE */
 
 .table-container{
 
@@ -82,9 +97,9 @@ body{
     border-radius:10px;
 
     background:white;
-}
 
-/* TABLE */
+    scrollbar-width:thin;
+}
 
 table{
 
@@ -93,6 +108,8 @@ table{
     width:max-content;
 
     min-width:100%;
+
+    table-layout:auto;
 
     background:white;
 }
@@ -116,13 +133,17 @@ th{
 
     white-space:nowrap;
 
-    width:auto;
-
     position:sticky;
 
     top:0;
 
     z-index:2;
+
+    font-size:13px;
+
+    width:auto;
+
+    min-width:max-content;
 }
 
 /* CELLS */
@@ -131,22 +152,26 @@ td{
 
     padding:8px 14px;
 
-    border-bottom:1px solid #ddd;
-
     text-align:center;
 
+    border-bottom:1px solid #ddd;
+
     white-space:nowrap;
+
+    font-size:12px;
+
+    width:auto;
+
+    min-width:max-content;
 }
 
-/* ROW EFFECTS */
+/* ROW COLORS */
 
 tr:nth-child(even){
-
-    background:#f7f9ff;
+    background:#f9fbff;
 }
 
 tr:hover{
-
     background:#e8ddff;
 }
 
@@ -156,31 +181,87 @@ tr:hover{
 
     text-align:center;
 
-    font-size:22px;
+    margin-top:20px;
+
+    font-size:20px;
 
     color:#0b3d91;
-
-    margin-top:20px;
 }
 
-/* SCROLLBAR */
+/* MOBILE RESPONSIVE */
 
-.filter-container::-webkit-scrollbar,
-.table-container::-webkit-scrollbar{
+@media(max-width:768px){
 
-    height:8px;
+    body{
+        padding:5px;
+    }
+
+    .filter-container{
+
+        gap:6px;
+
+        padding:6px;
+    }
+
+    .filter-container input,
+    .filter-container select{
+
+        min-width:120px;
+
+        width:120px;
+
+        font-size:11px;
+
+        padding:6px 7px;
+    }
+
+    th{
+
+        font-size:11px;
+
+        padding:8px 10px;
+    }
+
+    td{
+
+        font-size:11px;
+
+        padding:7px 10px;
+    }
+
+    .loading{
+        font-size:18px;
+    }
 }
 
-.filter-container::-webkit-scrollbar-thumb,
-.table-container::-webkit-scrollbar-thumb{
+@media(max-width:480px){
 
-    background:#7b8db3;
+    .filter-container input,
+    .filter-container select{
 
-    border-radius:10px;
+        min-width:110px;
+
+        width:110px;
+
+        font-size:10px;
+    }
+
+    th{
+
+        font-size:10px;
+
+        padding:7px 9px;
+    }
+
+    td{
+
+        font-size:10px;
+
+        padding:6px 9px;
+    }
 }
 
 </style>
-
 </head>
 
 <body>
@@ -189,14 +270,14 @@ tr:hover{
 
 <div class="filter-container">
 
-    <input type="text" id="searchInput" placeholder="Search Any Data">
+    <input type="text" id="searchInput" placeholder="Search">
 
     <select id="branchFilter">
         <option value="">Branch</option>
     </select>
 
     <select id="backlogFilter">
-        <option value="">No. of Backlogs</option>
+        <option value="">Backlogs</option>
     </select>
 
     <select id="genderFilter">
@@ -208,11 +289,11 @@ tr:hover{
     </select>
 
     <select id="registeredFilter">
-        <option value="">Registered for Placements</option>
+        <option value="">Registered</option>
     </select>
 
     <select id="offersFilter">
-        <option value="">No. of Offers</option>
+        <option value="">Offers</option>
     </select>
 
 </div>
@@ -220,9 +301,7 @@ tr:hover{
 <!-- LOADING -->
 
 <div class="loading" id="loading">
-
 Loading Data...
-
 </div>
 
 <!-- TABLE -->
@@ -235,31 +314,22 @@ Loading Data...
 
 <script>
 
-/* CSV FILE PATH */
-
-const csvURL = "students.csv";
-
-/* STORAGE */
+const csvURL = localStorage.getItem("csvURL");
 
 let originalData = [];
-
 let headers = [];
-
-/* LOAD CSV */
 
 Papa.parse(csvURL, {
 
     download:true,
-
     skipEmptyLines:true,
 
     complete:function(results){
 
         headers = results.data[0];
-
         originalData = results.data.slice(1);
 
-        populateFilters();
+        populateFilters(originalData);
 
         applyFilters();
 
@@ -267,78 +337,64 @@ Papa.parse(csvURL, {
     }
 });
 
-/* FILTER ELEMENTS */
+/* FILTER IDS */
 
 const searchInput = document.getElementById("searchInput");
 
 const branchFilter = document.getElementById("branchFilter");
-
 const backlogFilter = document.getElementById("backlogFilter");
-
 const genderFilter = document.getElementById("genderFilter");
-
 const cgpaFilter = document.getElementById("cgpaFilter");
-
 const registeredFilter = document.getElementById("registeredFilter");
-
 const offersFilter = document.getElementById("offersFilter");
 
 /* EVENTS */
 
-searchInput.addEventListener("input", applyFilters);
+searchInput.addEventListener("input",applyFilters);
 
-branchFilter.addEventListener("change", applyFilters);
-
-backlogFilter.addEventListener("change", applyFilters);
-
-genderFilter.addEventListener("change", applyFilters);
-
-cgpaFilter.addEventListener("change", applyFilters);
-
-registeredFilter.addEventListener("change", applyFilters);
-
-offersFilter.addEventListener("change", applyFilters);
+branchFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);
+genderFilter.addEventListener("change",applyFilters);
+cgpaFilter.addEventListener("change",applyFilters);
+registeredFilter.addEventListener("change",applyFilters);
+offersFilter.addEventListener("change",applyFilters);
 
 /* POPULATE FILTERS */
 
-function populateFilters(){
+function populateFilters(data){
 
-    fillFilter(branchFilter, "Branch");
+    fillFilter(branchFilter,"Branch",data);
 
-    fillFilter(backlogFilter, "No. of Backlogs");
+    fillFilter(backlogFilter,"No. of Backlogs",data);
 
-    fillFilter(genderFilter, "Gender");
+    fillFilter(genderFilter,"Gender",data);
 
-    fillFilter(cgpaFilter, "CGPA");
+    fillFilter(cgpaFilter,"CGPA",data);
 
-    fillFilter(registeredFilter, "Registered for Placements");
+    fillFilter(registeredFilter,"Registered for Placements",data);
 
-    fillFilter(offersFilter, "No. of Offers");
+    fillFilter(offersFilter,"No. of Offers",data);
 }
 
-/* FILL FILTERS */
+/* FILL FILTER */
 
-function fillFilter(filter, column){
+function fillFilter(filter,column,data){
 
     const index = headers.indexOf(column);
 
-    if(index === -1) return;
-
     let values = [...new Set(
-
-        originalData.map(row => row[index])
-
+        data.map(row => row[index])
     )];
 
     values = values.filter(v => v !== "");
 
-    values.sort();
+    filter.innerHTML =
+    `<option value="">${column}</option>`;
 
-    values.forEach(value => {
+    values.sort().forEach(value=>{
 
         filter.innerHTML +=
         `<option value="${value}">${value}</option>`;
-
     });
 }
 
@@ -351,34 +407,24 @@ function applyFilters(){
     const filters = {
 
         branch: branchFilter.value,
-
         backlog: backlogFilter.value,
-
         gender: genderFilter.value,
-
         cgpa: cgpaFilter.value,
-
         registered: registeredFilter.value,
-
         offers: offersFilter.value
     };
 
     const indexes = {
 
         branch: headers.indexOf("Branch"),
-
         backlog: headers.indexOf("No. of Backlogs"),
-
         gender: headers.indexOf("Gender"),
-
         cgpa: headers.indexOf("CGPA"),
-
         registered: headers.indexOf("Registered for Placements"),
-
         offers: headers.indexOf("No. of Offers")
     };
 
-    const filtered = originalData.filter(row => {
+    let filtered = originalData.filter(row=>{
 
         const rowText = row.join(" ").toLowerCase();
 
@@ -422,40 +468,36 @@ function applyFilters(){
             row[indexes.offers] === filters.offers)
 
         );
-
     });
 
-    createTable(headers, filtered);
+    createTable(headers,filtered);
 }
 
 /* CREATE TABLE */
 
-function createTable(headers, rows){
+function createTable(headers,rows){
 
     let tableHTML = "<thead><tr>";
 
-    headers.forEach(header => {
+    headers.forEach(header=>{
 
         tableHTML += `<th>${header}</th>`;
-
     });
 
     tableHTML += "</tr></thead>";
 
     tableHTML += "<tbody>";
 
-    rows.forEach(row => {
+    rows.forEach(row=>{
 
         tableHTML += "<tr>";
 
-        row.forEach(cell => {
+        row.forEach(cell=>{
 
             tableHTML += `<td>${cell}</td>`;
-
         });
 
         tableHTML += "</tr>";
-
     });
 
     tableHTML += "</tbody>";
@@ -466,5 +508,4 @@ function createTable(headers, rows){
 </script>
 
 </body>
-
 </html>
