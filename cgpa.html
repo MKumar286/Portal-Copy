@@ -90,6 +90,13 @@ tr:hover{
     box-shadow:
         0 4px 12px rgba(0,0,0,0.12);
 }
+    <div class="analysis-table-container">
+
+    <table id="analysisTable">
+
+    </table>
+
+</div>
 
 .cgpa-card h2{
 
@@ -169,6 +176,66 @@ tr:hover{
 
     box-shadow:
         0 0 8px rgba(21,101,192,0.3);
+}
+    .analysis-table-container{
+
+    width:100%;
+
+    margin-top:15px;
+
+    overflow-x:auto;
+
+    border-radius:14px;
+
+    background:white;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.12);
+}
+
+#analysisTable{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    font-size:14px;
+}
+
+#analysisTable th{
+
+    background:
+    linear-gradient(
+        135deg,
+        #0b3d91,
+        #1565c0,
+        #1e88e5
+    );
+
+    color:white;
+
+    padding:10px;
+
+    text-align:center;
+}
+
+#analysisTable td{
+
+    padding:8px;
+
+    text-align:center;
+
+    border-bottom:1px solid #e0e0e0;
+}
+
+#analysisTable tr:nth-child(even){
+
+    background:#f7faff;
+}
+
+#analysisTable tr:hover{
+
+    background:#e8f0ff;
 }
 
 </style>
@@ -279,6 +346,147 @@ tr:hover{
     </table>
 
 </div>
+
+<script>
+
+let headers =
+JSON.parse(
+    localStorage.getItem("placementHeaders")
+);
+
+let originalData =
+JSON.parse(
+    localStorage.getItem("placementData")
+);
+
+/* INITIAL TABLE */
+
+generateTable();
+
+function generateTable(){
+
+    const table =
+    document.getElementById("analysisTable");
+
+    const indexes = {
+
+        branch:
+        headers.indexOf("Branch"),
+
+        registered:
+        headers.indexOf(
+            "Registered for Placements"
+        ),
+
+        offers:
+        headers.indexOf("No. of Offers")
+    };
+
+    let branchData = {};
+
+    originalData.forEach(row=>{
+
+        const branch =
+        row[indexes.branch];
+
+        if(!branchData[branch]){
+
+            branchData[branch] = {
+
+                total:0,
+
+                registered:0,
+
+                placed:0,
+
+                offers:0
+            };
+        }
+
+        branchData[branch].total++;
+
+        const registered =
+        String(
+            row[indexes.registered]
+        )
+        .toLowerCase()
+        .trim();
+
+        if(registered === "yes"){
+
+            branchData[branch]
+            .registered++;
+        }
+
+        const offers =
+        Number(
+            row[indexes.offers]
+        ) || 0;
+
+        if(offers > 0){
+
+            branchData[branch]
+            .placed++;
+        }
+
+        branchData[branch]
+        .offers += offers;
+
+    });
+
+    let html = `
+
+    <tr>
+
+        <th>S.No</th>
+
+        <th>Branch</th>
+
+        <th>Total Students</th>
+
+        <th>Registered for Placements</th>
+
+        <th>Company Placed</th>
+
+        <th>No. of Offers</th>
+
+    </tr>
+    `;
+
+    let sno = 1;
+
+    Object.keys(branchData)
+    .sort()
+    .forEach(branch=>{
+
+        const data =
+        branchData[branch];
+
+        html += `
+
+        <tr>
+
+            <td>${sno++}</td>
+
+            <td>${branch}</td>
+
+            <td>${data.total}</td>
+
+            <td>${data.registered}</td>
+
+            <td>${data.placed}</td>
+
+            <td>${data.offers}</td>
+
+        </tr>
+        `;
+    });
+
+    table.innerHTML = html;
+}
+
+</script>
+    
 
 </body>
 
