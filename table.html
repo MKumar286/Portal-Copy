@@ -882,8 +882,8 @@ function fillFilter(filter, column, data) {
 }
 
 /* APPLY FILTERS */
-
-function applyFilters() {
+```javascript
+function applyFilters(){
 
     const search =
     searchInput.value.toLowerCase();
@@ -891,37 +891,21 @@ function applyFilters() {
     const filters = {
 
         branch: branchFilter.value,
-
         backlog: backlogFilter.value,
-
         gender: genderFilter.value,
-
         cgpa: cgpaFilter.value,
-
         registered: registeredFilter.value,
-
         offers: offersFilter.value
     };
 
     const indexes = {
 
-        branch:
-        headers.indexOf("Branch"),
-
-        backlog:
-        headers.indexOf("No. of Backlogs"),
-
-        gender:
-        headers.indexOf("Gender"),
-
-        cgpa:
-        headers.indexOf("CGPA"),
-
+        branch: headers.indexOf("Branch"),
+        backlog: headers.indexOf("No. of Backlogs"),
+        gender: headers.indexOf("Gender"),
+        cgpa: headers.indexOf("CGPA"),
         registered:
-        headers.indexOf(
-            "Registered for Placements"
-        ),
-
+        headers.indexOf("Registered for Placements"),
         offers:
         headers.indexOf("No. of Offers")
     };
@@ -932,71 +916,37 @@ function applyFilters() {
         row.join(" ").toLowerCase();
 
         const cgpa =
-        parseFloat(
-            row[indexes.cgpa]
-        ) || 0;
+        parseFloat(row[indexes.cgpa]) || 0;
 
-        /* SEARCH */
-
-        const searchCondition =
-        rowText.includes(search);
-
-        /* FILTER CONDITIONS */
-
-        const branchCondition =
-        !filters.branch ||
-        row[indexes.branch] === filters.branch;
-
-        const backlogCondition =
-        !filters.backlog ||
-        row[indexes.backlog] === filters.backlog;
-
-        const genderCondition =
-        !filters.gender ||
-        row[indexes.gender] === filters.gender;
-
-        const cgpaDropdownCondition =
-        !filters.cgpa ||
-        row[indexes.cgpa] === filters.cgpa;
-
-        const registeredCondition =
-        !filters.registered ||
-        row[indexes.registered] ===
-        filters.registered;
-
-        const offersCondition =
-        !filters.offers ||
-        row[indexes.offers] ===
-        filters.offers;
-
-        /* CUSTOM CGPA */
+        /* CUSTOM CGPA FILTERS */
 
         let cgpaCondition = true;
 
-        if (cgpaLessEqual.value !== "") {
+        /* CGPA <= */
+
+        if(cgpaLessEqual.value !== ""){
 
             cgpaCondition =
-            cgpa <=
-            Number(cgpaLessEqual.value);
-
+            cgpa <= Number(cgpaLessEqual.value);
         }
 
-        else if (
-            cgpaGreaterEqual.value !== ""
-        ) {
+        /* CGPA >= */
+
+        else if(cgpaGreaterEqual.value !== ""){
 
             cgpaCondition =
-            cgpa >=
-            Number(cgpaGreaterEqual.value);
-
+            cgpa >= Number(cgpaGreaterEqual.value);
         }
 
-        else if (
+        /* BETWEEN */
+
+        else if(
 
             cgpaMin.value !== "" &&
+
             cgpaMax.value !== ""
 
-        ) {
+        ){
 
             cgpaCondition =
 
@@ -1007,19 +957,31 @@ function applyFilters() {
 
         return (
 
-            searchCondition &&
+            rowText.includes(search) &&
 
-            branchCondition &&
+            (!filters.branch ||
 
-            backlogCondition &&
+                row[indexes.branch] === filters.branch) &&
 
-            genderCondition &&
+            (!filters.backlog ||
 
-            cgpaDropdownCondition &&
+                row[indexes.backlog] === filters.backlog) &&
 
-            registeredCondition &&
+            (!filters.gender ||
 
-            offersCondition &&
+                row[indexes.gender] === filters.gender) &&
+
+            (!filters.cgpa ||
+
+                row[indexes.cgpa] === filters.cgpa) &&
+
+            (!filters.registered ||
+
+                row[indexes.registered] === filters.registered) &&
+
+            (!filters.offers ||
+
+                row[indexes.offers] === filters.offers) &&
 
             cgpaCondition
         );
@@ -1029,6 +991,8 @@ function applyFilters() {
 
     updateStatistics(filtered);
 }
+```
+
 
 /* RENDER TABLE */
 
