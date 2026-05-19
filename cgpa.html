@@ -359,47 +359,121 @@ JSON.parse(
     localStorage.getItem("placementData")
 );
 
+/* CHECK DATA */
+
+console.log("HEADERS:", headers);
+console.log("DATA:", originalData);
+
+/* GENERATE TABLE */
+
 function generateTable(){
 
     const table =
     document.getElementById("analysisTable");
 
-    const indexes = {
+    /* IF DATA NOT FOUND */
 
-        branch:
-        headers.indexOf("Branch"),
+    if(!headers || !originalData){
 
-        registered:
-        headers.indexOf(
-            "Registered for Placements"
-        ),
+        table.innerHTML = `
 
-        offers:
-        headers.indexOf("No. of Offers")
-    };
+        <tr>
+
+            <td colspan="6">
+
+                Data Not Loaded
+
+            </td>
+
+        </tr>
+        `;
+
+        return;
+    }
+
+    /* COLUMN INDEXES */
+
+    const branchIndex =
+    headers.findIndex(
+        h => h.trim().toLowerCase() === "branch"
+    );
+
+    const registeredIndex =
+    headers.findIndex(
+        h =>
+        h.trim().toLowerCase()
+        === "registered for placements"
+    );
+
+    const offersIndex =
+    headers.findIndex(
+        h =>
+        h.trim().toLowerCase()
+        === "no. of offers"
+    );
+
+    console.log(branchIndex);
+    console.log(registeredIndex);
+    console.log(offersIndex);
+
+    /* CHECK COLUMN FOUND */
+
+    if(
+        branchIndex === -1
+        ||
+        registeredIndex === -1
+        ||
+        offersIndex === -1
+    ){
+
+        table.innerHTML = `
+
+        <tr>
+
+            <td colspan="6">
+
+                Required Columns Not Found
+
+            </td>
+
+        </tr>
+        `;
+
+        return;
+    }
+
+    /* BRANCH DATA */
 
     let branchData = {};
 
     originalData.forEach(row=>{
 
         const branch =
-        row[indexes.branch];
+        row[branchIndex];
 
         if(!branchData[branch]){
 
             branchData[branch] = {
 
                 total:0,
+
                 registered:0,
+
                 placed:0,
+
                 offers:0
             };
         }
 
-        branchData[branch].total++;
+        /* TOTAL */
+
+        branchData[branch]
+        .total++;
+
+        /* REGISTERED */
 
         const registered =
-        String(row[indexes.registered])
+        String(row[registeredIndex])
         .toLowerCase()
         .trim();
 
@@ -409,8 +483,10 @@ function generateTable(){
             .registered++;
         }
 
+        /* OFFERS */
+
         const offers =
-        Number(row[indexes.offers]) || 0;
+        Number(row[offersIndex]) || 0;
 
         if(offers > 0){
 
@@ -423,15 +499,22 @@ function generateTable(){
 
     });
 
+    /* TABLE HTML */
+
     let html = `
 
     <tr>
 
         <th>S.No</th>
+
         <th>Branch</th>
+
         <th>Total Students</th>
+
         <th>Registered for Placements</th>
+
         <th>Company Placed</th>
+
         <th>No. of Offers</th>
 
     </tr>
@@ -451,10 +534,15 @@ function generateTable(){
         <tr>
 
             <td>${sno++}</td>
+
             <td>${branch}</td>
+
             <td>${data.total}</td>
+
             <td>${data.registered}</td>
+
             <td>${data.placed}</td>
+
             <td>${data.offers}</td>
 
         </tr>
@@ -464,7 +552,7 @@ function generateTable(){
     table.innerHTML = html;
 }
 
-/* CALL FUNCTION */
+/* LOAD TABLE */
 
 generateTable();
 
