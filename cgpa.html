@@ -90,12 +90,12 @@ tr:hover{
     box-shadow:
         0 4px 12px rgba(0,0,0,0.12);
 }
+    
     <div class="analysis-table-container">
 
-    <table id="analysisTable">
+    <table id="analysisTable"></table>
 
-    </table>
-
+     </div>
 </div>
 
 .cgpa-card h2{
@@ -359,10 +359,6 @@ JSON.parse(
     localStorage.getItem("placementData")
 );
 
-/* INITIAL TABLE */
-
-generateTable();
-
 function generateTable(){
 
     const table =
@@ -394,11 +390,8 @@ function generateTable(){
             branchData[branch] = {
 
                 total:0,
-
                 registered:0,
-
                 placed:0,
-
                 offers:0
             };
         }
@@ -406,9 +399,7 @@ function generateTable(){
         branchData[branch].total++;
 
         const registered =
-        String(
-            row[indexes.registered]
-        )
+        String(row[indexes.registered])
         .toLowerCase()
         .trim();
 
@@ -419,9 +410,7 @@ function generateTable(){
         }
 
         const offers =
-        Number(
-            row[indexes.offers]
-        ) || 0;
+        Number(row[indexes.offers]) || 0;
 
         if(offers > 0){
 
@@ -439,15 +428,10 @@ function generateTable(){
     <tr>
 
         <th>S.No</th>
-
         <th>Branch</th>
-
         <th>Total Students</th>
-
         <th>Registered for Placements</th>
-
         <th>Company Placed</th>
-
         <th>No. of Offers</th>
 
     </tr>
@@ -467,15 +451,10 @@ function generateTable(){
         <tr>
 
             <td>${sno++}</td>
-
             <td>${branch}</td>
-
             <td>${data.total}</td>
-
             <td>${data.registered}</td>
-
             <td>${data.placed}</td>
-
             <td>${data.offers}</td>
 
         </tr>
@@ -484,6 +463,10 @@ function generateTable(){
 
     table.innerHTML = html;
 }
+
+/* CALL FUNCTION */
+
+generateTable();
 
 </script>
     
