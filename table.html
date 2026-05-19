@@ -572,11 +572,9 @@ body{
     </select>
     
     <div class="cgpa-box">
-        
     <input type="number" id="cgpaMin" placeholder="CGPA ≥">
     <input type="number" id="cgpaMax" placeholder="CGPA ≤">
-
-    </div>
+</div>
    
 
     <select id="registeredFilter">
@@ -645,13 +643,13 @@ const offersFilter = document.getElementById("offersFilter");
 /* EVENTS */
 
 searchInput.addEventListener("input",applyFilters);
-
+    
+ cgpaMin.addEventListener("input", applyFilters);
+cgpaMax.addEventListener("input", applyFilters);   
 branchFilter.addEventListener("change",applyFilters);
-backlogFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);    
 genderFilter.addEventListener("change",applyFilters);
-cgpaFilter.addEventListener("change",applyFilters);
-cgpaMin.addEventListener("input", applyFilters);
-cgpaMax.addEventListener("input", applyFilters);    
+cgpaFilter.addEventListener("change",applyFilters);  
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
     
@@ -728,6 +726,18 @@ function applyFilters(){
     const maxCGPA = parseFloat(cgpaMax.value);
 
     let filtered = originalData.filter(row=>{
+        let filtered = originalData.filter(row=>{
+
+    // ✅ ADD THIS BLOCK HERE 👇
+    const cgpaValue = parseFloat(row[headers.indexOf("CGPA")]) || 0;
+
+    const min = parseFloat(cgpaMin.value);
+    const max = parseFloat(cgpaMax.value);
+
+    const cgpaOk =
+        (!cgpaMin.value || cgpaValue >= min) &&
+        (!cgpaMax.value || cgpaValue <= max);
+
 
         const rowText = row.join(" ").toLowerCase();
         const cgpaValue = parseFloat(row[indexes.cgpa]) || 0;
@@ -771,6 +781,8 @@ function applyFilters(){
             row[indexes.offers] === filters.offers)
 
             && cgpaCondition
+
+            && cgpaOk
 
         );
 
