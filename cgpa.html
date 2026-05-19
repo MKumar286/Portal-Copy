@@ -283,22 +283,64 @@ tr:hover{
 
     min-width:220px;
 
-    background:white;
+    padding:18px;
 
-    padding:15px;
+    border-radius:16px;
 
-    border-radius:14px;
+    color:white;
 
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    box-shadow:0 4px 14px rgba(0,0,0,0.18);
+
+    transition:0.3s;
+}
+
+/* CARD 1 */
+
+.cgpa-card:nth-child(1){
+
+    background:linear-gradient(
+        135deg,
+        #11998e,
+        #38ef7d
+    );
+}
+
+/* CARD 2 */
+
+.cgpa-card:nth-child(2){
+
+    background:linear-gradient(
+        135deg,
+        #fc4a1a,
+        #f7b733
+    );
+}
+
+/* CARD 3 */
+
+.cgpa-card:nth-child(3){
+
+    background:linear-gradient(
+        135deg,
+        #396afc,
+        #2948ff
+    );
+}
+
+.cgpa-card:hover{
+
+    transform:translateY(-3px);
 }
 
 .cgpa-card h3{
 
-    margin:0 0 10px;
+    margin:0 0 12px;
 
-    font-size:15px;
+    font-size:16px;
 
-    color:#0b3d91;
+    color:white;
+
+    font-weight:bold;
 }
 
 .cgpa-card input{
@@ -307,13 +349,17 @@ tr:hover{
 
     padding:10px;
 
-    border-radius:8px;
+    border-radius:10px;
 
-    border:1px solid #ccc;
+    border:none;
+
+    outline:none;
 
     font-size:14px;
 
     box-sizing:border-box;
+
+    background:rgba(255,255,255,0.95);
 }
 
 .cgpa-range{
@@ -322,7 +368,6 @@ tr:hover{
 
     gap:8px;
 }
-
 /* MOBILE */
 
 @media(max-width:768px){
