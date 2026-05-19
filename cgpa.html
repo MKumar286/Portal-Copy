@@ -1,103 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Data Table</title>
+<title>Student Table</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 
 body{
-
     margin:0;
-
     padding:10px;
-
-    font-family:Arial, sans-serif;
-
+    font-family:Arial;
     background:#f5f7ff;
 }
 
-/* FILTER SECTION */
+/* FILTERS */
 
 .filter-container{
 
+    width:100%;
+    margin-bottom:10px;
+
+    padding:10px;
+
     display:flex;
-
-    flex-wrap:nowrap;
-
-    overflow-x:auto;
 
     gap:10px;
 
-    padding:12px;
-
-    margin-bottom:15px;
+    flex-wrap:wrap;
 
     background:linear-gradient(
-        135deg,
-        #8fa8c7,
-        #6f8fb8,
-        #5f7faa,
-        #4f6f99
+    135deg,
+    #8fa8c7,
+    #6f8fb8,
+    #5f7faa,
+    #4f6f99
     );
 
     border-radius:12px;
 }
 
-/* FILTER INPUTS */
-
 .filter-container input,
 .filter-container select{
 
-    padding:8px 12px;
-
-    border:none;
+    padding:8px 10px;
 
     border-radius:8px;
 
+    border:none;
+
     min-width:180px;
 
-    flex-shrink:0;
-
     font-size:13px;
-
-    outline:none;
 }
 
-/* TABLE AREA */
+/* TABLE */
 
 .table-container{
 
     width:100%;
 
-    overflow:auto;
-
-    border-radius:10px;
-
-    background:white;
+    overflow-x:auto;
 }
-
-/* TABLE */
 
 table{
 
+    width:100%;
+
     border-collapse:collapse;
-
-    width:max-content;
-
-    min-width:100%;
 
     background:white;
 }
-
-/* HEADERS */
 
 th{
 
@@ -110,77 +86,43 @@ th{
 
     color:white;
 
-    padding:10px 14px;
+    padding:10px;
 
     text-align:center;
 
-    white-space:nowrap;
-
-    width:auto;
-
     position:sticky;
-
     top:0;
-
-    z-index:2;
 }
-
-/* CELLS */
 
 td{
 
-    padding:8px 14px;
-
-    border-bottom:1px solid #ddd;
+    padding:8px;
 
     text-align:center;
 
-    white-space:nowrap;
+    border-bottom:1px solid #ddd;
 }
 
-/* ROW EFFECTS */
-
 tr:nth-child(even){
-
-    background:#f7f9ff;
+    background:#f9fbff;
 }
 
 tr:hover{
-
     background:#e8ddff;
 }
-
-/* LOADING */
 
 .loading{
 
     text-align:center;
 
+    margin-top:20px;
+
     font-size:22px;
 
     color:#0b3d91;
-
-    margin-top:20px;
-}
-
-/* SCROLLBAR */
-
-.filter-container::-webkit-scrollbar,
-.table-container::-webkit-scrollbar{
-
-    height:8px;
-}
-
-.filter-container::-webkit-scrollbar-thumb,
-.table-container::-webkit-scrollbar-thumb{
-
-    background:#7b8db3;
-
-    border-radius:10px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -220,9 +162,7 @@ tr:hover{
 <!-- LOADING -->
 
 <div class="loading" id="loading">
-
 Loading Data...
-
 </div>
 
 <!-- TABLE -->
@@ -235,31 +175,22 @@ Loading Data...
 
 <script>
 
-/* CSV FILE PATH */
-
-const csvURL = "students.csv";
-
-/* STORAGE */
+const csvURL = localStorage.getItem("csvURL");
 
 let originalData = [];
-
 let headers = [];
-
-/* LOAD CSV */
 
 Papa.parse(csvURL, {
 
     download:true,
-
     skipEmptyLines:true,
 
     complete:function(results){
 
         headers = results.data[0];
-
         originalData = results.data.slice(1);
 
-        populateFilters();
+        populateFilters(originalData);
 
         applyFilters();
 
@@ -267,74 +198,61 @@ Papa.parse(csvURL, {
     }
 });
 
-/* FILTER ELEMENTS */
+/* FILTER IDS */
 
 const searchInput = document.getElementById("searchInput");
 
 const branchFilter = document.getElementById("branchFilter");
-
 const backlogFilter = document.getElementById("backlogFilter");
-
 const genderFilter = document.getElementById("genderFilter");
-
 const cgpaFilter = document.getElementById("cgpaFilter");
-
 const registeredFilter = document.getElementById("registeredFilter");
-
 const offersFilter = document.getElementById("offersFilter");
 
 /* EVENTS */
 
-searchInput.addEventListener("input", applyFilters);
+searchInput.addEventListener("input",applyFilters);
 
-branchFilter.addEventListener("change", applyFilters);
-
-backlogFilter.addEventListener("change", applyFilters);
-
-genderFilter.addEventListener("change", applyFilters);
-
-cgpaFilter.addEventListener("change", applyFilters);
-
-registeredFilter.addEventListener("change", applyFilters);
-
-offersFilter.addEventListener("change", applyFilters);
+branchFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);
+genderFilter.addEventListener("change",applyFilters);
+cgpaFilter.addEventListener("change",applyFilters);
+registeredFilter.addEventListener("change",applyFilters);
+offersFilter.addEventListener("change",applyFilters);
 
 /* POPULATE FILTERS */
 
-function populateFilters(){
+function populateFilters(data){
 
-    fillFilter(branchFilter, "Branch");
+    fillFilter(branchFilter,"Branch",data);
 
-    fillFilter(backlogFilter, "No. of Backlogs");
+    fillFilter(backlogFilter,"No. of Backlogs",data);
 
-    fillFilter(genderFilter, "Gender");
+    fillFilter(genderFilter,"Gender",data);
 
-    fillFilter(cgpaFilter, "CGPA");
+    fillFilter(cgpaFilter,"CGPA",data);
 
-    fillFilter(registeredFilter, "Registered for Placements");
+    fillFilter(registeredFilter,"Registered for Placements",data);
 
-    fillFilter(offersFilter, "No. of Offers");
+    fillFilter(offersFilter,"No. of Offers",data);
 }
 
-/* FILL FILTERS */
+/* FILL FILTER */
 
-function fillFilter(filter, column){
+function fillFilter(filter,column,data){
 
     const index = headers.indexOf(column);
 
-    if(index === -1) return;
-
     let values = [...new Set(
-
-        originalData.map(row => row[index])
-
+        data.map(row => row[index])
     )];
 
     values = values.filter(v => v !== "");
 
-    values.sort();
+    filter.innerHTML =
+    `<option value="">${column}</option>`;
 
-    values.forEach(value => {
+    values.sort().forEach(value=>{
 
         filter.innerHTML +=
         `<option value="${value}">${value}</option>`;
@@ -351,34 +269,24 @@ function applyFilters(){
     const filters = {
 
         branch: branchFilter.value,
-
         backlog: backlogFilter.value,
-
         gender: genderFilter.value,
-
         cgpa: cgpaFilter.value,
-
         registered: registeredFilter.value,
-
         offers: offersFilter.value
     };
 
     const indexes = {
 
         branch: headers.indexOf("Branch"),
-
         backlog: headers.indexOf("No. of Backlogs"),
-
         gender: headers.indexOf("Gender"),
-
         cgpa: headers.indexOf("CGPA"),
-
         registered: headers.indexOf("Registered for Placements"),
-
         offers: headers.indexOf("No. of Offers")
     };
 
-    const filtered = originalData.filter(row => {
+    let filtered = originalData.filter(row=>{
 
         const rowText = row.join(" ").toLowerCase();
 
@@ -425,46 +333,41 @@ function applyFilters(){
 
     });
 
-    createTable(headers, filtered);
+    createTable(headers,filtered);
 }
 
 /* CREATE TABLE */
 
-function createTable(headers, rows){
+function createTable(headers,rows){
 
-    let tableHTML = "<thead><tr>";
+    let tableHTML = "<tr>";
 
-    headers.forEach(header => {
+    headers.forEach(header=>{
 
         tableHTML += `<th>${header}</th>`;
 
     });
 
-    tableHTML += "</tr></thead>";
+    tableHTML += "</tr>";
 
-    tableHTML += "<tbody>";
-
-    rows.forEach(row => {
+    rows.forEach(row=>{
 
         tableHTML += "<tr>";
 
-        row.forEach(cell => {
+        row.forEach(cell=>{
 
             tableHTML += `<td>${cell}</td>`;
 
         });
 
         tableHTML += "</tr>";
-
     });
 
-    tableHTML += "</tbody>";
-
     document.getElementById("dataTable").innerHTML = tableHTML;
+
 }
 
 </script>
 
 </body>
-
 </html>
