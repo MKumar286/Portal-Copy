@@ -22,6 +22,39 @@ body{
     background:#f5f7ff;
     overflow-x:hidden;
 }
+    <!-- SUMMARY TABLE -->
+
+<div class="summary-table-container">
+
+    <table class="summary-table">
+
+        <thead>
+
+            <tr>
+
+                <th>S.No</th>
+
+                <th>Branch</th>
+
+                <th>Total Students</th>
+
+                <th>Registered for Placements</th>
+
+                <th>Company Placed</th>
+
+                <th>No. of Offers</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="summaryTableBody">
+
+        </tbody>
+
+    </table>
+
+</div>
 
 /* FILTERS */
 
@@ -261,6 +294,95 @@ tr:hover{
     }
 }
 
+    /* SUMMARY TABLE */
+
+.summary-table-container{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    margin-bottom:12px;
+
+    border-radius:12px;
+}
+
+.summary-table{
+
+    width:100%;
+
+    min-width:900px;
+
+    border-collapse:collapse;
+
+    background:white;
+}
+
+.summary-table th{
+
+    background:linear-gradient(
+        135deg,
+        #1b5e20,
+        #2e7d32,
+        #43a047
+    );
+
+    color:white;
+
+    padding:10px;
+
+    text-align:center;
+
+    white-space:nowrap;
+}
+
+.summary-table td{
+
+    padding:10px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ddd;
+
+    white-space:nowrap;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
+
+    .summary-table{
+
+        min-width:750px;
+    }
+
+    .filter-container{
+
+        padding:6px;
+
+        gap:6px;
+    }
+
+    .filter-container input,
+    .filter-container select{
+
+        min-width:120px;
+
+        width:120px;
+
+        font-size:11px;
+
+        padding:6px;
+    }
+
+    th,
+    td{
+
+        font-size:12px;
+
+        padding:7px 10px;
+    }
+}
 </style>
 </head>
 
@@ -504,6 +626,63 @@ function createTable(headers,rows){
 
     document.getElementById("dataTable").innerHTML = tableHTML;
 }
+    function loadSummaryTable(data){
+
+    let branchData = {};
+
+    data.forEach(student=>{
+
+        let branch = student["Branch"] || "N/A";
+
+        if(!branchData[branch]){
+
+            branchData[branch] = {
+
+                total:0,
+                registered:0,
+                placed:0,
+                offers:0
+            };
+        }
+
+        branchData[branch].total++;
+
+        if(student["Placement Registration"] === "Yes"){
+            branchData[branch].registered++;
+        }
+
+        if(student["Company Placed"] && student["Company Placed"] !== ""){
+            branchData[branch].placed++;
+        }
+
+        let offers = parseInt(student["No. of Offers"]) || 0;
+
+        branchData[branch].offers += offers;
+    });
+
+    let html = "";
+
+    let sno = 1;
+
+    Object.keys(branchData).forEach(branch=>{
+
+        let item = branchData[branch];
+
+        html += `
+            <tr>
+                <td>${sno++}</td>
+                <td>${branch}</td>
+                <td>${item.total}</td>
+                <td>${item.registered}</td>
+                <td>${item.placed}</td>
+                <td>${item.offers}</td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("summaryTableBody").innerHTML = html;
+}
+    loadSummaryTable(jsonData);
 
 </script>
 
