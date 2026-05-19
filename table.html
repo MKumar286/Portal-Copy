@@ -67,29 +67,18 @@ body{
 /* CARDS */
 
 .cards-container{
-
     width:100%;
+    margin-top:6px;
+    margin-bottom:6px;
 
-    margin:3px 0;
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:6px;
-
-    justify-content:flex-start;
-
-    align-items:center;
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
 }
 
 .card{
 
-    min-width:140px;
-
-    max-width:160px;
-
-    padding:4px 8px;
+    padding:3px 6px;
 
     border-radius:14px;
 
@@ -387,7 +376,7 @@ tr:hover td{
 /* ===== GREEN SCROLLBAR ===== */
 
 .table-container::-webkit-scrollbar{
-    width:0px;
+    width:0px
     height:8px;
 }
 
@@ -500,84 +489,6 @@ body{
     letter-spacing:0.5px;
 }
 
-    /* CGPA TOOL CONTAINER */
-
-.cgpa-tools{
-
-    display:flex;
-
-    gap:10px;
-
-    margin-left:10px;
-
-    padding:6px 10px;
-
-    border-radius:14px;
-
-    background:
-    linear-gradient(
-    135deg,
-    #e3e8f0,
-    #d6deea
-    );
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,0.10);
-}
-
-/* EACH BOX */
-
-.cgpa-box{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:4px;
-}
-
-/* HEADINGS */
-
-.cgpa-box h3{
-
-    margin:0;
-
-    font-size:12px;
-
-    color:#1b2a4a;
-
-    font-weight:600;
-}
-
-/* INPUTS */
-
-.cgpa-box input{
-
-    width:80px;
-
-    padding:5px 6px;
-
-    border:none;
-
-    border-radius:8px;
-
-    font-size:12px;
-
-    background:white;
-
-    box-shadow:
-        inset 1px 1px 4px rgba(0,0,0,0.08);
-}
-
-/* BETWEEN INPUTS */
-
-.between-inputs{
-
-    display:flex;
-
-    gap:5px;
-}
-
 </style>
 
 </head>
@@ -624,58 +535,8 @@ body{
         <h3>Total Offers</h3>
         <p id="totalOffers">0</p>
     </div>
-<div class="cgpa-tools">
-
-    <div class="cgpa-box">
-
-        <h3>CGPA ≤</h3>
-
-        <input
-        type="number"
-        step="0.01"
-        id="cgpaLessEqual"
-        placeholder="Enter">
-
-    </div>
-
-    <div class="cgpa-box">
-
-        <h3>CGPA ≥</h3>
-
-        <input
-        type="number"
-        step="0.01"
-        id="cgpaGreaterEqual"
-        placeholder="Enter">
-
-    </div>
-
-    <div class="cgpa-box">
-
-        <h3>Between CGPA</h3>
-
-        <div class="between-inputs">
-
-            <input
-            type="number"
-            step="0.01"
-            id="cgpaMin"
-            placeholder="Min">
-
-            <input
-            type="number"
-            step="0.01"
-            id="cgpaMax"
-            placeholder="Max">
-
-        </div>
-
-    </div>
 
 </div>
-
-</div>
-    
 
 <!-- FILTERS -->
 
@@ -723,7 +584,6 @@ Loading Data...
 
 </div>
 
-```html
 <script>
 
 const csvURL = localStorage.getItem("csvURL");
@@ -731,133 +591,68 @@ const csvURL = localStorage.getItem("csvURL");
 let originalData = [];
 let headers = [];
 
-/* CHECK CSV URL */
+Papa.parse(csvURL, {
 
-if (!csvURL) {
+    download:true,
+    skipEmptyLines:true,
 
-    document.getElementById("loading").innerHTML =
-    "CSV URL not found in localStorage";
+    complete:function(results){
 
-} else {
+        headers = results.data[0];
+        originalData = results.data.slice(1);
 
-    Papa.parse(csvURL, {
+        populateFilters(originalData);
 
-        download: true,
-        skipEmptyLines: true,
+        applyFilters();
 
-        complete: function(results) {
+        document.getElementById("loading").style.display = "none";
+    }
+});
 
-            if (!results.data || results.data.length === 0) {
-
-                document.getElementById("loading").innerHTML =
-                "No data found in CSV";
-
-                return;
-            }
-
-            headers = results.data[0];
-
-            originalData = results.data.slice(1);
-
-            populateFilters(originalData);
-
-            applyFilters();
-
-            document.getElementById("loading").style.display = "none";
-        },
-
-        error: function(error) {
-
-            console.error(error);
-
-            document.getElementById("loading").innerHTML =
-            "Error Loading CSV File";
-        }
-    });
-}
-
-/* FILTER ELEMENTS */
+/* FILTER IDS */
 
 const searchInput = document.getElementById("searchInput");
 
 const branchFilter = document.getElementById("branchFilter");
-
 const backlogFilter = document.getElementById("backlogFilter");
-
 const genderFilter = document.getElementById("genderFilter");
-
 const cgpaFilter = document.getElementById("cgpaFilter");
-
-const registeredFilter =
-document.getElementById("registeredFilter");
-
-const offersFilter =
-document.getElementById("offersFilter");
-
-const cgpaLessEqual =
-document.getElementById("cgpaLessEqual");
-
-const cgpaGreaterEqual =
-document.getElementById("cgpaGreaterEqual");
-
-const cgpaMin =
-document.getElementById("cgpaMin");
-
-const cgpaMax =
-document.getElementById("cgpaMax");
+const registeredFilter = document.getElementById("registeredFilter");
+const offersFilter = document.getElementById("offersFilter");
 
 /* EVENTS */
 
-searchInput.addEventListener("input", applyFilters);
+searchInput.addEventListener("input",applyFilters);
 
-branchFilter.addEventListener("change", applyFilters);
-
-backlogFilter.addEventListener("change", applyFilters);
-
-genderFilter.addEventListener("change", applyFilters);
-
-cgpaFilter.addEventListener("change", applyFilters);
-
-registeredFilter.addEventListener("change", applyFilters);
-
-offersFilter.addEventListener("change", applyFilters);
-
-cgpaLessEqual.addEventListener("input", applyFilters);
-
-cgpaGreaterEqual.addEventListener("input", applyFilters);
-
-cgpaMin.addEventListener("input", applyFilters);
-
-cgpaMax.addEventListener("input", applyFilters);
+branchFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);
+genderFilter.addEventListener("change",applyFilters);
+cgpaFilter.addEventListener("change",applyFilters);
+registeredFilter.addEventListener("change",applyFilters);
+offersFilter.addEventListener("change",applyFilters);
 
 /* POPULATE FILTERS */
 
-function populateFilters(data) {
+function populateFilters(data){
 
-    fillFilter(branchFilter, "Branch", data);
+    fillFilter(branchFilter,"Branch",data);
 
-    fillFilter(backlogFilter, "No. of Backlogs", data);
+    fillFilter(backlogFilter,"No. of Backlogs",data);
 
-    fillFilter(genderFilter, "Gender", data);
+    fillFilter(genderFilter,"Gender",data);
 
-    fillFilter(cgpaFilter, "CGPA", data);
+    fillFilter(cgpaFilter,"CGPA",data);
 
-    fillFilter(
-        registeredFilter,
-        "Registered for Placements",
-        data
-    );
+    fillFilter(registeredFilter,"Registered for Placements",data);
 
-    fillFilter(offersFilter, "No. of Offers", data);
+    fillFilter(offersFilter,"No. of Offers",data);
 }
 
 /* FILL FILTER */
 
-function fillFilter(filter, column, data) {
+function fillFilter(filter,column,data){
 
     const index = headers.indexOf(column);
-
-    if (index === -1) return;
 
     let values = [...new Set(
 
@@ -867,26 +662,22 @@ function fillFilter(filter, column, data) {
 
     values = values.filter(v => v !== "");
 
-    values.sort();
-
     filter.innerHTML =
     `<option value="">${column}</option>`;
 
-    values.forEach(value => {
+    values.sort().forEach(value=>{
 
         filter.innerHTML +=
-        `<option value="${value}">
-            ${value}
-        </option>`;
+        `<option value="${value}">${value}</option>`;
+
     });
 }
 
 /* APPLY FILTERS */
-```javascript
+
 function applyFilters(){
 
-    const search =
-    searchInput.value.toLowerCase();
+    const search = searchInput.value.toLowerCase();
 
     const filters = {
 
@@ -904,174 +695,130 @@ function applyFilters(){
         backlog: headers.indexOf("No. of Backlogs"),
         gender: headers.indexOf("Gender"),
         cgpa: headers.indexOf("CGPA"),
-        registered:
-        headers.indexOf("Registered for Placements"),
-        offers:
-        headers.indexOf("No. of Offers")
+        registered: headers.indexOf("Registered for Placements"),
+        offers: headers.indexOf("No. of Offers")
     };
 
-    let filtered = originalData.filter(row => {
+    let filtered = originalData.filter(row=>{
 
-        const rowText =
-        row.join(" ").toLowerCase();
-
-        const cgpa =
-        parseFloat(row[indexes.cgpa]) || 0;
-
-        /* CUSTOM CGPA FILTERS */
-
-        let cgpaCondition = true;
-
-        /* CGPA <= */
-
-        if(cgpaLessEqual.value !== ""){
-
-            cgpaCondition =
-            cgpa <= Number(cgpaLessEqual.value);
-        }
-
-        /* CGPA >= */
-
-        else if(cgpaGreaterEqual.value !== ""){
-
-            cgpaCondition =
-            cgpa >= Number(cgpaGreaterEqual.value);
-        }
-
-        /* BETWEEN */
-
-        else if(
-
-            cgpaMin.value !== "" &&
-
-            cgpaMax.value !== ""
-
-        ){
-
-            cgpaCondition =
-
-            cgpa >= Number(cgpaMin.value) &&
-
-            cgpa <= Number(cgpaMax.value);
-        }
+        const rowText = row.join(" ").toLowerCase();
 
         return (
 
-            rowText.includes(search) &&
+            rowText.includes(search)
+
+            &&
 
             (!filters.branch ||
+            row[indexes.branch] === filters.branch)
 
-                row[indexes.branch] === filters.branch) &&
+            &&
 
             (!filters.backlog ||
+            row[indexes.backlog] === filters.backlog)
 
-                row[indexes.backlog] === filters.backlog) &&
+            &&
 
             (!filters.gender ||
+            row[indexes.gender] === filters.gender)
 
-                row[indexes.gender] === filters.gender) &&
+            &&
 
             (!filters.cgpa ||
+            row[indexes.cgpa] === filters.cgpa)
 
-                row[indexes.cgpa] === filters.cgpa) &&
+            &&
 
             (!filters.registered ||
+            row[indexes.registered]
+            .toLowerCase()
+            .trim() ===
+            filters.registered
+            .toLowerCase()
+            .trim())
 
-                row[indexes.registered] === filters.registered) &&
+            &&
 
             (!filters.offers ||
+            row[indexes.offers] === filters.offers)
 
-                row[indexes.offers] === filters.offers) &&
-
-            cgpaCondition
         );
+
     });
 
-    renderTable(filtered);
+    createTable(headers,filtered);
 
     updateStatistics(filtered);
 }
-```
 
+/* CREATE TABLE */
 
-/* RENDER TABLE */
+function createTable(headers,rows){
 
-```javascript
-function renderTable(data){
+    let tableHTML = "<tr>";
 
-    let tableHTML = "<thead><tr>";
-
-    headers.forEach(header => {
+    headers.forEach(header=>{
 
         tableHTML += `<th>${header}</th>`;
+
     });
 
-    tableHTML += "</tr></thead><tbody>";
+    tableHTML += "</tr>";
 
-    data.forEach(row => {
+    rows.forEach(row=>{
 
         tableHTML += "<tr>";
 
-        row.forEach(cell => {
+        row.forEach(cell=>{
 
             tableHTML += `<td>${cell}</td>`;
+
         });
 
         tableHTML += "</tr>";
     });
 
-    tableHTML += "</tbody>";
+    document.getElementById("dataTable").innerHTML = tableHTML;
 
-    document.getElementById("dataTable")
-    .innerHTML = tableHTML;
 }
-```
 
 /* UPDATE STATISTICS */
 
-function updateStatistics(data) {
+function updateStatistics(data){
 
     const indexes = {
 
-        cgpa:
-        headers.indexOf("CGPA"),
+        cgpa: headers.indexOf("CGPA"),
 
         registered:
-        headers.indexOf(
-            "Registered for Placements"
-        ),
+        headers.indexOf("Registered for Placements"),
 
         offers:
         headers.indexOf("No. of Offers")
     };
 
-    const totalStudents =
-    data.length;
+    const totalStudents = data.length;
 
-    const placedStudents =
-    data.filter(row => {
+    const placedStudents = data.filter(row=>{
 
-        const offers =
-        Number(row[indexes.offers]) || 0;
+        const offers = row[indexes.offers];
 
-        return offers > 0;
+        return offers !== "" &&
+               offers != null &&
+               Number(offers) > 0;
 
     }).length;
 
-    const totalOffers =
-    data.reduce((sum, row) => {
+    const totalOffers = data.reduce((sum,row)=>{
 
         return sum +
         (Number(row[indexes.offers]) || 0);
 
-    }, 0);
+    },0);
 
-    const registeredStudents =
-    data.filter(row => {
+    const registeredStudents = data.filter(row=>{
 
-        return String(
-            row[indexes.registered]
-        )
+        return String(row[indexes.registered])
 
         .toLowerCase()
 
@@ -1079,55 +826,40 @@ function updateStatistics(data) {
 
     }).length;
 
-    const eligibleStudents =
-    data.filter(row => {
+    const eligibleStudents = data.filter(row=>{
 
         const cgpa =
-        parseFloat(
-            row[indexes.cgpa]
-        ) || 0;
+        parseFloat(row[indexes.cgpa]) || 0;
 
         const registered =
-        String(
-            row[indexes.registered]
-        )
+        String(row[indexes.registered])
 
         .toLowerCase()
 
         .trim();
 
-        return (
-
-            cgpa >= 6.5 &&
-
-            registered === "yes"
-        );
+        return cgpa >= 6.5 &&
+               registered === "yes";
 
     }).length;
 
-    document.getElementById(
-        "totalStudents"
-    ).innerText = totalStudents;
+    document.getElementById("totalStudents")
+    .innerText = totalStudents;
 
-    document.getElementById(
-        "placedStudents"
-    ).innerText = placedStudents;
+    document.getElementById("placedStudents")
+    .innerText = placedStudents;
 
-    document.getElementById(
-        "totalOffers"
-    ).innerText = totalOffers;
+    document.getElementById("totalOffers")
+    .innerText = totalOffers;
 
-    document.getElementById(
-        "registeredStudents"
-    ).innerText = registeredStudents;
+    document.getElementById("registeredStudents")
+    .innerText = registeredStudents;
 
-    document.getElementById(
-        "eligibleStudents"
-    ).innerText = eligibleStudents;
+    document.getElementById("eligibleStudents")
+    .innerText = eligibleStudents;
 }
 
 </script>
-
 
 </body>
 </html>
