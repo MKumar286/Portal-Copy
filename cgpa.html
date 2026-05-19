@@ -3,6 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
+    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Student Table</title>
@@ -261,10 +262,140 @@ tr:hover{
     }
 }
 
+/* CGPA SECTION */
+
+.cgpa-main-container{
+
+    width:100%;
+
+    display:flex;
+
+    gap:12px;
+
+    margin-bottom:12px;
+
+    flex-wrap:wrap;
+}
+
+.cgpa-card{
+
+    flex:1;
+
+    min-width:220px;
+
+    background:white;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.cgpa-card h3{
+
+    margin:0 0 10px;
+
+    font-size:15px;
+
+    color:#0b3d91;
+}
+
+.cgpa-card input{
+
+    width:100%;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid #ccc;
+
+    font-size:14px;
+
+    box-sizing:border-box;
+}
+
+.cgpa-range{
+
+    display:flex;
+
+    gap:8px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .cgpa-main-container{
+
+        flex-direction:column;
+    }
+
+    .cgpa-card{
+
+        width:100%;
+    }
+}
+    
 </style>
 </head>
 
 <body>
+
+    <!-- CGPA FILTER SECTION -->
+
+<div class="cgpa-main-container">
+
+    <!-- GREATER -->
+
+    <div class="cgpa-card">
+
+        <h3>CGPA ≥</h3>
+
+        <input type="number"
+               step="0.01"
+               id="cgpaGreater"
+               placeholder="Enter Minimum CGPA">
+
+    </div>
+
+    <!-- LESS -->
+
+    <div class="cgpa-card">
+
+        <h3>CGPA ≤</h3>
+
+        <input type="number"
+               step="0.01"
+               id="cgpaLess"
+               placeholder="Enter Maximum CGPA">
+
+    </div>
+
+    <!-- BETWEEN -->
+
+    <div class="cgpa-card">
+
+        <h3>CGPA Between</h3>
+
+        <div class="cgpa-range">
+
+            <input type="number"
+                   step="0.01"
+                   id="cgpaMin"
+                   placeholder="Min">
+
+            <input type="number"
+                   step="0.01"
+                   id="cgpaMax"
+                   placeholder="Max">
+
+        </div>
+
+    </div>
+
+</div>
 
 <!-- FILTERS -->
 
@@ -347,6 +478,17 @@ const genderFilter = document.getElementById("genderFilter");
 const cgpaFilter = document.getElementById("cgpaFilter");
 const registeredFilter = document.getElementById("registeredFilter");
 const offersFilter = document.getElementById("offersFilter");
+const cgpaGreater =
+document.getElementById("cgpaGreater");
+
+const cgpaLess =
+document.getElementById("cgpaLess");
+
+const cgpaMin =
+document.getElementById("cgpaMin");
+
+const cgpaMax =
+document.getElementById("cgpaMax");    
 
 /* EVENTS */
 
@@ -358,6 +500,13 @@ genderFilter.addEventListener("change",applyFilters);
 cgpaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
+ cgpaGreater.addEventListener("input",applyFilters);
+
+cgpaLess.addEventListener("input",applyFilters);
+
+cgpaMin.addEventListener("input",applyFilters);
+
+cgpaMax.addEventListener("input",applyFilters);   
 
 /* POPULATE FILTERS */
 
@@ -409,6 +558,7 @@ function applyFilters(){
         branch: branchFilter.value,
         backlog: backlogFilter.value,
         gender: genderFilter.value,
+         cgpa: headers.indexOf("CGPA"),
         cgpa: cgpaFilter.value,
         registered: registeredFilter.value,
         offers: offersFilter.value
@@ -449,8 +599,60 @@ function applyFilters(){
 
             &&
 
-            (!filters.cgpa ||
-            row[indexes.cgpa] === filters.cgpa)
+(function(){
+
+    let studentCGPA =
+    parseFloat(row[indexes.cgpa]) || 0;
+
+    /* GREATER */
+
+    if(cgpaGreater.value){
+
+        if(
+            studentCGPA <
+            parseFloat(cgpaGreater.value)
+        ){
+
+            return false;
+        }
+    }
+
+    /* LESS */
+
+    if(cgpaLess.value){
+
+        if(
+            studentCGPA >
+            parseFloat(cgpaLess.value)
+        ){
+
+            return false;
+        }
+    }
+
+    /* BETWEEN */
+
+    if(cgpaMin.value && cgpaMax.value){
+
+        if(
+
+            studentCGPA <
+            parseFloat(cgpaMin.value)
+
+            ||
+
+            studentCGPA >
+            parseFloat(cgpaMax.value)
+
+        ){
+
+            return false;
+        }
+    }
+
+    return true;
+
+})()
 
             &&
 
