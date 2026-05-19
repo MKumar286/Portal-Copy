@@ -387,7 +387,7 @@ tr:hover td{
 /* ===== GREEN SCROLLBAR ===== */
 
 .table-container::-webkit-scrollbar{
-    width:0px
+    width:0px;
     height:8px;
 }
 
@@ -723,6 +723,7 @@ Loading Data...
 
 </div>
 
+```html
 <script>
 
 const csvURL = localStorage.getItem("csvURL");
@@ -730,81 +731,133 @@ const csvURL = localStorage.getItem("csvURL");
 let originalData = [];
 let headers = [];
 
-Papa.parse(csvURL, {
+/* CHECK CSV URL */
 
-    download:true,
-    skipEmptyLines:true,
+if (!csvURL) {
 
-    complete:function(results){
+    document.getElementById("loading").innerHTML =
+    "CSV URL not found in localStorage";
 
-        headers = results.data[0];
-        originalData = results.data.slice(1);
+} else {
 
-        populateFilters(originalData);
+    Papa.parse(csvURL, {
 
-        applyFilters();
+        download: true,
+        skipEmptyLines: true,
 
-        document.getElementById("loading").style.display = "none";
-    }
-});
+        complete: function(results) {
 
-/* FILTER IDS */
+            if (!results.data || results.data.length === 0) {
+
+                document.getElementById("loading").innerHTML =
+                "No data found in CSV";
+
+                return;
+            }
+
+            headers = results.data[0];
+
+            originalData = results.data.slice(1);
+
+            populateFilters(originalData);
+
+            applyFilters();
+
+            document.getElementById("loading").style.display = "none";
+        },
+
+        error: function(error) {
+
+            console.error(error);
+
+            document.getElementById("loading").innerHTML =
+            "Error Loading CSV File";
+        }
+    });
+}
+
+/* FILTER ELEMENTS */
 
 const searchInput = document.getElementById("searchInput");
 
 const branchFilter = document.getElementById("branchFilter");
+
 const backlogFilter = document.getElementById("backlogFilter");
+
 const genderFilter = document.getElementById("genderFilter");
+
 const cgpaFilter = document.getElementById("cgpaFilter");
-const registeredFilter = document.getElementById("registeredFilter");
-const offersFilter = document.getElementById("offersFilter");
-    
-    const cgpaLessEqual = document.getElementById("cgpaLessEqual");
-    const cgpaGreaterEqual = document.getElementById("cgpaGreaterEqual");
-    const cgpaMin = document.getElementById("cgpaMin");
-    const cgpaMax = document.getElementById("cgpaMax");
+
+const registeredFilter =
+document.getElementById("registeredFilter");
+
+const offersFilter =
+document.getElementById("offersFilter");
+
+const cgpaLessEqual =
+document.getElementById("cgpaLessEqual");
+
+const cgpaGreaterEqual =
+document.getElementById("cgpaGreaterEqual");
+
+const cgpaMin =
+document.getElementById("cgpaMin");
+
+const cgpaMax =
+document.getElementById("cgpaMax");
 
 /* EVENTS */
 
-searchInput.addEventListener("input",applyFilters);
+searchInput.addEventListener("input", applyFilters);
 
-branchFilter.addEventListener("change",applyFilters);
-backlogFilter.addEventListener("change",applyFilters);
-genderFilter.addEventListener("change",applyFilters);
-cgpaFilter.addEventListener("change",applyFilters);
-registeredFilter.addEventListener("change",applyFilters);
-offersFilter.addEventListener("change",applyFilters);
-    
-    cgpaLessEqual.addEventListener("input",applyFilters);
+branchFilter.addEventListener("change", applyFilters);
 
-cgpaGreaterEqual.addEventListener("input",applyFilters);
+backlogFilter.addEventListener("change", applyFilters);
 
-cgpaMin.addEventListener("input",applyFilters);
+genderFilter.addEventListener("change", applyFilters);
 
-cgpaMax.addEventListener("input",applyFilters);
+cgpaFilter.addEventListener("change", applyFilters);
+
+registeredFilter.addEventListener("change", applyFilters);
+
+offersFilter.addEventListener("change", applyFilters);
+
+cgpaLessEqual.addEventListener("input", applyFilters);
+
+cgpaGreaterEqual.addEventListener("input", applyFilters);
+
+cgpaMin.addEventListener("input", applyFilters);
+
+cgpaMax.addEventListener("input", applyFilters);
 
 /* POPULATE FILTERS */
 
-function populateFilters(data){
+function populateFilters(data) {
 
-    fillFilter(branchFilter,"Branch",data);
+    fillFilter(branchFilter, "Branch", data);
 
-    fillFilter(backlogFilter,"No. of Backlogs",data);
+    fillFilter(backlogFilter, "No. of Backlogs", data);
 
-    fillFilter(genderFilter,"Gender",data);
+    fillFilter(genderFilter, "Gender", data);
 
-    fillFilter(cgpaFilter,"CGPA",data);
+    fillFilter(cgpaFilter, "CGPA", data);
 
-    fillFilter(registeredFilter,"Registered for Placements",data);
+    fillFilter(
+        registeredFilter,
+        "Registered for Placements",
+        data
+    );
 
-    fillFilter(offersFilter,"No. of Offers",data);
+    fillFilter(offersFilter, "No. of Offers", data);
 }
 
 /* FILL FILTER */
 
-function fillFilter(filter,column,data){
+function fillFilter(filter, column, data) {
 
     const index = headers.indexOf(column);
+
+    if (index === -1) return;
 
     let values = [...new Set(
 
@@ -814,126 +867,255 @@ function fillFilter(filter,column,data){
 
     values = values.filter(v => v !== "");
 
+    values.sort();
+
     filter.innerHTML =
     `<option value="">${column}</option>`;
 
-    values.sort().forEach(value=>{
+    values.forEach(value => {
 
         filter.innerHTML +=
-        `<option value="${value}">${value}</option>`;
-
+        `<option value="${value}">
+            ${value}
+        </option>`;
     });
 }
 
 /* APPLY FILTERS */
 
-function applyFilters(){
+function applyFilters() {
 
-    const search = searchInput.value.toLowerCase();
+    const search =
+    searchInput.value.toLowerCase();
 
     const filters = {
 
         branch: branchFilter.value,
+
         backlog: backlogFilter.value,
+
         gender: genderFilter.value,
+
         cgpa: cgpaFilter.value,
+
         registered: registeredFilter.value,
+
         offers: offersFilter.value
     };
 
     const indexes = {
 
-        branch: headers.indexOf("Branch"),
-        backlog: headers.indexOf("No. of Backlogs"),
-        gender: headers.indexOf("Gender"),
-        cgpa: headers.indexOf("CGPA"),
-        registered: headers.indexOf("Registered for Placements"),
-        offers: headers.indexOf("No. of Offers")
-    };
+        branch:
+        headers.indexOf("Branch"),
 
-   let filtered = originalData.filter(row=>{
+        backlog:
+        headers.indexOf("No. of Backlogs"),
 
-    const rowText =
-    row.join(" ").toLowerCase();
+        gender:
+        headers.indexOf("Gender"),
 
-    const cgpa =
-    parseFloat(
-        row[indexes.cgpa]
-    ) || 0;
-
-    /* CUSTOM CGPA FILTERS */
-let cgpaCondition = true;
-
-/* CGPA <= */
-
-if (cgpaLessEqual.value !== "") {
-
-    cgpaCondition =
-    cgpa <= Number(cgpaLessEqual.value);
-
-}
-
-/* CGPA >= */
-
-else if (cgpaGreaterEqual.value !== "") {
-
-    cgpaCondition =
-    cgpa >= Number(cgpaGreaterEqual.value);
-
-}
-
-/* BETWEEN */
-
-else if (
-    cgpaMin.value !== "" &&
-    cgpaMax.value !== ""
-) {
-
-    cgpaCondition =
-        cgpa >= Number(cgpaMin.value) &&
-        cgpa <= Number(cgpaMax.value);
-}
-    document.getElementById("dataTable").innerHTML = tableHTML;
-
-}
-
-/* UPDATE STATISTICS */
-
-function updateStatistics(data){
-
-    const indexes = {
-
-        cgpa: headers.indexOf("CGPA"),
+        cgpa:
+        headers.indexOf("CGPA"),
 
         registered:
-        headers.indexOf("Registered for Placements"),
+        headers.indexOf(
+            "Registered for Placements"
+        ),
 
         offers:
         headers.indexOf("No. of Offers")
     };
 
-    const totalStudents = data.length;
+    let filtered = originalData.filter(row => {
 
-    const placedStudents = data.filter(row=>{
+        const rowText =
+        row.join(" ").toLowerCase();
 
-        const offers = row[indexes.offers];
+        const cgpa =
+        parseFloat(
+            row[indexes.cgpa]
+        ) || 0;
 
-        return offers !== "" &&
-               offers != null &&
-               Number(offers) > 0;
+        /* SEARCH */
+
+        const searchCondition =
+        rowText.includes(search);
+
+        /* FILTER CONDITIONS */
+
+        const branchCondition =
+        !filters.branch ||
+        row[indexes.branch] === filters.branch;
+
+        const backlogCondition =
+        !filters.backlog ||
+        row[indexes.backlog] === filters.backlog;
+
+        const genderCondition =
+        !filters.gender ||
+        row[indexes.gender] === filters.gender;
+
+        const cgpaDropdownCondition =
+        !filters.cgpa ||
+        row[indexes.cgpa] === filters.cgpa;
+
+        const registeredCondition =
+        !filters.registered ||
+        row[indexes.registered] ===
+        filters.registered;
+
+        const offersCondition =
+        !filters.offers ||
+        row[indexes.offers] ===
+        filters.offers;
+
+        /* CUSTOM CGPA */
+
+        let cgpaCondition = true;
+
+        if (cgpaLessEqual.value !== "") {
+
+            cgpaCondition =
+            cgpa <=
+            Number(cgpaLessEqual.value);
+
+        }
+
+        else if (
+            cgpaGreaterEqual.value !== ""
+        ) {
+
+            cgpaCondition =
+            cgpa >=
+            Number(cgpaGreaterEqual.value);
+
+        }
+
+        else if (
+
+            cgpaMin.value !== "" &&
+            cgpaMax.value !== ""
+
+        ) {
+
+            cgpaCondition =
+
+            cgpa >= Number(cgpaMin.value) &&
+
+            cgpa <= Number(cgpaMax.value);
+        }
+
+        return (
+
+            searchCondition &&
+
+            branchCondition &&
+
+            backlogCondition &&
+
+            genderCondition &&
+
+            cgpaDropdownCondition &&
+
+            registeredCondition &&
+
+            offersCondition &&
+
+            cgpaCondition
+        );
+    });
+
+    renderTable(filtered);
+
+    updateStatistics(filtered);
+}
+
+/* RENDER TABLE */
+
+function renderTable(data) {
+
+    let tableHTML = "";
+
+    /* TABLE HEADERS */
+
+    tableHTML += "<thead><tr>";
+
+    headers.forEach(header => {
+
+        tableHTML +=
+        `<th>${header}</th>`;
+    });
+
+    tableHTML += "</tr></thead>";
+
+    /* TABLE BODY */
+
+    tableHTML += "<tbody>";
+
+    data.forEach(row => {
+
+        tableHTML += "<tr>";
+
+        row.forEach(cell => {
+
+            tableHTML +=
+            `<td>${cell}</td>`;
+        });
+
+        tableHTML += "</tr>";
+    });
+
+    tableHTML += "</tbody>";
+
+    document.getElementById("dataTable")
+    .innerHTML = tableHTML;
+}
+
+/* UPDATE STATISTICS */
+
+function updateStatistics(data) {
+
+    const indexes = {
+
+        cgpa:
+        headers.indexOf("CGPA"),
+
+        registered:
+        headers.indexOf(
+            "Registered for Placements"
+        ),
+
+        offers:
+        headers.indexOf("No. of Offers")
+    };
+
+    const totalStudents =
+    data.length;
+
+    const placedStudents =
+    data.filter(row => {
+
+        const offers =
+        Number(row[indexes.offers]) || 0;
+
+        return offers > 0;
 
     }).length;
 
-    const totalOffers = data.reduce((sum,row)=>{
+    const totalOffers =
+    data.reduce((sum, row) => {
 
         return sum +
         (Number(row[indexes.offers]) || 0);
 
-    },0);
+    }, 0);
 
-    const registeredStudents = data.filter(row=>{
+    const registeredStudents =
+    data.filter(row => {
 
-        return String(row[indexes.registered])
+        return String(
+            row[indexes.registered]
+        )
 
         .toLowerCase()
 
@@ -941,40 +1123,55 @@ function updateStatistics(data){
 
     }).length;
 
-    const eligibleStudents = data.filter(row=>{
+    const eligibleStudents =
+    data.filter(row => {
 
         const cgpa =
-        parseFloat(row[indexes.cgpa]) || 0;
+        parseFloat(
+            row[indexes.cgpa]
+        ) || 0;
 
         const registered =
-        String(row[indexes.registered])
+        String(
+            row[indexes.registered]
+        )
 
         .toLowerCase()
 
         .trim();
 
-        return cgpa >= 6.5 &&
-               registered === "yes";
+        return (
+
+            cgpa >= 6.5 &&
+
+            registered === "yes"
+        );
 
     }).length;
 
-    document.getElementById("totalStudents")
-    .innerText = totalStudents;
+    document.getElementById(
+        "totalStudents"
+    ).innerText = totalStudents;
 
-    document.getElementById("placedStudents")
-    .innerText = placedStudents;
+    document.getElementById(
+        "placedStudents"
+    ).innerText = placedStudents;
 
-    document.getElementById("totalOffers")
-    .innerText = totalOffers;
+    document.getElementById(
+        "totalOffers"
+    ).innerText = totalOffers;
 
-    document.getElementById("registeredStudents")
-    .innerText = registeredStudents;
+    document.getElementById(
+        "registeredStudents"
+    ).innerText = registeredStudents;
 
-    document.getElementById("eligibleStudents")
-    .innerText = eligibleStudents;
+    document.getElementById(
+        "eligibleStudents"
+    ).innerText = eligibleStudents;
 }
 
 </script>
+
 
 </body>
 </html>
