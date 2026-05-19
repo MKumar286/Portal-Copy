@@ -1,211 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CGPA Analysis</title>
+<title>Student Table</title>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 
 body{
     margin:0;
-    padding:0;
+    padding:10px;
     font-family:Arial;
     background:#f5f7ff;
 }
 
-/* HEADER */
+/* FILTERS */
 
-.header{
+.filter-container{
+
+    width:100%;
+    margin-bottom:10px;
+
+    padding:10px;
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
     background:linear-gradient(
-        135deg,
-        #0b1f4d,
-        #163b8c
+    135deg,
+    #8fa8c7,
+    #6f8fb8,
+    #5f7faa,
+    #4f6f99
     );
 
-    color:white;
+    border-radius:12px;
+}
 
-    text-align:center;
+.filter-container input,
+.filter-container select{
 
-    padding:15px;
+    padding:8px 10px;
+
+    border-radius:8px;
+
+    border:none;
+
+    min-width:180px;
+
+    font-size:13px;
 }
 
 /* TABLE */
 
 .table-container{
-    width:95%;
-    margin:20px auto;
+
+    width:100%;
 
     overflow-x:auto;
 }
 
 table{
+
     width:100%;
+
     border-collapse:collapse;
+
+    background:white;
 }
 
 th{
-    background:#1565c0;
-    color:white;
 
-    padding:10px;
-
-    font-size:14px;
-}
-
-td{
-    padding:8px;
-
-    text-align:center;
-
-    border-bottom:1px solid #ddd;
-
-    font-size:13px;
-}
-
-tr:nth-child(even){
-    background:#f1f6ff;
-}
-
-tr:hover{
-    background:#dbe9ff;
-}
-    /* CGPA CARD */
-
-.cgpa-card{
-
-    width:95%;
-
-    margin:20px auto;
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:20px;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,0.12);
-}
-    
-    <div class="analysis-table-container">
-
-    <table id="analysisTable"></table>
-
-     </div>
-</div>
-
-.cgpa-card h2{
-
-    margin-top:0;
-
-    text-align:center;
-
-    color:#0b3d91;
-}
-
-/* FILTERS */
-
-.cgpa-filters{
-
-    display:flex;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-}
-
-/* EACH BOX */
-
-.filter-box{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
-
-    min-width:250px;
-}
-
-/* LABEL */
-
-.filter-box label{
-
-    font-weight:bold;
-
-    color:#1e3a5f;
-
-    font-size:14px;
-}
-
-/* INPUTS */
-
-.filter-box input{
-
-    padding:10px;
-
-    border-radius:10px;
-
-    border:1px solid #b0c4de;
-
-    font-size:14px;
-}
-
-/* BETWEEN BOXES */
-
-.between-boxes{
-
-    display:flex;
-
-    gap:10px;
-}
-
-/* FOCUS */
-
-.filter-box input:focus{
-
-    outline:none;
-
-    border:2px solid #1565c0;
-
-    box-shadow:
-        0 0 8px rgba(21,101,192,0.3);
-}
-    .analysis-table-container{
-
-    width:100%;
-
-    margin-top:15px;
-
-    overflow-x:auto;
-
-    border-radius:14px;
-
-    background:white;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,0.12);
-}
-
-#analysisTable{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    font-size:14px;
-}
-
-#analysisTable th{
-
-    background:
-    linear-gradient(
+    background:linear-gradient(
         135deg,
         #0b3d91,
         #1565c0,
@@ -217,348 +89,285 @@ tr:hover{
     padding:10px;
 
     text-align:center;
+
+    position:sticky;
+    top:0;
 }
 
-#analysisTable td{
+td{
 
     padding:8px;
 
     text-align:center;
 
-    border-bottom:1px solid #e0e0e0;
+    border-bottom:1px solid #ddd;
 }
 
-#analysisTable tr:nth-child(even){
-
-    background:#f7faff;
+tr:nth-child(even){
+    background:#f9fbff;
 }
 
-#analysisTable tr:hover{
+tr:hover{
+    background:#e8ddff;
+}
 
-    background:#e8f0ff;
+.loading{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    font-size:22px;
+
+    color:#0b3d91;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- FILTERS -->
 
-<div class="header">
+<div class="filter-container">
 
-    <h1>CGPA Analysis Dashboard</h1>
+    <input type="text" id="searchInput" placeholder="Search Any Data">
 
-</div>
-    </div>
+    <select id="branchFilter">
+        <option value="">Branch</option>
+    </select>
 
-<!-- CGPA FILTER CARD -->
+    <select id="backlogFilter">
+        <option value="">No. of Backlogs</option>
+    </select>
 
-<div class="cgpa-card">
+    <select id="genderFilter">
+        <option value="">Gender</option>
+    </select>
 
-    <h2>CGPA Conditions</h2>
+    <select id="cgpaFilter">
+        <option value="">CGPA</option>
+    </select>
 
-    <div class="cgpa-filters">
+    <select id="registeredFilter">
+        <option value="">Registered for Placements</option>
+    </select>
 
-        <!-- GREATER THAN -->
-
-        <div class="filter-box">
-
-            <label>
-                CGPA Greater Than or Equal To
-            </label>
-
-            <input type="number"
-                   id="minCGPA"
-                   step="0.01"
-                   placeholder="Enter CGPA">
-
-        </div>
-
-        <!-- LESS THAN -->
-
-        <div class="filter-box">
-
-            <label>
-                CGPA Less Than or Equal To
-            </label>
-
-            <input type="number"
-                   id="maxCGPA"
-                   step="0.01"
-                   placeholder="Enter CGPA">
-
-        </div>
-
-        <!-- BETWEEN -->
-
-        <div class="filter-box">
-
-            <label>
-                Between CGPA
-            </label>
-
-            <div class="between-boxes">
-
-                <input type="number"
-                       id="betweenMin"
-                       step="0.01"
-                       placeholder="From">
-
-                <input type="number"
-                       id="betweenMax"
-                       step="0.01"
-                       placeholder="To">
-
-            </div>
-
-        </div>
-
-    </div>
+    <select id="offersFilter">
+        <option value="">No. of Offers</option>
+    </select>
 
 </div>
 
-<!-- TABLE -->
+<!-- LOADING -->
+
+<div class="loading" id="loading">
+Loading Data...
+</div>
 
 <!-- TABLE -->
 
 <div class="table-container">
 
-    <table id="summaryTable">
-
-        <tr>
-
-            <th>S.No</th>
-
-            <th>Branch</th>
-
-            <th>Total Students</th>
-
-            <th>Registered for Placements</th>
-
-            <th>Company Placed</th>
-
-            <th>No. of Offers</th>
-
-        </tr>
-
-    </table>
+    <table id="dataTable"></table>
 
 </div>
 
 <script>
 
-let headers =
-JSON.parse(
-    localStorage.getItem("placementHeaders")
-);
+const csvURL = localStorage.getItem("csvURL");
 
-let originalData =
-JSON.parse(
-    localStorage.getItem("placementData")
-);
+let originalData = [];
+let headers = [];
 
-/* CHECK DATA */
+Papa.parse(csvURL, {
 
-console.log("HEADERS:", headers);
-console.log("DATA:", originalData);
+    download:true,
+    skipEmptyLines:true,
 
-/* GENERATE TABLE */
+    complete:function(results){
 
-function generateTable(){
+        headers = results.data[0];
+        originalData = results.data.slice(1);
 
-    const table =
-    document.getElementById("analysisTable");
+        populateFilters(originalData);
 
-    /* IF DATA NOT FOUND */
+        applyFilters();
 
-    if(!headers || !originalData){
-
-        table.innerHTML = `
-
-        <tr>
-
-            <td colspan="6">
-
-                Data Not Loaded
-
-            </td>
-
-        </tr>
-        `;
-
-        return;
+        document.getElementById("loading").style.display = "none";
     }
+});
 
-    /* COLUMN INDEXES */
+/* FILTER IDS */
 
-    const branchIndex =
-    headers.findIndex(
-        h => h.trim().toLowerCase() === "branch"
-    );
+const searchInput = document.getElementById("searchInput");
 
-    const registeredIndex =
-    headers.findIndex(
-        h =>
-        h.trim().toLowerCase()
-        === "registered for placements"
-    );
+const branchFilter = document.getElementById("branchFilter");
+const backlogFilter = document.getElementById("backlogFilter");
+const genderFilter = document.getElementById("genderFilter");
+const cgpaFilter = document.getElementById("cgpaFilter");
+const registeredFilter = document.getElementById("registeredFilter");
+const offersFilter = document.getElementById("offersFilter");
 
-    const offersIndex =
-    headers.findIndex(
-        h =>
-        h.trim().toLowerCase()
-        === "no. of offers"
-    );
+/* EVENTS */
 
-    console.log(branchIndex);
-    console.log(registeredIndex);
-    console.log(offersIndex);
+searchInput.addEventListener("input",applyFilters);
 
-    /* CHECK COLUMN FOUND */
+branchFilter.addEventListener("change",applyFilters);
+backlogFilter.addEventListener("change",applyFilters);
+genderFilter.addEventListener("change",applyFilters);
+cgpaFilter.addEventListener("change",applyFilters);
+registeredFilter.addEventListener("change",applyFilters);
+offersFilter.addEventListener("change",applyFilters);
 
-    if(
-        branchIndex === -1
-        ||
-        registeredIndex === -1
-        ||
-        offersIndex === -1
-    ){
+/* POPULATE FILTERS */
 
-        table.innerHTML = `
+function populateFilters(data){
 
-        <tr>
+    fillFilter(branchFilter,"Branch",data);
 
-            <td colspan="6">
+    fillFilter(backlogFilter,"No. of Backlogs",data);
 
-                Required Columns Not Found
+    fillFilter(genderFilter,"Gender",data);
 
-            </td>
+    fillFilter(cgpaFilter,"CGPA",data);
 
-        </tr>
-        `;
+    fillFilter(registeredFilter,"Registered for Placements",data);
 
-        return;
-    }
-
-    /* BRANCH DATA */
-
-    let branchData = {};
-
-    originalData.forEach(row=>{
-
-        const branch =
-        row[branchIndex];
-
-        if(!branchData[branch]){
-
-            branchData[branch] = {
-
-                total:0,
-
-                registered:0,
-
-                placed:0,
-
-                offers:0
-            };
-        }
-
-        /* TOTAL */
-
-        branchData[branch]
-        .total++;
-
-        /* REGISTERED */
-
-        const registered =
-        String(row[registeredIndex])
-        .toLowerCase()
-        .trim();
-
-        if(registered === "yes"){
-
-            branchData[branch]
-            .registered++;
-        }
-
-        /* OFFERS */
-
-        const offers =
-        Number(row[offersIndex]) || 0;
-
-        if(offers > 0){
-
-            branchData[branch]
-            .placed++;
-        }
-
-        branchData[branch]
-        .offers += offers;
-
-    });
-
-    /* TABLE HTML */
-
-    let html = `
-
-    <tr>
-
-        <th>S.No</th>
-
-        <th>Branch</th>
-
-        <th>Total Students</th>
-
-        <th>Registered for Placements</th>
-
-        <th>Company Placed</th>
-
-        <th>No. of Offers</th>
-
-    </tr>
-    `;
-
-    let sno = 1;
-
-    Object.keys(branchData)
-    .sort()
-    .forEach(branch=>{
-
-        const data =
-        branchData[branch];
-
-        html += `
-
-        <tr>
-
-            <td>${sno++}</td>
-
-            <td>${branch}</td>
-
-            <td>${data.total}</td>
-
-            <td>${data.registered}</td>
-
-            <td>${data.placed}</td>
-
-            <td>${data.offers}</td>
-
-        </tr>
-        `;
-    });
-
-    table.innerHTML = html;
+    fillFilter(offersFilter,"No. of Offers",data);
 }
 
-/* LOAD TABLE */
+/* FILL FILTER */
 
-generateTable();
+function fillFilter(filter,column,data){
+
+    const index = headers.indexOf(column);
+
+    let values = [...new Set(
+        data.map(row => row[index])
+    )];
+
+    values = values.filter(v => v !== "");
+
+    filter.innerHTML =
+    `<option value="">${column}</option>`;
+
+    values.sort().forEach(value=>{
+
+        filter.innerHTML +=
+        `<option value="${value}">${value}</option>`;
+
+    });
+}
+
+/* APPLY FILTERS */
+
+function applyFilters(){
+
+    const search = searchInput.value.toLowerCase();
+
+    const filters = {
+
+        branch: branchFilter.value,
+        backlog: backlogFilter.value,
+        gender: genderFilter.value,
+        cgpa: cgpaFilter.value,
+        registered: registeredFilter.value,
+        offers: offersFilter.value
+    };
+
+    const indexes = {
+
+        branch: headers.indexOf("Branch"),
+        backlog: headers.indexOf("No. of Backlogs"),
+        gender: headers.indexOf("Gender"),
+        cgpa: headers.indexOf("CGPA"),
+        registered: headers.indexOf("Registered for Placements"),
+        offers: headers.indexOf("No. of Offers")
+    };
+
+    let filtered = originalData.filter(row=>{
+
+        const rowText = row.join(" ").toLowerCase();
+
+        return (
+
+            rowText.includes(search)
+
+            &&
+
+            (!filters.branch ||
+            row[indexes.branch] === filters.branch)
+
+            &&
+
+            (!filters.backlog ||
+            row[indexes.backlog] === filters.backlog)
+
+            &&
+
+            (!filters.gender ||
+            row[indexes.gender] === filters.gender)
+
+            &&
+
+            (!filters.cgpa ||
+            row[indexes.cgpa] === filters.cgpa)
+
+            &&
+
+            (!filters.registered ||
+            row[indexes.registered]
+            .toLowerCase()
+            .trim() ===
+            filters.registered
+            .toLowerCase()
+            .trim())
+
+            &&
+
+            (!filters.offers ||
+            row[indexes.offers] === filters.offers)
+
+        );
+
+    });
+
+    createTable(headers,filtered);
+}
+
+/* CREATE TABLE */
+
+function createTable(headers,rows){
+
+    let tableHTML = "<tr>";
+
+    headers.forEach(header=>{
+
+        tableHTML += `<th>${header}</th>`;
+
+    });
+
+    tableHTML += "</tr>";
+
+    rows.forEach(row=>{
+
+        tableHTML += "<tr>";
+
+        row.forEach(cell=>{
+
+            tableHTML += `<td>${cell}</td>`;
+
+        });
+
+        tableHTML += "</tr>";
+    });
+
+    document.getElementById("dataTable").innerHTML = tableHTML;
+
+}
 
 </script>
-    
 
 </body>
-
 </html>
