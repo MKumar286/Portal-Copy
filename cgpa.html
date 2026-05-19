@@ -59,21 +59,33 @@ body{
 
 /* TABLE */
 
+/* TABLE CONTAINER */
+
 .table-container{
 
     width:100%;
 
-    overflow-x:auto;
+    overflow:auto;
+
+    border-radius:10px;
 }
+
+/* TABLE */
 
 table{
 
-    width:100%;
-
     border-collapse:collapse;
 
+    width:max-content;
+
+    min-width:100%;
+
     background:white;
+
+    table-layout:auto;
 }
+
+/* TABLE HEADERS */
 
 th{
 
@@ -86,24 +98,40 @@ th{
 
     color:white;
 
-    padding:10px;
+    padding:10px 14px;
 
     text-align:center;
 
     position:sticky;
+
     top:0;
+
+    z-index:2;
+
+    white-space:nowrap;
+
+    width:auto;
+
+    min-width:max-content;
 }
+
+/* TABLE CELLS */
 
 td{
 
-    padding:8px;
+    padding:8px 14px;
 
     text-align:center;
 
     border-bottom:1px solid #ddd;
-}
 
-tr:nth-child(even){
+    white-space:nowrap;
+
+    width:auto;
+
+    min-width:max-content;
+}
+    tr:nth-child(even){
     background:#f9fbff;
 }
 
@@ -337,10 +365,9 @@ function applyFilters(){
 }
 
 /* CREATE TABLE */
-
 function createTable(headers,rows){
 
-    let tableHTML = "<tr>";
+    let tableHTML = "<thead><tr>";
 
     headers.forEach(header=>{
 
@@ -348,7 +375,9 @@ function createTable(headers,rows){
 
     });
 
-    tableHTML += "</tr>";
+    tableHTML += "</tr></thead>";
+
+    tableHTML += "<tbody>";
 
     rows.forEach(row=>{
 
@@ -363,8 +392,9 @@ function createTable(headers,rows){
         tableHTML += "</tr>";
     });
 
-    document.getElementById("dataTable").innerHTML = tableHTML;
+    tableHTML += "</tbody>";
 
+    document.getElementById("dataTable").innerHTML = tableHTML;
 }
 
 </script>
