@@ -375,6 +375,56 @@ tr:hover{
 
     gap:8px;
 }
+
+  /* STATS CARDS */
+
+.stats-card{
+
+    width:140px;
+
+    min-height:95px;
+
+    padding:10px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #4b0082,
+        #6a0dad,
+        #8a2be2
+    );
+
+    color:white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stats-card h4{
+
+    margin:0;
+
+    font-size:13px;
+
+    text-align:center;
+}
+
+.stats-card span{
+
+    margin-top:10px;
+
+    font-size:24px;
+
+    font-weight:bold;
+}  
 /* MOBILE */
 
 @media(max-width:768px){
@@ -447,6 +497,33 @@ tr:hover{
 
     </div>
 
+</div>
+
+    <!-- STATS CARDS -->
+
+<div class="stats-card">
+    <h4>Total Students</h4>
+    <span id="totalStudents">0</span>
+</div>
+
+<div class="stats-card">
+    <h4>Registered</h4>
+    <span id="registeredStudents">0</span>
+</div>
+
+<div class="stats-card">
+    <h4>Eligible</h4>
+    <span id="eligibleStudents">0</span>
+</div>
+
+<div class="stats-card">
+    <h4>Placed</h4>
+    <span id="placedStudents">0</span>
+</div>
+
+<div class="stats-card">
+    <h4>Total Offers</h4>
+    <span id="totalOffers">0</span>
 </div>
 
 <!-- FILTERS -->
@@ -724,7 +801,92 @@ function applyFilters(){
         );
     });
 
-    createTable(headers,filtered);
+  updateStats(filtered);
+
+createTable(headers,filtered);
+}
+
+    /* UPDATE STATS */
+
+function updateStats(rows){
+
+    const registeredIndex =
+    headers.indexOf("Registered for Placements");
+
+    const cgpaIndex =
+    headers.indexOf("CGPA");
+
+    const offersIndex =
+    headers.indexOf("No. of Offers");
+
+    /* TOTAL STUDENTS */
+
+    document.getElementById(
+        "totalStudents"
+    ).innerText = rows.length;
+
+    /* REGISTERED */
+
+    let registeredCount = rows.filter(row =>
+
+        row[registeredIndex]
+        .toLowerCase()
+        .trim() === "yes"
+
+    ).length;
+
+    document.getElementById(
+        "registeredStudents"
+    ).innerText = registeredCount;
+
+    /* ELIGIBLE */
+
+    let eligibleCount = rows.filter(row => {
+
+        let cgpa =
+        parseFloat(row[cgpaIndex]) || 0;
+
+        let registered =
+        row[registeredIndex]
+        .toLowerCase()
+        .trim();
+
+        return cgpa > 6.5 &&
+               registered === "yes";
+
+    }).length;
+
+    document.getElementById(
+        "eligibleStudents"
+    ).innerText = eligibleCount;
+
+    /* PLACED */
+
+    let placedCount = rows.filter(row => {
+
+        let offers =
+        parseInt(row[offersIndex]) || 0;
+
+        return offers > 0;
+
+    }).length;
+
+    document.getElementById(
+        "placedStudents"
+    ).innerText = placedCount;
+
+    /* TOTAL OFFERS */
+
+    let totalOffers = rows.reduce((sum,row)=>{
+
+        return sum +
+        (parseInt(row[offersIndex]) || 0);
+
+    },0);
+
+    document.getElementById(
+        "totalOffers"
+    ).innerText = totalOffers;
 }
 
 /* CREATE TABLE */
