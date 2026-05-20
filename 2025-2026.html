@@ -149,7 +149,28 @@ Object.keys(csvLinks).forEach((key,index)=>{
 
     card.style.background=colors[index];
 
-    card.innerHTML=key;
+  const cardNames = {
+    A:"TCS",
+    B:"Infosys",
+    C:"Wipro",
+    D:"Accenture",
+    E:"Capgemini",
+    F:"Cognizant",
+    G:"Deloitte",
+    H:"IBM",
+    I:"Tech Mahindra",
+    J:"HCL",
+    K:"Oracle",
+    L:"Amazon",
+    M:"Google",
+    N:"Microsoft",
+    O:"KPIT",
+    P:"Zoho",
+    Q:"Hexaware",
+    R:"Genpact"
+};
+
+card.innerHTML = cardNames[key];
 
     card.onclick = () => {
 
