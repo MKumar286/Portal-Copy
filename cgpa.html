@@ -209,7 +209,7 @@ tr:hover{
 
         min-width:120px;
 
-        width:120px;
+        width:100px;
 
         font-size:11px;
 
@@ -263,7 +263,6 @@ tr:hover{
 }
 
 /* CGPA SECTION */
-
 .cgpa-main-container{
 
     width:100%;
@@ -275,6 +274,8 @@ tr:hover{
     margin-bottom:12px;
 
     align-items:flex-start;
+
+    flex-wrap:nowrap;
 }
 
 .cgpa-card{
@@ -435,12 +436,16 @@ tr:hover{
 
     gap:10px;
 
-    flex-wrap:wrap;
-
-    align-content:flex-start;
+    flex-wrap:nowrap;
 
     flex:1;
-} 
+
+    justify-content:flex-start;
+
+    align-items:flex-start;
+
+    overflow-x:auto;
+}
 /* MOBILE */
 
 @media(max-width:768px){
