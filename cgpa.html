@@ -1,9 +1,13 @@
+# Updated cgpa.html
+
+Replace your existing `cgpa.html` file with the following complete code.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <meta charset="UTF-8">
-    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Student Table</title>
@@ -22,6 +26,166 @@ body{
     font-family:Arial;
     background:#f5f7ff;
     overflow-x:hidden;
+}
+
+/* CGPA SECTION */
+
+.cgpa-main-container{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:auto 1fr;
+
+    gap:12px;
+
+    align-items:start;
+
+    margin-bottom:12px;
+}
+
+.cgpa-left{
+
+    display:flex;
+
+    gap:12px;
+}
+
+.cgpa-card{
+
+    width:180px;
+
+    padding:10px;
+
+    border-radius:16px;
+
+    color:white;
+
+    box-shadow:0 4px 14px rgba(0,0,0,0.18);
+
+    transition:0.3s;
+}
+
+.cgpa-card:nth-child(1){
+
+    background:linear-gradient(
+        135deg,
+        #006400,
+        #008000,
+        #00a000
+    );
+
+    border:2px solid #00ff66;
+}
+
+.cgpa-card:nth-child(2){
+
+    background:linear-gradient(
+        135deg,
+        #fc4a1a,
+        #f7b733
+    );
+}
+
+.cgpa-card:hover{
+
+    transform:translateY(-3px);
+}
+
+.cgpa-card h3{
+
+    margin:0 0 12px;
+
+    font-size:16px;
+
+    color:white;
+
+    font-weight:bold;
+}
+
+.cgpa-card input{
+
+    width:100%;
+
+    padding:8px;
+
+    border-radius:10px;
+
+    border:none;
+
+    outline:none;
+
+    font-size:13px;
+
+    background:rgba(255,255,255,0.95);
+}
+
+/* STATS WRAPPER */
+
+.stats-wrapper{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,95px);
+
+    gap:10px;
+
+    justify-content:start;
+
+    align-items:start;
+}
+
+/* STATS CARD */
+
+.stats-card{
+
+    width:95px;
+
+    min-height:95px;
+
+    padding:10px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #4b0082,
+        #6a0dad,
+        #8a2be2
+    );
+
+    color:white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+    flex-shrink:0;
+}
+
+.stats-card h4{
+
+    margin:0;
+
+    font-size:12px;
+
+    text-align:center;
+}
+
+.stats-card span{
+
+    margin-top:8px;
+
+    font-size:28px;
+
+    font-weight:bold;
 }
 
 /* FILTERS */
@@ -189,422 +353,92 @@ tr:hover{
     color:#0b3d91;
 }
 
-/* MOBILE RESPONSIVE */
-
-@media(max-width:768px){
-
-    body{
-        padding:5px;
-    }
-
-    .filter-container{
-
-        gap:6px;
-
-        padding:6px;
-    }
-
-    .filter-container input,
-    .filter-container select{
-
-        min-width:120px;
-
-        width:100px;
-
-        font-size:11px;
-
-        padding:6px 7px;
-    }
-
-    th{
-
-        font-size:11px;
-
-        padding:8px 10px;
-    }
-
-    td{
-
-        font-size:11px;
-
-        padding:7px 10px;
-    }
-
-    .loading{
-        font-size:18px;
-    }
-}
-
-@media(max-width:480px){
-
-    .filter-container input,
-    .filter-container select{
-
-        min-width:110px;
-
-        width:110px;
-
-        font-size:10px;
-    }
-
-    th{
-
-        font-size:10px;
-
-        padding:7px 9px;
-    }
-
-    td{
-
-        font-size:10px;
-
-        padding:6px 9px;
-    }
-}
-
-/* CGPA SECTION */
-.cgpa-main-container{
-
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:auto 1fr;
-
-    gap:12px;
-
-    align-items:start;
-
-    margin-bottom:12px;
-}  /* LEFT CGPA SECTION */
-
-
-.cgpa-card{
-
-    flex:0 0 200px; 
-    
-    min-width:90px;
-
-    padding:10px;
-
-    border-radius:16px;
-
-    color:white;
-
-    box-shadow:0 4px 14px rgba(0,0,0,0.18);
-
-    transition:0.3s;
-}
-
-/* CARD 1 */
-
-/* CARD 1 */
-
-.cgpa-card:nth-child(1){
-
-    background:linear-gradient(
-        135deg,
-        #006400,
-        #008000,
-        #00a000
-    );
-
-    border:2px solid #00ff66;
-}
-
-/* CARD 2 */
-
-.cgpa-card:nth-child(2){
-
-    background:linear-gradient(
-        135deg,
-        #fc4a1a,
-        #f7b733
-    );
-}
-
-/* CARD 3 */
-
-.cgpa-card:nth-child(3){
-
-    background:linear-gradient(
-        135deg,
-        #396afc,
-        #2948ff
-    );
-}
-
-.cgpa-card:hover{
-
-    transform:translateY(-3px);
-}
-
-.cgpa-card h3{
-
-    margin:0 0 12px;
-
-    font-size:16px;
-    
-    text-align:center;
-    
-    color:white;
-
-    font-weight:bold;
-}
-
-.cgpa-card input{
-
-    width:80%;
-
-    padding:10px;
-
-    border-radius:10px;
-
-    border:none;
-
-    outline:none;
-
-    font-size:14px;
-
-    box-sizing:border-box;
-
-    background:rgba(255,255,255,0.95);
-}
-
-.cgpa-range{
-
-    display:flex;
-
-    gap:8px;
-}
-
-  /* STATS CARDS */
-.stats-card{
-
-    width:95px;
-
-    border-radius:16px;
-
-    overflow:hidden;
-
-    background:white;
-
-    box-shadow:0 4px 14px rgba(0,0,0,0.15);
-
-    text-align:center;
-
-    flex-shrink:0;
-}
-
- /* TOP COLOR AREA */
-
-.stats-card-top{
-
-    padding:12px 8px;
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:bold;
-}
-
-/* BOTTOM WHITE AREA */
-
-.stats-card-bottom{
-
-    background:white;
-
-    padding:14px 8px;
-
-    font-size:34px;
-
-    font-weight:bold;
-
-    color:#222;
-}
-
-/* DIFFERENT COLORS */
-
-.stats-card:nth-child(1) .stats-card-top{
-    background:#6a11cb;
-}
-
-.stats-card:nth-child(2) .stats-card-top{
-    background:#2575fc;
-}
-
-.stats-card:nth-child(3) .stats-card-top{
-    background:#00b09b;
-}
-
-.stats-card:nth-child(4) .stats-card-top{
-    background:#ff512f;
-}
-
-.stats-card:nth-child(5) .stats-card-top{
-    background:#f7971e;
-}   
-.stats-card h4{
-
-    margin:0;
-
-    font-size:13px;
-
-    text-align:center;
-}
-
-.stats-card span{
-
-    margin-top:10px;
-
-    font-size:24px;
-
-    font-weight:bold;
-}  
-
-   /* STATS WRAPPER */
-.stats-wrapper{
-
-    display:grid;
-
-    grid-template-columns:repeat(5,95px);
-
-    gap:10px;
-
-    justify-content:start;
-
-    align-items:start;
-}/* MOBILE */
+/* MOBILE */
 
 @media(max-width:768px){
 
     .cgpa-main-container{
+        grid-template-columns:1fr;
+    }
 
+    .cgpa-left{
         flex-direction:column;
     }
 
-    .cgpa-card{
-
-        width:100%;
+    .stats-wrapper{
+        grid-template-columns:repeat(2,95px);
     }
 }
-    
+
 </style>
 </head>
 
 <body>
 
-    <!-- CGPA FILTER SECTION -->
+<!-- CGPA + STATS SECTION -->
 
 <div class="cgpa-main-container">
 
-    <!-- GREATER -->
+    <div class="cgpa-left">
 
-    <div class="cgpa-card">
+        <!-- CGPA GREATER -->
 
-        <h3>CGPA ≥</h3>
+        <div class="cgpa-card">
 
-        <input type="number"
-               step="0.01"
-               id="cgpaGreater"
-               placeholder="Enter Minimum CGPA">
+            <h3>CGPA ≥</h3>
 
-    </div>
+            <input type="number"
+                   step="0.01"
+                   id="cgpaGreater"
+                   placeholder="Enter Minimum CGPA">
 
-    <!-- LESS -->
-
-    <div class="cgpa-card">
-
-        <h3>CGPA ≤</h3>
-
-        <input type="number"
-               step="0.01"
-               id="cgpaLess"
-               placeholder="Enter Maximum CGPA">
-
-    </div>   
-
-</div>
-
-    <!-- STATS CARDS -->
-<!-- STATS WRAPPER -->
-
-<div class="stats-wrapper">
-
-    <!-- TOTAL STUDENTS -->
-
-    <div class="stats-card">
-   <div class="stats-wrapper">
-
-    <!-- TOTAL STUDENTS -->
-
-    <div class="stats-card">
-
-        <div class="stats-card-top">
-            Total Students
         </div>
 
-        <div class="stats-card-bottom" id="totalStudents">
-            0
+        <!-- CGPA LESS -->
+
+        <div class="cgpa-card">
+
+            <h3>CGPA ≤</h3>
+
+            <input type="number"
+                   step="0.01"
+                   id="cgpaLess"
+                   placeholder="Enter Maximum CGPA">
+
         </div>
 
     </div>
 
-    <!-- REGISTERED -->
+    <!-- STATS WRAPPER -->
 
-    <div class="stats-card">
+    <div class="stats-wrapper">
 
-        <div class="stats-card-top">
-            Registered
+        <div class="stats-card">
+            <h4>Total Students</h4>
+            <span id="totalStudents">0</span>
         </div>
 
-        <div class="stats-card-bottom" id="registeredStudents">
-            0
+        <div class="stats-card">
+            <h4>Registered</h4>
+            <span id="registeredStudents">0</span>
         </div>
 
-    </div>
-
-    <!-- ELIGIBLE -->
-
-    <div class="stats-card">
-
-        <div class="stats-card-top">
-            Eligible
+        <div class="stats-card">
+            <h4>Eligible</h4>
+            <span id="eligibleStudents">0</span>
         </div>
 
-        <div class="stats-card-bottom" id="eligibleStudents">
-            0
+        <div class="stats-card">
+            <h4>Placed</h4>
+            <span id="placedStudents">0</span>
         </div>
 
-    </div>
-
-    <!-- PLACED -->
-
-    <div class="stats-card">
-
-        <div class="stats-card-top">
-            Placed
-        </div>
-
-        <div class="stats-card-bottom" id="placedStudents">
-            0
+        <div class="stats-card">
+            <h4>Total Offers</h4>
+            <span id="totalOffers">0</span>
         </div>
 
     </div>
-
-    <!-- TOTAL OFFERS -->
-
-    <div class="stats-card">
-
-        <div class="stats-card-top">
-            Total Offers
-        </div>
-
-        <div class="stats-card-bottom" id="totalOffers">
-            0
-        </div>
-
 
 </div>
 
@@ -682,51 +516,36 @@ Papa.parse(csvURL, {
 /* FILTER IDS */
 
 const searchInput = document.getElementById("searchInput");
-
 const branchFilter = document.getElementById("branchFilter");
 const backlogFilter = document.getElementById("backlogFilter");
 const genderFilter = document.getElementById("genderFilter");
 const cgpaFilter = document.getElementById("cgpaFilter");
 const registeredFilter = document.getElementById("registeredFilter");
 const offersFilter = document.getElementById("offersFilter");
-const cgpaGreater =
-document.getElementById("cgpaGreater");
-
-const cgpaLess =
-document.getElementById("cgpaLess");
-
- 
+const cgpaGreater = document.getElementById("cgpaGreater");
+const cgpaLess = document.getElementById("cgpaLess");
 
 /* EVENTS */
 
 searchInput.addEventListener("input",applyFilters);
-
 branchFilter.addEventListener("change",applyFilters);
 backlogFilter.addEventListener("change",applyFilters);
 genderFilter.addEventListener("change",applyFilters);
 cgpaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
- cgpaGreater.addEventListener("input",applyFilters);
-
+cgpaGreater.addEventListener("input",applyFilters);
 cgpaLess.addEventListener("input",applyFilters);
-
-  
 
 /* POPULATE FILTERS */
 
 function populateFilters(data){
 
     fillFilter(branchFilter,"Branch",data);
-
     fillFilter(backlogFilter,"No. of Backlogs",data);
-
     fillFilter(genderFilter,"Gender",data);
-
     fillFilter(cgpaFilter,"CGPA",data);
-
     fillFilter(registeredFilter,"Registered for Placements",data);
-
     fillFilter(offersFilter,"No. of Offers",data);
 }
 
@@ -763,7 +582,6 @@ function applyFilters(){
         branch: branchFilter.value,
         backlog: backlogFilter.value,
         gender: genderFilter.value,
-         cgpa: headers.indexOf("CGPA"),
         cgpa: cgpaFilter.value,
         registered: registeredFilter.value,
         offers: offersFilter.value
@@ -804,40 +622,28 @@ function applyFilters(){
 
             &&
 
-(function(){
+            (function(){
 
-    let studentCGPA =
-    parseFloat(row[indexes.cgpa]) || 0;
+                let studentCGPA =
+                parseFloat(row[indexes.cgpa]) || 0;
 
-    /* GREATER */
+                if(cgpaGreater.value){
 
-    if(cgpaGreater.value){
+                    if(studentCGPA < parseFloat(cgpaGreater.value)){
+                        return false;
+                    }
+                }
 
-        if(
-            studentCGPA <
-            parseFloat(cgpaGreater.value)
-        ){
+                if(cgpaLess.value){
 
-            return false;
-        }
-    }
+                    if(studentCGPA > parseFloat(cgpaLess.value)){
+                        return false;
+                    }
+                }
 
-    /* LESS */
+                return true;
 
-    if(cgpaLess.value){
-
-        if(
-            studentCGPA >
-            parseFloat(cgpaLess.value)
-        ){
-
-            return false;
-        }
-    }
-
-    return true;
-
-})()
+            })()
 
             &&
 
@@ -857,92 +663,9 @@ function applyFilters(){
         );
     });
 
-  updateStats(filtered);
+    createTable(headers,filtered);
 
-createTable(headers,filtered);
-}
-
-    /* UPDATE STATS */
-
-function updateStats(rows){
-
-    const registeredIndex =
-    headers.indexOf("Registered for Placements");
-
-    const cgpaIndex =
-    headers.indexOf("CGPA");
-
-    const offersIndex =
-    headers.indexOf("No. of Offers");
-
-    /* TOTAL STUDENTS */
-
-    document.getElementById(
-        "totalStudents"
-    ).innerText = rows.length;
-
-    /* REGISTERED */
-
-    let registeredCount = rows.filter(row =>
-
-        row[registeredIndex]
-        .toLowerCase()
-        .trim() === "yes"
-
-    ).length;
-
-    document.getElementById(
-        "registeredStudents"
-    ).innerText = registeredCount;
-
-    /* ELIGIBLE */
-
-    let eligibleCount = rows.filter(row => {
-
-        let cgpa =
-        parseFloat(row[cgpaIndex]) || 0;
-
-        let registered =
-        row[registeredIndex]
-        .toLowerCase()
-        .trim();
-
-        return cgpa > 6.5 &&
-               registered === "yes";
-
-    }).length;
-
-    document.getElementById(
-        "eligibleStudents"
-    ).innerText = eligibleCount;
-
-    /* PLACED */
-
-    let placedCount = rows.filter(row => {
-
-        let offers =
-        parseInt(row[offersIndex]) || 0;
-
-        return offers > 0;
-
-    }).length;
-
-    document.getElementById(
-        "placedStudents"
-    ).innerText = placedCount;
-
-    /* TOTAL OFFERS */
-
-    let totalOffers = rows.reduce((sum,row)=>{
-
-        return sum +
-        (parseInt(row[offersIndex]) || 0);
-
-    },0);
-
-    document.getElementById(
-        "totalOffers"
-    ).innerText = totalOffers;
+    updateStats(filtered);
 }
 
 /* CREATE TABLE */
@@ -977,7 +700,87 @@ function createTable(headers,rows){
     document.getElementById("dataTable").innerHTML = tableHTML;
 }
 
+/* UPDATE STATS */
+
+function updateStats(rows){
+
+    const registeredIndex =
+    headers.indexOf("Registered for Placements");
+
+    const cgpaIndex =
+    headers.indexOf("CGPA");
+
+    const offersIndex =
+    headers.indexOf("No. of Offers");
+
+    document.getElementById(
+        "totalStudents"
+    ).innerText = rows.length;
+
+    const registeredCount =
+    rows.filter(row =>
+
+        row[registeredIndex]
+        .toLowerCase()
+        .trim() === "yes"
+
+    ).length;
+
+    document.getElementById(
+        "registeredStudents"
+    ).innerText = registeredCount;
+
+    const eligibleCount =
+    rows.filter(row => {
+
+        const cgpa =
+        parseFloat(row[cgpaIndex]) || 0;
+
+        const registered =
+        row[registeredIndex]
+        .toLowerCase()
+        .trim();
+
+        return (
+            cgpa > 6.5 &&
+            registered === "yes"
+        );
+
+    }).length;
+
+    document.getElementById(
+        "eligibleStudents"
+    ).innerText = eligibleCount;
+
+    const placedCount =
+    rows.filter(row => {
+
+        const offers =
+        parseInt(row[offersIndex]) || 0;
+
+        return offers > 0;
+
+    }).length;
+
+    document.getElementById(
+        "placedStudents"
+    ).innerText = placedCount;
+
+    const totalOffers =
+    rows.reduce((sum,row)=>{
+
+        return sum +
+        (parseInt(row[offersIndex]) || 0);
+
+    },0);
+
+    document.getElementById(
+        "totalOffers"
+    ).innerText = totalOffers;
+}
+
 </script>
 
 </body>
 </html>
+```
