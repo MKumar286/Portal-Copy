@@ -274,7 +274,7 @@ tr:hover{
 
     margin-bottom:12px;
 
-    flex-wrap:wrap;
+    align-items:flex-start;
 }
 
 .cgpa-card{
@@ -377,12 +377,11 @@ tr:hover{
 }
 
   /* STATS CARDS */
-
 .stats-card{
 
-    width:140px;
+    width:120px;
 
-    min-height:95px;
+    height:95px;
 
     padding:10px;
 
@@ -406,6 +405,8 @@ tr:hover{
     align-items:center;
 
     box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+    flex-shrink:0;
 }
 
 .stats-card h4{
@@ -425,6 +426,21 @@ tr:hover{
 
     font-weight:bold;
 }  
+
+   /* STATS WRAPPER */
+
+.stats-wrapper{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    align-content:flex-start;
+
+    flex:1;
+} 
 /* MOBILE */
 
 @media(max-width:768px){
@@ -500,31 +516,47 @@ tr:hover{
 </div>
 
     <!-- STATS CARDS -->
+<!-- STATS WRAPPER -->
 
-<div class="stats-card">
-    <h4>Total Students</h4>
-    <span id="totalStudents">0</span>
+<div class="stats-wrapper">
+
+    <!-- TOTAL STUDENTS -->
+
+    <div class="stats-card">
+        <h4>Total Students</h4>
+        <span id="totalStudents">0</span>
+    </div>
+
+    <!-- REGISTERED -->
+
+    <div class="stats-card">
+        <h4>Registered</h4>
+        <span id="registeredStudents">0</span>
+    </div>
+
+    <!-- ELIGIBLE -->
+
+    <div class="stats-card">
+        <h4>Eligible</h4>
+        <span id="eligibleStudents">0</span>
+    </div>
+
+    <!-- PLACED -->
+
+    <div class="stats-card">
+        <h4>Placed</h4>
+        <span id="placedStudents">0</span>
+    </div>
+
+    <!-- TOTAL OFFERS -->
+
+    <div class="stats-card">
+        <h4>Total Offers</h4>
+        <span id="totalOffers">0</span>
+    </div>
+
 </div>
 
-<div class="stats-card">
-    <h4>Registered</h4>
-    <span id="registeredStudents">0</span>
-</div>
-
-<div class="stats-card">
-    <h4>Eligible</h4>
-    <span id="eligibleStudents">0</span>
-</div>
-
-<div class="stats-card">
-    <h4>Placed</h4>
-    <span id="placedStudents">0</span>
-</div>
-
-<div class="stats-card">
-    <h4>Total Offers</h4>
-    <span id="totalOffers">0</span>
-</div>
 
 <!-- FILTERS -->
 
