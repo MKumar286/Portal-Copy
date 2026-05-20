@@ -267,25 +267,18 @@ tr:hover{
 
     width:100%;
 
-    display:flex;
+    display:grid;
 
-    justify-content:space-between;
-
-    align-items:flex-start;
+    grid-template-columns:auto 1fr;
 
     gap:12px;
+
+    align-items:start;
 
     margin-bottom:12px;
+}  /* LEFT CGPA SECTION */
 
-    flex-wrap:nowrap;
-}    /* LEFT CGPA SECTION */
 
-.cgpa-left{
-
-    display:flex;
-
-    gap:12px;
-}
 .cgpa-card{
 
     flex:0 0 200px; 
@@ -471,16 +464,17 @@ tr:hover{
 }  
 
    /* STATS WRAPPER */
-
 .stats-wrapper{
 
-    display:flex;
+    display:grid;
+
+    grid-template-columns:repeat(5,95px);
 
     gap:10px;
 
-    flex-wrap:nowrap;
+    justify-content:start;
 
-    align-items:flex-start;
+    align-items:start;
 }/* MOBILE */
 
 @media(max-width:768px){
@@ -504,7 +498,6 @@ tr:hover{
     <!-- CGPA FILTER SECTION -->
 
 <div class="cgpa-main-container">
- <div class="cgpa-left">   
 
     <!-- GREATER -->
 
@@ -612,7 +605,6 @@ tr:hover{
             0
         </div>
 
-    </div>
 
 </div>
 
