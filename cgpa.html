@@ -389,34 +389,68 @@ tr:hover{
 
     width:95px;
 
-    height:95px;
+    border-radius:16px;
 
-    padding:10px;
+    overflow:hidden;
 
-    border-radius:14px;
+    background:white;
 
-    background:linear-gradient(
-        135deg,
-        #4b0082,
-        #6a0dad,
-        #8a2be2
-    );
+    box-shadow:0 4px 14px rgba(0,0,0,0.15);
 
-    color:white;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    text-align:center;
 
     flex-shrink:0;
 }
 
+ /* TOP COLOR AREA */
+
+.stats-card-top{
+
+    padding:12px 8px;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+}
+
+/* BOTTOM WHITE AREA */
+
+.stats-card-bottom{
+
+    background:white;
+
+    padding:14px 8px;
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    color:#222;
+}
+
+/* DIFFERENT COLORS */
+
+.stats-card:nth-child(1) .stats-card-top{
+    background:#6a11cb;
+}
+
+.stats-card:nth-child(2) .stats-card-top{
+    background:#2575fc;
+}
+
+.stats-card:nth-child(3) .stats-card-top{
+    background:#00b09b;
+}
+
+.stats-card:nth-child(4) .stats-card-top{
+    background:#ff512f;
+}
+
+.stats-card:nth-child(5) .stats-card-top{
+    background:#f7971e;
+}   
 .stats-card h4{
 
     margin:0;
@@ -509,40 +543,79 @@ tr:hover{
     <!-- TOTAL STUDENTS -->
 
     <div class="stats-card">
-        <h4>Total Students</h4>
-        <span id="totalStudents">0</span>
+   <div class="stats-wrapper">
+
+    <!-- TOTAL STUDENTS -->
+
+    <div class="stats-card">
+
+        <div class="stats-card-top">
+            Total Students
+        </div>
+
+        <div class="stats-card-bottom" id="totalStudents">
+            0
+        </div>
+
     </div>
 
     <!-- REGISTERED -->
 
     <div class="stats-card">
-        <h4>Registered</h4>
-        <span id="registeredStudents">0</span>
+
+        <div class="stats-card-top">
+            Registered
+        </div>
+
+        <div class="stats-card-bottom" id="registeredStudents">
+            0
+        </div>
+
     </div>
 
     <!-- ELIGIBLE -->
 
     <div class="stats-card">
-        <h4>Eligible</h4>
-        <span id="eligibleStudents">0</span>
+
+        <div class="stats-card-top">
+            Eligible
+        </div>
+
+        <div class="stats-card-bottom" id="eligibleStudents">
+            0
+        </div>
+
     </div>
 
     <!-- PLACED -->
 
     <div class="stats-card">
-        <h4>Placed</h4>
-        <span id="placedStudents">0</span>
+
+        <div class="stats-card-top">
+            Placed
+        </div>
+
+        <div class="stats-card-bottom" id="placedStudents">
+            0
+        </div>
+
     </div>
 
     <!-- TOTAL OFFERS -->
 
     <div class="stats-card">
-        <h4>Total Offers</h4>
-        <span id="totalOffers">0</span>
+
+        <div class="stats-card-top">
+            Total Offers
+        </div>
+
+        <div class="stats-card-bottom" id="totalOffers">
+            0
+        </div>
+
     </div>
 
 </div>
-</div>    
 
 <!-- FILTERS -->
 
