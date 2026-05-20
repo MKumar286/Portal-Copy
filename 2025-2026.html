@@ -33,10 +33,9 @@ h2{
     gap:12px;
     margin-top:25px;
 }
-
 .card{
-    height:70px;
-    border-radius:12px;
+    height:85px;
+    border-radius:22px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -44,8 +43,17 @@ h2{
     font-size:22px;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    transition:all 0.3s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
+    backdrop-filter:blur(8px);
+    letter-spacing:0.5px;
+    text-align:center;
+    padding:10px;
+}
+
+.card:hover{
+    transform:translateY(-6px) scale(1.03);
+    box-shadow:0 12px 25px rgba(0,0,0,0.25);
 }
 
 .card:hover{
@@ -119,26 +127,27 @@ R:""
 };
 
 const colors = [
-"#ff6b6b",
-"#6c5ce7",
-"#00b894",
-"#0984e3",
-"#fdcb6e",
-"#e17055",
-"#00cec9",
-"#2d3436",
-"#d63031",
-"#8e44ad",
-"#27ae60",
-"#f39c12",
-"#16a085",
-"#2c3e50",
-"#c0392b",
-"#7f8c8d",
-"#6d214f",
-"#1abc9c"
-];
 
+"linear-gradient(135deg,#667eea,#764ba2)",
+"linear-gradient(135deg,#f093fb,#f5576c)",
+"linear-gradient(135deg,#4facfe,#00f2fe)",
+"linear-gradient(135deg,#43e97b,#38f9d7)",
+"linear-gradient(135deg,#fa709a,#fee140)",
+"linear-gradient(135deg,#30cfd0,#330867)",
+"linear-gradient(135deg,#5ee7df,#b490ca)",
+"linear-gradient(135deg,#ff9966,#ff5e62)",
+"linear-gradient(135deg,#56ab2f,#a8e063)",
+"linear-gradient(135deg,#614385,#516395)",
+"linear-gradient(135deg,#ee0979,#ff6a00)",
+"linear-gradient(135deg,#11998e,#38ef7d)",
+"linear-gradient(135deg,#fc466b,#3f5efb)",
+"linear-gradient(135deg,#8360c3,#2ebf91)",
+"linear-gradient(135deg,#ff758c,#ff7eb3)",
+"linear-gradient(135deg,#06beb6,#48b1bf)",
+"linear-gradient(135deg,#8e2de2,#4a00e0)",
+"linear-gradient(135deg,#f7971e,#ffd200)"
+
+];
 const container = document.getElementById("cardsContainer");
 
 Object.keys(csvLinks).forEach((key,index)=>{
