@@ -269,15 +269,22 @@ tr:hover{
 
     display:flex;
 
-    gap:12px;
-
-    margin-bottom:12px;
+    justify-content:space-between;
 
     align-items:flex-start;
 
-    flex-wrap:nowrap;
-}
+    gap:12px;
 
+    margin-bottom:12px;
+}
+    /* LEFT CGPA SECTION */
+
+.cgpa-left{
+
+    display:flex;
+
+    gap:12px;
+}
 .cgpa-card{
 
     flex:0 0 200px; 
@@ -380,7 +387,7 @@ tr:hover{
   /* STATS CARDS */
 .stats-card{
 
-    width:120px;
+    width:95px;
 
     height:95px;
 
@@ -432,19 +439,14 @@ tr:hover{
 
 .stats-wrapper{
 
+    
     display:flex;
 
     gap:10px;
 
     flex-wrap:nowrap;
 
-    flex:1;
-
-    justify-content:flex-start;
-
-    align-items:flex-start;
-
-    overflow-x:auto;
+    margin-left:auto;
 }
 /* MOBILE */
 
@@ -469,6 +471,7 @@ tr:hover{
     <!-- CGPA FILTER SECTION -->
 
 <div class="cgpa-main-container">
+ <div class="cgpa-left">   
 
     <!-- GREATER -->
 
@@ -539,7 +542,7 @@ tr:hover{
     </div>
 
 </div>
-
+</div>    
 
 <!-- FILTERS -->
 
