@@ -55,11 +55,7 @@
 
 /* icon image */
 
-.card-content img{
-    width:48px;
-    height:48px;
-    object-fit:contain;
-}
+
 
 /* title */
 
@@ -196,21 +192,6 @@ const container = document.getElementById("cardsContainer");
 
 Object.keys(csvLinks).forEach((key,index)=>{
 
-    const logos = {
-
-A:"https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-B:"https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg",
-
-C:"https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg",
-
-D:"https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg",
-
-E:"https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg",
-
-F:"https://upload.wikimedia.org/wikipedia/commons/4/43/Cognizant_logo_2022.svg"
-
-};
 
 const card=document.createElement("div");
 
@@ -219,17 +200,12 @@ card.className="card";
 card.style.color=colors[index];
 
 card.style.borderColor=colors[index];
-
-card.innerHTML=`
+card.innerHTML = `
 
 <div class="card-content">
 
-<img src="${logos[key] || 'https://cdn-icons-png.flaticon.com/512/1828/1828884.png'}">
-
 <div class="card-title">
-
 ${cardNames[key]}
-
 </div>
 
 </div>
@@ -259,7 +235,6 @@ ${cardNames[key]}
     R:"Genpact"
 };
 
-card.innerHTML = cardNames[key];
 
     card.onclick = () => {
 
