@@ -10,93 +10,51 @@
 
 <style>
 
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial;
+    background:#f2f5ff;
+}
 
+h1{
+    text-align:center;
+    color:#0b3d91;
+}
+
+h2{
+    text-align:center;
+    color:#444;
+}
 
 .cards-container{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:25px;
-    margin-top:30px;
+    gap:12px;
+    margin-top:25px;
 }
-
 .card{
-    position:relative;
-    height:50px;   /* decreased height */
-    border-radius:50px;
-    display:flex;
-    align-items:center;
-    justify-content:center; /* center content */
-    padding:0 20px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:0.4s ease;
-    background:#111827;
-    border:3px solid transparent;
-    box-shadow:0 0 15px rgba(0,0,0,0.4);
-}
-
-/* glowing hover */
-
-.card:hover{
-    transform:translateY(-6px) scale(1.02);
-    box-shadow:
-    0 0 15px currentColor,
-    0 0 30px currentColor;
-}
-
-/* left section */
-
-.card-content{
+    height:85px;
+    border-radius:22px;
     display:flex;
     align-items:center;
     justify-content:center;
-    width:100%;
-    z-index:2;
-}
-
-/* icon image */
-
-
-
-/* title */
-
-.card-title{
     color:white;
-    font-size:15px;
+    font-size:22px;
     font-weight:bold;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
+    backdrop-filter:blur(8px);
+    letter-spacing:0.5px;
     text-align:center;
-    font-family:'Segoe UI',sans-serif;
-    width:100%;
+    padding:10px;
 }
 
-/* open curved side */
-
-.card::after{
-    content:"";
-    position:absolute;
-    right:-40px;
-    width:95px;
-    height:95px;
-    border-radius:50%;
-    background:#0f172a;
-    border:4px solid currentColor;
+.card:hover{
+    transform:translateY(-6px) scale(1.03);
+    box-shadow:0 12px 25px rgba(0,0,0,0.25);
 }
-
-/* glowing circle */
-
-.circle{
-    position:absolute;
-    right:14px;
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    background:white;
-    box-shadow:
-    0 0 10px white,
-    0 0 20px currentColor;
-    z-index:3;
-}
-
 
 .card:hover{
     transform:scale(1.05);
@@ -170,106 +128,63 @@ R:""
 
 const colors = [
 
-"#3B82F6",
-"#A855F7",
-"#84CC16",
-"#F97316",
-"#06B6D4",
-"#EF4444",
-"#14B8A6",
-"#3B82F6",
-"#FACC15",
-"#A855F7",
-"#EF4444",
-"#F59E0B",
-"#22C55E",
-"#0EA5E9",
+"#1E3A8A",
+"#7C3AED",
+"#DC2626",
+"#059669",
+"#EA580C",
+"#0891B2",
+"#BE123C",
+"#4F46E5",
+"#15803D",
+"#B45309",
 "#9333EA",
-"#EC4899",
-"#06B6D4",
-"#EAB308"
+"#0F766E",
+"#E11D48",
+"#2563EB",
+"#65A30D",
+"#C2410C",
+"#4338CA",
+"#374151"
 
-];
-    
-const container = document.getElementById("cardsContainer");
-
- const cardNames = {
-    A:"Master Data of the Students",
-    B:"Placed Students Data with Offer Letters",
-    C:"Deprtment Wise Placement Details",
-    D:"Mail Confirmation of the Placed Students ",
-    E:"Nature of the offers (IT/Core)",
-    F:"Salary Details",
-    G:"Placement Report",
-    H:"Companys-HR Contact Details",
-    I:"Company wise Registered Students Data",
-    J:"Company Visits Department Wise",
-    K:"Company wise Placement Tracker",
-    L:"Placement Percentage",
-    M:"Internship Details",
-    N:"Photos - Drives",
-    O:"Placement Progression",
-    P:"Company wise - All Students Registrations",
-    Q:"Ciculars",
-    R:"Shared Data for NBA & NIRF"
-};
-    
+];const container = document.getElementById("cardsContainer");
 
 Object.keys(csvLinks).forEach((key,index)=>{
 
+    const card=document.createElement("div");
 
-const card=document.createElement("div");
+    card.className="card";
 
-card.className="card";
+    card.style.background=colors[index];
 
-card.style.color=colors[index];
+  const cardNames = {
+    A:"Total Students Data",
+    B:"Infosys",
+    C:"Wipro",
+    D:"Accenture",
+    E:"Capgemini",
+    F:"Cognizant",
+    G:"Deloitte",
+    H:"IBM",
+    I:"Tech Mahindra",
+    J:"HCL",
+    K:"Oracle",
+    L:"Amazon",
+    M:"Google",
+    N:"Microsoft",
+    O:"KPIT",
+    P:"Zoho",
+    Q:"Hexaware",
+    R:"Genpact"
+};
 
-card.style.borderColor=colors[index];
-card.innerHTML = `
+card.innerHTML = cardNames[key];
 
-<div class="card-content">
+    card.onclick = () => {
 
-<div class="card-title">
-${cardNames[key]}
-</div>
+    localStorage.setItem("csvURL", csvLinks[key]);
 
-</div>
-
-<div class="circle"></div>
-
-`;
-
- 
-
- card.onclick = () => {
-
-    if(key === "A"){
-        window.location.href = "table.html";
-    }
-
-    else if(key === "B"){
-        window.location.href = "Placed_Students_Data.html";
-    }
-
-    else if(key === "C"){
-        window.location.href = "wipro.html";
-    }
-
-    else if(key === "D"){
-        window.location.href = "accenture.html";
-    }
-
-    else if(key === "E"){
-        window.location.href = "capgemini.html";
-    }
-
-    else{
-
-        localStorage.setItem("csvURL", csvLinks[key]);
-
-        window.location.href = "table.html";
-
-    }
+    window.location.href = "table.html";
 
 };
 
