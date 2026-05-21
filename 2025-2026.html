@@ -241,11 +241,35 @@ ${cardNames[key]}
 
  
 
-    card.onclick = () => {
+ card.onclick = () => {
 
-    localStorage.setItem("csvURL", csvLinks[key]);
+    if(key === "A"){
+        window.location.href = "totalstudents.html";
+    }
 
-    window.location.href = "table.html";
+    else if(key === "B"){
+        window.location.href = "placed_students_data.html";
+    }
+
+    else if(key === "C"){
+        window.location.href = "wipro.html";
+    }
+
+    else if(key === "D"){
+        window.location.href = "accenture.html";
+    }
+
+    else if(key === "E"){
+        window.location.href = "capgemini.html";
+    }
+
+    else{
+
+        localStorage.setItem("csvURL", csvLinks[key]);
+
+        window.location.href = "table.html";
+
+    }
 
 };
 
