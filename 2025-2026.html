@@ -190,6 +190,28 @@ const colors = [
     
 const container = document.getElementById("cardsContainer");
 
+ const cardNames = {
+    A:"Total Students Data",
+    B:"Infosys",
+    C:"Wipro",
+    D:"Accenture",
+    E:"Capgemini",
+    F:"Cognizant",
+    G:"Deloitte",
+    H:"IBM",
+    I:"Tech Mahindra",
+    J:"HCL",
+    K:"Oracle",
+    L:"Amazon",
+    M:"Google",
+    N:"Microsoft",
+    O:"KPIT",
+    P:"Zoho",
+    Q:"Hexaware",
+    R:"Genpact"
+};
+    
+
 Object.keys(csvLinks).forEach((key,index)=>{
 
 
@@ -214,27 +236,7 @@ ${cardNames[key]}
 
 `;
 
-  const cardNames = {
-    A:"Total Students Data",
-    B:"Infosys",
-    C:"Wipro",
-    D:"Accenture",
-    E:"Capgemini",
-    F:"Cognizant",
-    G:"Deloitte",
-    H:"IBM",
-    I:"Tech Mahindra",
-    J:"HCL",
-    K:"Oracle",
-    L:"Amazon",
-    M:"Google",
-    N:"Microsoft",
-    O:"KPIT",
-    P:"Zoho",
-    Q:"Hexaware",
-    R:"Genpact"
-};
-
+ 
 
     card.onclick = () => {
 
