@@ -73,32 +73,91 @@ body{
     margin-top:25px;
 }
 .card{
-    height:60px;
-    border-radius:22px;
+    position:relative;
+    height:82px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.35s ease;
+    box-shadow:0 8px 18px rgba(0,0,0,0.18);
+    color:white;
+    font-weight:bold;
+    padding-left:85px;
+    font-size:16px;
+}
+
+/* LEFT BIG CIRCLE */
+
+.card::before{
+    content:"";
+    position:absolute;
+    left:-28px;
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(6px);
+}
+
+/* ICON */
+
+.card-icon{
+    position:absolute;
+    left:18px;
+    width:52px;
+    height:52px;
+    border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:all 0.3s ease;
-    box-shadow:0 8px 20px rgba(0,0,0,0.18);
-    backdrop-filter:blur(8px);
-    letter-spacing:0.5px;
-    text-align:center;
-    padding:5px;
+    font-size:26px;
+    z-index:2;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
 }
+
+/* CARD TEXT */
+
+.card-text{
+    z-index:2;
+    padding-right:10px;
+    line-height:1.3;
+    letter-spacing:0.3px;
+}
+
+/* HOVER EFFECT */
 
 .card:hover{
-    transform:translateY(-6px) scale(1.03);
-    box-shadow:0 12px 25px rgba(0,0,0,0.25);
+    transform:translateY(-5px) scale(1.02);
+    box-shadow:0 14px 25px rgba(0,0,0,0.25);
 }
 
-.card:hover{
-    transform:scale(1.05);
-}
+/* MOBILE */
 
+@media screen and (max-width:768px){
+
+    .card{
+        height:74px;
+        padding-left:78px;
+        font-size:15px;
+    }
+
+    .card::before{
+        width:95px;
+        height:95px;
+        left:-24px;
+    }
+
+    .card-icon{
+        width:46px;
+        height:46px;
+        font-size:22px;
+        left:16px;
+    }
+
+}
 
     /* =========================
    MOBILE RESPONSIVE DESIGN
@@ -270,6 +329,30 @@ const colors = [
 
 ];const container = document.getElementById("cardsContainer");
 
+
+    const icons = {
+
+A:"📘",
+B:"🎓",
+C:"💼",
+D:"📄",
+E:"🏢",
+F:"🧠",
+G:"📧",
+H:"🌐",
+I:"💻",
+J:"📊",
+K:"🗄️",
+L:"🛒",
+M:"📈",
+N:"🪟",
+O:"🚗",
+P:"📝",
+Q:"⚡",
+R:"📁"
+
+};
+
 Object.keys(csvLinks).forEach((key,index)=>{
 
     const card=document.createElement("div");
@@ -299,7 +382,17 @@ Object.keys(csvLinks).forEach((key,index)=>{
     R:"Genpact"
 };
 
-card.innerHTML = cardNames[key];
+card.innerHTML = `
+
+<div class="card-icon">
+    ${icons[key]}
+</div>
+
+<div class="card-text">
+    ${cardNames[key]}
+</div>
+
+`;
 
  card.onclick = () => {
 
