@@ -1,57 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MGIT Header</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<title>MGIT Header Design</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f2f2f2;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.header-section{
+    width:100%;
+    min-height:320px;
+    position:relative;
+    overflow:hidden;
+
+    background:
+    linear-gradient(135deg,#041b46 0%, #072a68 22%, #f6f2eb 22%, #fdfbf8 72%, #082861 72%, #041b46 100%);
+}
+
+/* GOLD BORDER CURVES */
+
+.header-section::before{
+    content:"";
+    position:absolute;
+    left:-140px;
+    top:-120px;
+    width:480px;
+    height:520px;
+    border:12px solid #d4a23a;
+    border-radius:50%;
+    z-index:1;
+}
+
+.header-section::after{
+    content:"";
+    position:absolute;
+    right:-180px;
+    bottom:-180px;
+    width:550px;
+    height:550px;
+    border:12px solid #d4a23a;
+    border-radius:50%;
+    z-index:1;
+}
+
+/* LEFT DARK PANEL */
+
+.left-panel{
+    position:absolute;
+    left:0;
+    top:0;
+    width:23%;
+    height:100%;
+    background:linear-gradient(180deg,#031a45,#00112d);
+    clip-path:ellipse(100% 100% at 0% 50%);
+    z-index:2;
+}
+
+/* BOTTOM GOLD WAVES */
+
+.bottom-wave{
+    position:absolute;
+    bottom:-20px;
+    left:0;
+    width:100%;
+    height:120px;
+    background:linear-gradient(to right,#061d49,#0d3579,#061d49);
+    border-top:7px solid #d4a23a;
+    border-radius:55% 45% 0 0;
+    z-index:2;
+}
+
+/* DOTS */
+
+.dots{
+    position:absolute;
+    top:20px;
+    left:20px;
+    display:grid;
+    grid-template-columns:repeat(8,10px);
+    gap:10px;
+    z-index:3;
+}
+
+.dots span{
+    width:8px;
+    height:8px;
+    background:#c7a76b;
+    border-radius:50%;
+    opacity:0.7;
+}
+
+/* LOGO */
+
+.logo-area{
+    position:absolute;
+    left:40px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:5;
+    text-align:center;
+}
+
+.logo-circle{
+    width:180px;
+    height:180px;
+    border:5px solid #d4a23a;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+}
+
+.logo-circle img{
+    width:140px;
+    height:140px;
+    object-fit:contain;
+}
+
+.estd{
+    margin-top:18px;
+    color:#d4a23a;
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+/* CONTENT */
+
+.content{
+    position:relative;
+    z-index:5;
+    width:100%;
+    padding:45px 80px 90px 320px;
+    text-align:center;
+}
+
+/* DECORATION */
+
+.top-decoration{
+    width:240px;
+    height:2px;
+    background:#c59a3c;
+    margin:0 auto 22px;
+    position:relative;
+}
+
+.top-decoration::before{
+    content:"✦";
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#b8862b;
+    font-size:24px;
+}
+
+/* MAIN TITLE */
+
+.main-title{
+    font-family:'Cinzel',serif;
+    font-size:72px;
+    line-height:1.08;
+    font-weight:700;
+    color:#07295f;
+    text-shadow:0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* DIVIDER */
+
+.divider{
+    width:520px;
+    height:2px;
+    background:linear-gradient(to right,transparent,#c9a14f,transparent);
+    margin:25px auto;
+    position:relative;
+}
+
+.divider::before{
+    content:"◆";
+    position:absolute;
+    top:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#c59a3c;
+    font-size:24px;
+}
+
+/* SUB TITLE */
+
+.sub-title{
+    font-family:'Cinzel',serif;
+    font-size:46px;
+    font-weight:700;
+    color:#b1771f;
+    margin-bottom:20px;
+    text-shadow:0 2px 3px rgba(0,0,0,0.08);
+}
+
+/* SIDE LINES */
+
+.side-lines{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:25px;
+    margin-bottom:20px;
+}
+
+.side-lines::before,
+.side-lines::after{
+    content:"";
+    width:160px;
+    height:2px;
+    background:#0b3a79;
+}
+
+/* HR TEXT */
+
+.hr-text{
+    font-family:'Cinzel',serif;
+    font-size:28px;
+    font-weight:600;
+    color:#07295f;
+    line-height:1.4;
+}
+
+/* RIGHT PEOPLE */
+
+.people{
+    position:absolute;
+    right:70px;
+    bottom:70px;
+    z-index:5;
+    width:220px;
+    opacity:0.96;
+}
+
+/* LIGHT EFFECT */
+
+.glow{
+    position:absolute;
+    right:120px;
+    bottom:58px;
+    width:120px;
+    height:40px;
+    background:radial-gradient(circle,#ffdf91 0%, transparent 75%);
+    z-index:4;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+    .main-title{
+        font-size:54px;
     }
 
-    body {
-      width: 100%;
-      overflow-x: hidden;
-      background: #ffffff;
+    .sub-title{
+        font-size:36px;
     }
 
-    .header-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .hr-text{
+        font-size:22px;
     }
 
-    .header-image {
-      width: 100%;
-      height: auto;
-      display: block;
+    .content{
+        padding-left:260px;
+    }
+}
 
-      /* Shows full image without cutting */
-      object-fit: contain;
+@media(max-width:900px){
 
-      /* Keeps original design exactly */
-      max-width: 100%;
+    .header-section{
+        min-height:auto;
+        padding-bottom:50px;
     }
 
-    /* Optional: slightly compress height on mobile */
-    @media screen and (max-width: 768px) {
-      .header-image {
-        width: 100%;
-        height: auto;
-      }
+    .content{
+        padding:40px 20px 90px;
     }
-  </style>
+
+    .left-panel{
+        display:none;
+    }
+
+    .logo-area{
+        position:relative;
+        left:auto;
+        top:auto;
+        transform:none;
+        padding-top:30px;
+    }
+
+    .main-title{
+        font-size:40px;
+    }
+
+    .sub-title{
+        font-size:28px;
+    }
+
+    .hr-text{
+        font-size:18px;
+    }
+
+    .divider{
+        width:80%;
+    }
+
+    .side-lines::before,
+    .side-lines::after{
+        width:70px;
+    }
+
+    .people{
+        width:150px;
+        right:10px;
+        bottom:70px;
+    }
+}
+
+@media(max-width:600px){
+
+    .main-title{
+        font-size:30px;
+    }
+
+    .sub-title{
+        font-size:22px;
+    }
+
+    .hr-text{
+        font-size:15px;
+    }
+
+    .logo-circle{
+        width:120px;
+        height:120px;
+    }
+
+    .logo-circle img{
+        width:90px;
+        height:90px;
+    }
+
+    .estd{
+        font-size:16px;
+    }
+
+    .people{
+        width:110px;
+        bottom:60px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="header-container">
-    <img src="header.png" alt="MGIT Header" class="header-image">
-  </div>
+<div class="header-section">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel"></div>
+
+    <!-- DOTS -->
+    <div class="dots">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- LOGO -->
+    <div class="logo-area">
+
+        <div class="logo-circle">
+            <!-- Replace with your logo -->
+            <img src="logo.png" alt="MGIT Logo">
+        </div>
+
+        <div class="estd">
+            ESTD.1997
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="top-decoration"></div>
+
+        <h1 class="main-title">
+            Mahatma Gandhi<br>
+            Institute of Technology(A)
+        </h1>
+
+        <div class="divider"></div>
+
+        <div class="side-lines">
+            <h2 class="sub-title">
+                Training & Placement Cell
+            </h2>
+        </div>
+
+        <div class="hr-text">
+            HR Contact Details for the Academic Year 2025-2026
+        </div>
+
+    </div>
+
+    <!-- PEOPLE IMAGE -->
+    <img src="people.png" class="people" alt="People">
+
+    <div class="glow"></div>
+
+    <!-- BOTTOM WAVE -->
+    <div class="bottom-wave"></div>
+
+</div>
 
 </body>
 </html>
