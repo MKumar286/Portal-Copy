@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>MGIT Header Design</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,357 +19,405 @@
 }
 
 body{
-    background:#f2f2f2;
+
     font-family:'Poppins',sans-serif;
-}
 
-/* ================= HEADER ================= */
-
-.header-section{
-    width:100%;
-    min-height:320px;
-    position:relative;
-    overflow:hidden;
+    min-height:100vh;
 
     background:
-    linear-gradient(135deg,#041b46 0%, #072a68 22%, #f6f2eb 22%, #fdfbf8 72%, #082861 72%, #041b46 100%);
+    linear-gradient(
+        135deg,
+        #0B1026,
+        #161A45,
+        #1D1F5C
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    padding:15px;
 }
 
-/* GOLD BORDER CURVES */
+/* =========================
+   HEADER CONTAINER
+========================= */
 
-.header-section::before{
-    content:"";
-    position:absolute;
-    left:-140px;
-    top:-120px;
-    width:480px;
-    height:520px;
-    border:12px solid #d4a23a;
-    border-radius:50%;
-    z-index:1;
+.header-card{
+
+    width:100%;
+
+    max-width:1600px;
+
+    min-height:220px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #F8F5EF 0%,
+        #FFFDF9 40%,
+        #F3EEE5 100%
+    );
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.35);
+
 }
 
-.header-section::after{
-    content:"";
-    position:absolute;
-    right:-180px;
-    bottom:-180px;
-    width:550px;
-    height:550px;
-    border:12px solid #d4a23a;
-    border-radius:50%;
-    z-index:1;
-}
-
-/* LEFT DARK PANEL */
+/* =========================
+   LEFT BLUE SECTION
+========================= */
 
 .left-panel{
+
     position:absolute;
+
     left:0;
     top:0;
-    width:23%;
+
+    width:24%;
     height:100%;
-    background:linear-gradient(180deg,#031a45,#00112d);
-    clip-path:ellipse(100% 100% at 0% 50%);
-    z-index:2;
+
+    background:
+    linear-gradient(
+        180deg,
+        #001B4F,
+        #002766,
+        #00163D
+    );
+
+    border-top-right-radius:180px;
+    border-bottom-right-radius:180px;
+
+    border-right:8px solid #D4A64A;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
 }
 
-/* BOTTOM GOLD WAVES */
+/* Decorative dots */
 
-.bottom-wave{
+.left-panel::before{
+
+    content:"";
+
     position:absolute;
-    bottom:-20px;
-    left:0;
-    width:100%;
-    height:120px;
-    background:linear-gradient(to right,#061d49,#0d3579,#061d49);
-    border-top:7px solid #d4a23a;
-    border-radius:55% 45% 0 0;
-    z-index:2;
-}
 
-/* DOTS */
-
-.dots{
-    position:absolute;
     top:20px;
     left:20px;
-    display:grid;
-    grid-template-columns:repeat(8,10px);
-    gap:10px;
-    z-index:3;
+
+    width:120px;
+    height:120px;
+
+    background-image:radial-gradient(#CDA349 2px, transparent 2px);
+
+    background-size:16px 16px;
+
+    opacity:0.4;
 }
 
-.dots span{
-    width:8px;
-    height:8px;
-    background:#c7a76b;
-    border-radius:50%;
-    opacity:0.7;
-}
-
-/* LOGO */
-
-.logo-area{
-    position:absolute;
-    left:40px;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:5;
-    text-align:center;
-}
+/* =========================
+   LOGO CIRCLE
+========================= */
 
 .logo-circle{
-    width:180px;
-    height:180px;
-    border:5px solid #d4a23a;
+
+    width:120px;
+    height:120px;
+
+    border:4px solid #D4A64A;
+
     border-radius:50%;
+
     display:flex;
-    align-items:center;
+
     justify-content:center;
-    background:transparent;
+
+    align-items:center;
+
+    background:rgba(255,255,255,0.03);
+
+    backdrop-filter:blur(4px);
+
+    box-shadow:
+    0 0 20px rgba(212,166,74,0.3);
 }
 
 .logo-circle img{
-    width:140px;
-    height:140px;
+
+    width:90px;
+    height:90px;
+
     object-fit:contain;
 }
 
-.estd{
-    margin-top:18px;
-    color:#d4a23a;
-    font-size:20px;
-    font-weight:600;
-    letter-spacing:1px;
-}
-
-/* CONTENT */
+/* =========================
+   MAIN CONTENT
+========================= */
 
 .content{
+
     position:relative;
-    z-index:5;
+
+    z-index:2;
+
     width:100%;
-    padding:45px 80px 90px 320px;
+
+    padding:25px 40px 60px 220px;
+
     text-align:center;
 }
 
-/* DECORATION */
+/* =========================
+   TOP GOLD LINE
+========================= */
 
-.top-decoration{
-    width:240px;
-    height:2px;
-    background:#c59a3c;
-    margin:0 auto 22px;
-    position:relative;
+.top-line{
+
+    width:180px;
+    height:3px;
+
+    background:#C69433;
+
+    margin:0 auto 10px auto;
+
+    border-radius:10px;
 }
 
-.top-decoration::before{
-    content:"✦";
-    position:absolute;
-    top:-14px;
-    left:50%;
-    transform:translateX(-50%);
-    color:#b8862b;
-    font-size:24px;
-}
-
-/* MAIN TITLE */
+/* =========================
+   MAIN TITLE
+========================= */
 
 .main-title{
+
     font-family:'Cinzel',serif;
-    font-size:72px;
-    line-height:1.08;
+
+    font-size:46px;
+
     font-weight:700;
-    color:#07295f;
-    text-shadow:0 2px 4px rgba(0,0,0,0.08);
+
+    line-height:1.15;
+
+    color:#08285D;
+
+    text-shadow:
+    0 2px 3px rgba(0,0,0,0.08);
 }
 
-/* DIVIDER */
+/* =========================
+   DIVIDER
+========================= */
 
 .divider{
-    width:520px;
+
+    width:320px;
     height:2px;
-    background:linear-gradient(to right,transparent,#c9a14f,transparent);
-    margin:25px auto;
-    position:relative;
+
+    background:
+    linear-gradient(
+        to right,
+        transparent,
+        #C69433,
+        transparent
+    );
+
+    margin:12px auto;
 }
 
-.divider::before{
-    content:"◆";
-    position:absolute;
-    top:-12px;
-    left:50%;
-    transform:translateX(-50%);
-    color:#c59a3c;
-    font-size:24px;
-}
-
-/* SUB TITLE */
+/* =========================
+   SUB TITLE
+========================= */
 
 .sub-title{
+
     font-family:'Cinzel',serif;
-    font-size:46px;
+
+    font-size:28px;
+
     font-weight:700;
-    color:#b1771f;
-    margin-bottom:20px;
-    text-shadow:0 2px 3px rgba(0,0,0,0.08);
+
+    color:#A36816;
+
+    margin-top:5px;
 }
 
-/* SIDE LINES */
-
-.side-lines{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:25px;
-    margin-bottom:20px;
-}
-
-.side-lines::before,
-.side-lines::after{
-    content:"";
-    width:160px;
-    height:2px;
-    background:#0b3a79;
-}
-
-/* HR TEXT */
+/* =========================
+   HR TEXT
+========================= */
 
 .hr-text{
-    font-family:'Cinzel',serif;
-    font-size:28px;
+
+    font-size:18px;
+
     font-weight:600;
-    color:#07295f;
-    line-height:1.4;
+
+    color:#0A2B60;
+
+    margin-top:10px;
+
+    letter-spacing:0.3px;
 }
 
-/* RIGHT PEOPLE */
+/* =========================
+   PEOPLE CIRCLE
+========================= */
 
-.people{
+.people-circle{
+
     position:absolute;
-    right:70px;
-    bottom:70px;
-    z-index:5;
-    width:220px;
-    opacity:0.96;
+
+    right:40px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:140px;
+    height:140px;
+
+    border:5px solid #D4A64A;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background:white;
+
+    box-shadow:
+    0 0 20px rgba(212,166,74,0.35);
 }
 
-/* LIGHT EFFECT */
+.people-circle img{
 
-.glow{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+/* =========================
+   BOTTOM WAVE
+========================= */
+
+.bottom-wave{
+
     position:absolute;
-    right:120px;
-    bottom:58px;
-    width:120px;
-    height:40px;
-    background:radial-gradient(circle,#ffdf91 0%, transparent 75%);
-    z-index:4;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:70px;
+
+    background:
+    linear-gradient(
+        180deg,
+        transparent,
+        #001C52
+    );
+
+    clip-path:ellipse(70% 100% at 50% 100%);
 }
 
-/* RESPONSIVE */
-
-@media(max-width:1200px){
-
-    .main-title{
-        font-size:54px;
-    }
-
-    .sub-title{
-        font-size:36px;
-    }
-
-    .hr-text{
-        font-size:22px;
-    }
-
-    .content{
-        padding-left:260px;
-    }
-}
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
 
 @media(max-width:900px){
 
-    .header-section{
-        min-height:auto;
-        padding-bottom:50px;
-    }
+    .header-card{
 
-    .content{
-        padding:40px 20px 90px;
+        min-height:auto;
     }
 
     .left-panel{
-        display:none;
-    }
 
-    .logo-area{
-        position:relative;
-        left:auto;
-        top:auto;
-        transform:none;
-        padding-top:30px;
-    }
+        width:100%;
 
-    .main-title{
-        font-size:40px;
-    }
+        height:90px;
 
-    .sub-title{
-        font-size:28px;
-    }
+        border-radius:0 0 60px 60px;
 
-    .hr-text{
-        font-size:18px;
-    }
+        border-right:none;
 
-    .divider{
-        width:80%;
-    }
-
-    .side-lines::before,
-    .side-lines::after{
-        width:70px;
-    }
-
-    .people{
-        width:150px;
-        right:10px;
-        bottom:70px;
-    }
-}
-
-@media(max-width:600px){
-
-    .main-title{
-        font-size:30px;
-    }
-
-    .sub-title{
-        font-size:22px;
-    }
-
-    .hr-text{
-        font-size:15px;
+        border-bottom:5px solid #D4A64A;
     }
 
     .logo-circle{
-        width:120px;
-        height:120px;
+
+        width:75px;
+        height:75px;
     }
 
     .logo-circle img{
+
+        width:55px;
+        height:55px;
+    }
+
+    .content{
+
+        padding:110px 20px 50px 20px;
+    }
+
+    .main-title{
+
+        font-size:24px;
+    }
+
+    .sub-title{
+
+        font-size:18px;
+    }
+
+    .hr-text{
+
+        font-size:13px;
+
+        line-height:1.5;
+    }
+
+    .divider{
+
+        width:180px;
+    }
+
+    .people-circle{
+
+        position:relative;
+
+        right:auto;
+        top:auto;
+
+        transform:none;
+
+        margin:20px auto 0 auto;
+
         width:90px;
         height:90px;
     }
 
-    .estd{
-        font-size:16px;
-    }
+    .bottom-wave{
 
-    .people{
-        width:110px;
-        bottom:60px;
+        height:45px;
     }
 }
 
@@ -376,57 +426,40 @@ body{
 
 <body>
 
-<div class="header-section">
+<div class="header-card">
 
     <!-- LEFT PANEL -->
-    <div class="left-panel"></div>
 
-    <!-- DOTS -->
-    <div class="dots">
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-    </div>
-
-    <!-- LOGO -->
-    <div class="logo-area">
+    <div class="left-panel">
 
         <div class="logo-circle">
-            <!-- Replace with your logo -->
-            <img src="logo.png" alt="MGIT Logo">
-        </div>
 
-        <div class="estd">
-            ESTD.1997
+            <!-- Replace logo.png with your logo image -->
+
+            <img src="logo.png" alt="MGIT Logo">
+
         </div>
 
     </div>
 
-    <!-- CONTENT -->
+    <!-- MAIN CONTENT -->
+
     <div class="content">
 
-        <div class="top-decoration"></div>
+        <div class="top-line"></div>
 
-        <h1 class="main-title">
-            Mahatma Gandhi<br>
-            Institute of Technology(A)
-        </h1>
+        <div class="main-title">
+            Mahatma Gandhi <br>
+            Institute of Technology (A)
+        </div>
 
         <div class="divider"></div>
 
-        <div class="side-lines">
-            <h2 class="sub-title">
-                Training & Placement Cell
-            </h2>
+        <div class="sub-title">
+            Training & Placement Cell
         </div>
+
+        <div class="divider"></div>
 
         <div class="hr-text">
             HR Contact Details for the Academic Year 2025-2026
@@ -434,12 +467,18 @@ body{
 
     </div>
 
-    <!-- PEOPLE IMAGE -->
-    <img src="people.png" class="people" alt="People">
+    <!-- RIGHT PEOPLE IMAGE -->
 
-    <div class="glow"></div>
+    <div class="people-circle">
+
+        <!-- Replace people.png with your image -->
+
+        <img src="people.png" alt="People">
+
+    </div>
 
     <!-- BOTTOM WAVE -->
+
     <div class="bottom-wave"></div>
 
 </div>
