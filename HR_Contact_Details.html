@@ -16,38 +16,43 @@
 
 body{
 
-    min-height:100vh;
-
     background:
     linear-gradient(
         135deg,
-        #0F172A 0%,
-        #1E1B4B 40%,
-        #312E81 70%,
-        #4C1D95 100%
+        #0f172a,
+        #1e1b4b,
+        #312e81
     );
 
-    padding:15px;
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    padding:10px;
+
+    overflow-x:hidden;
 }
 
 /* =========================
-   HEADER CARD
+   HEADER CONTAINER
 ========================= */
 
-.header-card{
+.header-container{
 
     width:100%;
 
     max-width:1400px;
 
-    margin:auto;
-
-    border-radius:28px;
+    border-radius:22px;
 
     overflow:hidden;
 
     box-shadow:
-    0 15px 40px rgba(0,0,0,0.35);
+    0 10px 35px rgba(0,0,0,0.40);
 
     animation:fadeIn 1s ease;
 
@@ -61,6 +66,8 @@ body{
 
     width:100%;
 
+    height:auto;
+
     display:block;
 
     object-fit:cover;
@@ -71,7 +78,7 @@ body{
    HOVER EFFECT
 ========================= */
 
-.header-card:hover{
+.header-container:hover{
 
     transform:translateY(-3px);
 
@@ -104,12 +111,24 @@ body{
 @media(max-width:768px){
 
     body{
-        padding:8px;
+
+        padding:5px;
+
     }
 
-    .header-card{
+    .header-container{
 
-        border-radius:18px;
+        border-radius:16px;
+
+    }
+
+    .header-image{
+
+        width:100%;
+
+        height:auto;
+
+        object-fit:contain;
 
     }
 
@@ -120,9 +139,9 @@ body{
 
 <body>
 
-<div class="header-card">
+<div class="header-container">
 
-    <img src="header.png" class="header-image" alt="Header Image">
+    <img src="header.png" class="header-image" alt="MGIT Header">
 
 </div>
 
