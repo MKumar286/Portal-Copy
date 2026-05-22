@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,7 @@
 <title>MGIT Placement Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -20,289 +19,119 @@
 body{
     font-family:'Poppins',sans-serif;
     min-height:100vh;
-    padding:18px;
-
-    background:
-    radial-gradient(circle at top left,#ff6a00 0%,transparent 25%),
-    radial-gradient(circle at bottom right,#7c3aed 0%,transparent 30%),
-    linear-gradient(135deg,#050816,#0B1026,#111827,#1E1B4B);
-
-    background-attachment:fixed;
-    overflow-x:hidden;
+    background:linear-gradient(135deg,#0f172a,#1e1b4b,#4c1d95);
+    padding:8px;
 }
 
-/* HEADER */
-
-.main-header{
+.main-header-card{
     width:100%;
-    border-radius:30px;
-    padding:26px 30px;
-
-    background:linear-gradient(135deg,
-    rgba(11,61,145,0.95),
-    rgba(37,99,235,0.95));
-
-    border:2px solid rgba(255,255,255,0.1);
-
-    box-shadow:
-    0 0 25px rgba(37,99,235,0.4),
-    0 8px 30px rgba(0,0,0,0.35);
-
-    position:relative;
-    overflow:hidden;
-}
-
-.main-header::before{
-    content:'';
-    position:absolute;
-    width:350px;
-    height:350px;
-    background:rgba(255,255,255,0.06);
-    border-radius:50%;
-    right:-120px;
-    top:-120px;
-}
-
-.header-flex{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:25px;
-    position:relative;
-    z-index:2;
-}
-
-.logo{
-    width:110px;
-    height:110px;
-    border-radius:50%;
-    border:3px solid rgba(255,255,255,0.2);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:42px;
-
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(10px);
-
-    box-shadow:0 0 18px rgba(255,255,255,0.2);
-}
-
-.header-text{
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    border-radius:18px;
+    padding:14px 20px;
     text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    margin-bottom:12px;
 }
 
-.header-text h1{
+.title1{
     color:white;
-    font-size:54px;
+    font-size:32px;
     font-weight:700;
-    letter-spacing:1px;
+    white-space:nowrap;
 }
 
-.header-text h2{
-    margin-top:8px;
-    color:#FFD166;
-    font-size:34px;
+.title2{
+    color:#e0e7ff;
+    font-size:20px;
     font-weight:600;
+    margin-top:2px;
 }
 
-.year-pill{
-    margin:20px auto 0 auto;
-    width:max-content;
-    padding:12px 30px;
-    border-radius:40px;
-
-    background:linear-gradient(90deg,
-    rgba(37,99,235,0.9),
-    rgba(124,58,237,0.9));
-
-    color:white;
-    font-size:24px;
+.title3{
+    color:#c7d2fe;
+    font-size:16px;
     font-weight:500;
-
-    box-shadow:0 0 20px rgba(124,58,237,0.4);
+    margin-top:2px;
 }
-
-/* GRID */
 
 .cards-container{
-    margin-top:26px;
-
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
+    gap:10px;
 }
-
-/* CARD */
 
 .card{
-    height:102px;
-    border-radius:24px;
-
+    position:relative;
+    height:58px;
+    border-radius:18px;
     display:flex;
     align-items:center;
-
-    position:relative;
     overflow:hidden;
-
-    padding-left:125px;
-    padding-right:25px;
-
     cursor:pointer;
-
-    transition:0.35s ease;
-
-    box-shadow:
-    0 0 18px rgba(255,255,255,0.06),
-    0 10px 24px rgba(0,0,0,0.3);
-
-    border:1px solid rgba(255,255,255,0.08);
-}
-
-.card:hover{
-    transform:translateY(-6px) scale(1.02);
-
-    box-shadow:
-    0 0 30px rgba(255,255,255,0.15),
-    0 16px 30px rgba(0,0,0,0.4);
+    transition:0.3s ease;
+    box-shadow:0 6px 15px rgba(0,0,0,0.18);
+    padding-left:72px;
+    color:white;
+    font-weight:600;
+    font-size:15px;
 }
 
 .card::before{
-    content:'';
+    content:"";
     position:absolute;
-
-    width:130px;
-    height:130px;
-
-    left:-28px;
-
+    left:-18px;
+    width:78px;
+    height:78px;
     border-radius:50%;
-
-    background:rgba(255,255,255,0.12);
-
-    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.16);
 }
 
 .card-icon{
     position:absolute;
-
-    left:24px;
-
-    width:68px;
-    height:68px;
-
+    left:16px;
+    width:38px;
+    height:38px;
     border-radius:50%;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    font-size:34px;
-
-    z-index:2;
-
-    background:rgba(255,255,255,0.14);
-
-    box-shadow:0 0 18px rgba(255,255,255,0.15);
-}
-
-.card-content{
-    position:relative;
+    font-size:20px;
+    background:rgba(255,255,255,0.15);
     z-index:2;
 }
 
-.card-number{
-    color:rgba(255,255,255,0.75);
-    font-size:15px;
-    font-weight:600;
-    margin-bottom:2px;
-}
-
-.card-title{
-    color:white;
-    font-size:18px;
-    font-weight:600;
-    line-height:1.3;
-}
-
-.card-arrow{
-    position:absolute;
-    right:22px;
-
-    color:rgba(255,255,255,0.8);
-
-    font-size:34px;
-
+.card-text{
     z-index:2;
+    line-height:1.2;
 }
 
-/* MOBILE */
-
-@media(max-width:992px){
-
-    .cards-container{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .header-text h1{
-        font-size:38px;
-    }
-
+.card:hover{
+    transform:translateY(-3px) scale(1.01);
 }
 
 @media(max-width:768px){
 
-    body{
-        padding:10px;
-    }
-
-    .header-flex{
-        flex-direction:column;
-    }
-
-    .logo{
-        width:80px;
-        height:80px;
-        font-size:32px;
-    }
-
-    .header-text h1{
-        font-size:28px;
-        line-height:1.3;
-    }
-
-    .header-text h2{
-        font-size:22px;
-    }
-
-    .year-pill{
-        font-size:16px;
-        padding:10px 20px;
-    }
-
     .cards-container{
         grid-template-columns:1fr;
-        gap:14px;
+    }
+
+    .title1{
+        font-size:18px;
+        white-space:normal;
+    }
+
+    .title2{
+        font-size:15px;
+    }
+
+    .title3{
+        font-size:13px;
     }
 
     .card{
-        height:90px;
-        padding-left:105px;
-    }
-
-    .card::before{
-        width:110px;
-        height:110px;
-    }
-
-    .card-icon{
-        width:58px;
-        height:58px;
-        font-size:28px;
-    }
-
-    .card-title{
-        font-size:16px;
+        height:54px;
+        font-size:14px;
+        padding-left:68px;
     }
 
 }
@@ -311,200 +140,105 @@ body{
 </head>
 <body>
 
-<div class="main-header">
-
-    <div class="header-flex">
-
-        <div class="logo">🎓</div>
-
-        <div class="header-text">
-            <h1>Mahatma Gandhi Institute of Technology</h1>
-            <h2>Training and Placement Cell</h2>
-
-            <div class="year-pill">
-                📅 Academic Year 2025-2026
-            </div>
-        </div>
-
-    </div>
-
+<div class="main-header-card">
+    <div class="title1">Mahatma Gandhi Institute of Technology</div>
+    <div class="title2">Training and Placement Cell</div>
+    <div class="title3">Academic Year 2025-2026</div>
 </div>
 
-<div class="cards-container" id="cardsContainer"></div>
+<div class="cards-container">
 
-<script>
+<div class="card" style="background:linear-gradient(135deg,#2563eb,#1e3a8a)">
+    <div class="card-icon">📘</div>
+    <div class="card-text">Master Students Data</div>
+</div>
 
-const cardData = [
+<div class="card" style="background:linear-gradient(135deg,#9333ea,#7c3aed)">
+    <div class="card-icon">🎓</div>
+    <div class="card-text">xyz</div>
+</div>
 
-{
-    title:"Master Students Data",
-    icon:"📘",
-    color:"linear-gradient(135deg,#0048ff,#002a8f)",
-    page:"table.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#ef4444,#dc2626)">
+    <div class="card-icon">💼</div>
+    <div class="card-text">Wipro</div>
+</div>
 
-{
-    title:"xyz",
-    icon:"🎓",
-    color:"linear-gradient(135deg,#a855f7,#6d28d9)",
-    page:"placedstudents.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#10b981,#059669)">
+    <div class="card-icon">📄</div>
+    <div class="card-text">Placed Students Data with Offer Letters</div>
+</div>
 
-{
-    title:"Wipro",
-    icon:"💼",
-    color:"linear-gradient(135deg,#ff3131,#b8001f)",
-    page:"wipro.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#f97316,#ea580c)">
+    <div class="card-icon">🏢</div>
+    <div class="card-text">Capgemini</div>
+</div>
 
-{
-    title:"Placed Students Data with Offer Letters",
-    icon:"📄",
-    color:"linear-gradient(135deg,#10b981,#047857)",
-    page:"Placed_Students_Data.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">
+    <div class="card-icon">🧠</div>
+    <div class="card-text">Cognizant</div>
+</div>
 
-{
-    title:"Capgemini",
-    icon:"🏢",
-    color:"linear-gradient(135deg,#ff8c00,#ff4d00)",
-    page:"capgemini.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#e11d48,#be123c)">
+    <div class="card-icon">📧</div>
+    <div class="card-text">Mail Confirmation of Selected Students</div>
+</div>
 
-{
-    title:"Cognizant",
-    icon:"🧠",
-    color:"linear-gradient(135deg,#06b6d4,#0e7490)",
-    page:"cognizant.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#6366f1,#4338ca)">
+    <div class="card-icon">🌐</div>
+    <div class="card-text">IBM</div>
+</div>
 
-{
-    title:"Mail Confirmation of the Selected Students",
-    icon:"📧",
-    color:"linear-gradient(135deg,#e11d48,#9f1239)",
-    page:"deloitte.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#22c55e,#15803d)">
+    <div class="card-icon">💻</div>
+    <div class="card-text">Tech Mahindra</div>
+</div>
 
-{
-    title:"IBM",
-    icon:"🌐",
-    color:"linear-gradient(135deg,#4f46e5,#312e81)",
-    page:"ibm.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#d97706,#b45309)">
+    <div class="card-icon">📊</div>
+    <div class="card-text">Placement Report</div>
+</div>
 
-{
-    title:"Tech Mahindra",
-    icon:"💻",
-    color:"linear-gradient(135deg,#16a34a,#166534)",
-    page:"techmahindra.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#a855f7,#9333ea)">
+    <div class="card-icon">🗄️</div>
+    <div class="card-text">Oracle</div>
+</div>
 
-{
-    title:"Placement Report",
-    icon:"📊",
-    color:"linear-gradient(135deg,#ea580c,#b45309)",
-    page:"hcl.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#0f766e,#0d9488)">
+    <div class="card-icon">🛒</div>
+    <div class="card-text">Amazon</div>
+</div>
 
-{
-    title:"Oracle",
-    icon:"🗄️",
-    color:"linear-gradient(135deg,#a855f7,#7e22ce)",
-    page:"oracle.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#f43f5e,#e11d48)">
+    <div class="card-icon">📈</div>
+    <div class="card-text">Placement Progression</div>
+</div>
 
-{
-    title:"Amazon",
-    icon:"🛒",
-    color:"linear-gradient(135deg,#0f766e,#115e59)",
-    page:"amazon.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">
+    <div class="card-icon">🪟</div>
+    <div class="card-text">Microsoft</div>
+</div>
 
-{
-    title:"Placement Progression",
-    icon:"📈",
-    color:"linear-gradient(135deg,#f43f5e,#e11d48)",
-    page:"google.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#84cc16,#65a30d)">
+    <div class="card-icon">🚗</div>
+    <div class="card-text">KPIT</div>
+</div>
 
-{
-    title:"Microsoft",
-    icon:"🪟",
-    color:"linear-gradient(135deg,#3b82f6,#1d4ed8)",
-    page:"microsoft.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#ea580c,#c2410c)">
+    <div class="card-icon">📝</div>
+    <div class="card-text">All Students Registrations</div>
+</div>
 
-{
-    title:"KPIT",
-    icon:"🚗",
-    color:"linear-gradient(135deg,#84cc16,#65a30d)",
-    page:"kpit.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#4f46e5,#4338ca)">
+    <div class="card-icon">⚡</div>
+    <div class="card-text">Hexaware</div>
+</div>
 
-{
-    title:"All Students Registrations",
-    icon:"📝",
-    color:"linear-gradient(135deg,#f97316,#c2410c)",
-    page:"zoho.html"
-},
+<div class="card" style="background:linear-gradient(135deg,#4b5563,#374151)">
+    <div class="card-icon">📁</div>
+    <div class="card-text">Genpact</div>
+</div>
 
-{
-    title:"Hexaware",
-    icon:"⚡",
-    color:"linear-gradient(135deg,#6366f1,#4338ca)",
-    page:"hexaware.html"
-},
-
-{
-    title:"Genpact",
-    icon:"📁",
-    color:"linear-gradient(135deg,#4b5563,#1f2937)",
-    page:"genpact.html"
-}
-
-];
-
-const container = document.getElementById('cardsContainer');
-
-cardData.forEach((card,index)=>{
-
-    const div = document.createElement('div');
-
-    div.className='card';
-
-    div.style.background = card.color;
-
-    div.innerHTML = `
-
-        <div class="card-icon">
-            ${card.icon}
-        </div>
-
-        <div class="card-content">
-            <div class="card-number">
-                ${String(index+1).padStart(2,'0')}
-            </div>
-
-            <div class="card-title">
-                ${card.title}
-            </div>
-        </div>
-
-        <div class="card-arrow">
-            ›
-        </div>
-
-    `;
-
-    div.onclick = ()=>{
-        window.location.href = card.page;
-    }
-
-    container.appendChild(div);
-
-});
-
-</script>
+</div>
 
 </body>
 </html>
