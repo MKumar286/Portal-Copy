@@ -14,7 +14,9 @@ body{
     margin:0;
     padding:20px;
     font-family:Arial;
-    background:white;
+    background:#ffffff;
+    min-height:100vh;
+    box-sizing:border-box;
 }
 
 /* =========================
@@ -60,20 +62,24 @@ body{
 
 body{
     margin:0;
-    padding:10px;
+    padding:20px;
     font-family:Arial;
+    background:#ffffff;
+    min-height:100vh;
+    box-sizing:border-box;
+}
 
-    background:linear-gradient(
-        135deg,
-        #0F172A 0%,
-        #1E293B 30%,
-        #312E81 65%,
-        #4C1D95 100%
-    );
-
+}
     min-height:100vh;
     background-attachment:fixed;
 }
+
+    .page-wrapper{
+    background:#ffffff;
+    border:12px solid #ffffff;
+    border-radius:28px;
+    padding:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.12);
 
 .cards-container{
     display:grid;
@@ -266,6 +272,7 @@ body{
 </head>
 
 <body>
+<div class="page-wrapper">
 
 <div class="main-header-card">
 
@@ -280,7 +287,7 @@ body{
     <div class="title3">
         Academic Year 2025-2026
     </div>
-
+</div>
 </div>
 
 <div class="cards-container" id="cardsContainer"></div>
