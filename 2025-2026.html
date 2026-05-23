@@ -20,18 +20,6 @@ body{
 }
 
 /* =========================
-   PAGE WRAPPER
-========================= */
-
-.page-wrapper{
-    background:#ffffff;
-    border:12px solid #ffffff;
-    border-radius:28px;
-    padding:18px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
-}
-
-/* =========================
    HEADER CARD
 ========================= */
 
@@ -103,7 +91,6 @@ body{
     height:110px;
     border-radius:50%;
     background:rgba(255,255,255,0.18);
-    backdrop-filter:blur(6px);
 }
 
 .card-icon{
@@ -118,7 +105,6 @@ body{
     font-size:26px;
     z-index:2;
     background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(10px);
 }
 
 .card-text{
@@ -130,71 +116,48 @@ body{
 
 .card:hover{
     transform:translateY(-5px) scale(1.02);
-    box-shadow:0 14px 25px rgba(0,0,0,0.25);
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* TABLE */
 
-@media screen and (max-width:1024px){
-
-    .cards-container{
-        grid-template-columns:repeat(2,1fr);
-    }
-
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+    background:white;
 }
+
+th{
+    background:#2563EB;
+    color:white;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+td{
+    padding:10px;
+    border:1px solid #ddd;
+}
+
+.loading{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+    color:#2563EB;
+}
+
+/* MOBILE */
 
 @media screen and (max-width:768px){
 
-    body{
-        padding:12px;
-    }
-
     .cards-container{
         grid-template-columns:1fr;
-        gap:14px;
-    }
-
-    .card{
-        height:70px;
-        font-size:16px;
-        border-radius:18px;
-        padding-left:78px;
-    }
-
-    .card::before{
-        width:95px;
-        height:95px;
-        left:-24px;
-    }
-
-    .card-icon{
-        width:46px;
-        height:46px;
-        font-size:22px;
-        left:16px;
     }
 
     table{
         display:block;
         overflow-x:auto;
         white-space:nowrap;
-        border-radius:10px;
-    }
-
-    th,td{
-        padding:8px;
-        font-size:14px;
-    }
-
-}
-
-@media screen and (max-width:480px){
-
-    .card{
-        font-size:15px;
-        height:65px;
     }
 
 }
@@ -203,8 +166,6 @@ body{
 </head>
 
 <body>
-
-<div class="page-wrapper">
 
 <div class="main-header-card">
 
@@ -227,8 +188,6 @@ body{
 <div class="loading" id="loading"></div>
 
 <table id="dataTable"></table>
-
-</div>
 
 <script>
 
@@ -347,9 +306,68 @@ Object.keys(csvLinks).forEach((key,index)=>{
 
     `;
 
+    card.onclick = () => {
+
+        if(csvLinks[key] === ""){
+            alert("CSV Link Not Added");
+            return;
+        }
+
+        loadCSV(csvLinks[key]);
+
+    };
+
     container.appendChild(card);
 
 });
+
+function loadCSV(url){
+
+    document.getElementById("loading").innerHTML="Loading Data...";
+
+    Papa.parse(url,{
+
+        download:true,
+
+        complete:function(results){
+
+            let data=results.data;
+
+            let tableHTML="";
+
+            data.forEach((row,rowIndex)=>{
+
+                tableHTML+="<tr>";
+
+                row.forEach(cell=>{
+
+                    if(rowIndex===0){
+                        tableHTML+=`<th>${cell}</th>`;
+                    }else{
+                        tableHTML+=`<td>${cell}</td>`;
+                    }
+
+                });
+
+                tableHTML+="</tr>";
+
+            });
+
+            document.getElementById("dataTable").innerHTML=tableHTML;
+
+            document.getElementById("loading").innerHTML="";
+
+        },
+
+        error:function(){
+
+            document.getElementById("loading").innerHTML="Unable to Load CSV Data";
+
+        }
+
+    });
+
+}
 
 </script>
 
