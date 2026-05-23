@@ -159,9 +159,9 @@ Object.keys(csvLinks).forEach((key,index)=>{
 
   const cardNames = {
     A:"Total Students Data",
-    B:"Infosys",
+    B:"HR Contact Details",
     C:"Wipro",
-    D:"Accenture",
+    D:"Placed Students Data with Offer Letters",
     E:"Capgemini",
     F:"Cognizant",
     G:"Deloitte",
@@ -191,7 +191,7 @@ card.innerHTML = cardNames[key];
     // Remaining Cards → Different HTML Pages
 
     else if(key === "B"){
-        window.location.href = "infosys.html";
+        window.location.href = "HR_Contact_Details.html";
     }
 
     else if(key === "C"){
@@ -199,7 +199,7 @@ card.innerHTML = cardNames[key];
     }
 
     else if(key === "D"){
-        window.location.href = "accenture.html";
+        window.location.href = "Placed_Students_Data.html";
     }
 
     else if(key === "E"){
