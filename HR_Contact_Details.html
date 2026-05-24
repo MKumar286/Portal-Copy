@@ -4,112 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HR Contact Details</title>
+<title>Google Sheet Table</title>
+
+<!-- Papa Parse Library -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 
-/* ===== BODY ===== */
-
 body{
     margin:0;
-    padding:0;
-    font-family:Arial, sans-serif;
-    background:#f4f6f9;
-}
-
-/* ===== HEADER IMAGE ===== */
-
-.header-image{
-    width:100%;
-    height:auto;
-    display:block;
-}
-
-/* ===== BUTTON SECTION ===== */
-
-.button-container{
-    text-align:center;
-    margin:20px 0;
-}
-
-.hr-btn{
-    padding:12px 25px;
-    background:#007bff;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.hr-btn:hover{
-    background:#0056b3;
-}
-
-/* ===== HR SECTION ===== */
-
-#hrSection{
-    display:none;
     padding:20px;
+    font-family:Arial, sans-serif;
+    background:#f4f7ff;
 }
 
-/* ===== TABLE CONTAINER ===== */
-
-.table-container{
-    width:100%;
-    overflow-x:auto;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+/* Heading */
+.heading{
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    color:#0b3d91;
+    margin-bottom:25px;
 }
 
-/* ===== TABLE ===== */
-
-#hrTable{
+/* Table */
+table{
     width:100%;
     border-collapse:collapse;
-    min-width:700px;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* ===== TABLE HEADER ===== */
-
-#hrTable th{
-    background:#007bff;
+th{
+    background:#0b3d91;
     color:white;
     padding:14px;
-    text-align:left;
-    font-size:15px;
+    font-size:16px;
 }
 
-/* ===== TABLE DATA ===== */
-
-#hrTable td{
+td{
     padding:12px;
     border-bottom:1px solid #ddd;
-    font-size:14px;
+    text-align:center;
 }
 
-/* ===== ROW HOVER ===== */
-
-#hrTable tr:hover{
-    background:#f5f5f5;
+tr:hover{
+    background:#f1f5ff;
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
+/* Loading Text */
+.loading{
+    text-align:center;
+    font-size:20px;
+    color:#0b3d91;
+    margin-top:20px;
+}
 
 @media(max-width:768px){
 
-    .hr-btn{
-        width:90%;
-        font-size:15px;
+    body{
+        padding:10px;
     }
 
-    #hrTable th,
-    #hrTable td{
-        padding:10px;
+    .heading{
+        font-size:24px;
+    }
+
+    table{
         font-size:13px;
     }
+
+    th,td{
+        padding:8px;
+    }
+
 }
 
 </style>
@@ -117,93 +87,73 @@ body{
 
 <body>
 
-<!-- ===== HEADER IMAGE ===== -->
-
-<img src="header.png" class="header-image">
-
-<!-- ===== BUTTON ===== -->
-
-<div class="button-container">
-
-    <button class="hr-btn" onclick="loadHRData()">
-        HR Contact Details
-    </button>
-
+<div class="heading">
+    HR Contact Details
 </div>
 
-<!-- ===== HR CONTACT SECTION ===== -->
-
-<div id="hrSection">
-
-    <div class="table-container">
-
-        <table id="hrTable">
-
-            <thead>
-                <tr id="tableHead"></tr>
-            </thead>
-
-            <tbody id="tableBody"></tbody>
-
-        </table>
-
-    </div>
-
+<div class="loading" id="loading">
+    Loading Data...
 </div>
 
-<!-- ===== JAVASCRIPT ===== -->
+<table id="dataTable"></table>
 
 <script>
 
-async function loadHRData(){
+/* ===========================
+   ADD YOUR GOOGLE SHEET CSV LINK HERE
+=========================== */
 
-    document.getElementById("hrSection").style.display = "block";
+const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSb-y0j0bmZw_m5r33iFrUg_mjVdy4QT7lTaHJPxgijcb2_gW2uFc6hdlS77pCI0g/pub?gid=1067544906&single=true&output=csv";
 
-    // ===== PASTE YOUR CSV LINK BELOW =====
+/* ===========================
+   LOAD CSV DATA
+=========================== */
 
-    const sheetURL = "PASTE_YOUR_CSV_LINK_HERE";
+Papa.parse(csvURL,{
 
-    // =====================================
+    download:true,
 
-    const response = await fetch(sheetURL);
+    complete:function(results){
 
-    const data = await response.text();
+        let data = results.data;
 
-    const rows = data.trim().split("\n").map(row => row.split(","));
+        let tableHTML = "";
 
-    const tableHead = document.getElementById("tableHead");
-    const tableBody = document.getElementById("tableBody");
+        data.forEach((row,rowIndex)=>{
 
-    tableHead.innerHTML = "";
-    tableBody.innerHTML = "";
+            tableHTML += "<tr>";
 
-    // ===== CREATE HEADER =====
+            row.forEach(cell=>{
 
-    rows[0].forEach(col => {
+                if(rowIndex === 0){
 
-        tableHead.innerHTML += `<th>${col}</th>`;
+                    tableHTML += `<th>${cell}</th>`;
 
-    });
+                }else{
 
-    // ===== CREATE ROWS =====
+                    tableHTML += `<td>${cell}</td>`;
 
-    rows.slice(1).forEach(row => {
+                }
 
-        let tr = "<tr>";
+            });
 
-        row.forEach(col => {
-
-            tr += `<td>${col}</td>`;
+            tableHTML += "</tr>";
 
         });
 
-        tr += "</tr>";
+        document.getElementById("dataTable").innerHTML = tableHTML;
 
-        tableBody.innerHTML += tr;
+        document.getElementById("loading").style.display = "none";
 
-    });
+    },
 
-}
+    error:function(){
+
+        document.getElementById("loading").innerHTML = "Unable to Load Data";
+
+    }
+
+});
 
 </script>
 
