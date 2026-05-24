@@ -10,7 +10,6 @@
 
 <!-- Papa Parse Library -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
 <style>
 
 *{
@@ -46,30 +45,26 @@ body{
     gap:15px;
     margin-bottom:20px;
     flex-wrap:wrap;
+    align-items:center;
 }
 
 #searchInput,
 #batchFilter{
 
     padding:12px 15px;
-
     border:2px solid #0b3d91;
-
     border-radius:10px;
-
     font-size:15px;
-
     outline:none;
-
     background:white;
 }
 
 #searchInput{
-    width:280px;
+    width:300px;
 }
 
 #batchFilter{
-    width:200px;
+    width:220px;
 }
 
 /* =========================
@@ -77,12 +72,15 @@ body{
 ========================= */
 
 .table-container{
-    overflow-x:auto;
+    overflow:auto;
+    max-height:80vh;
+    border-radius:10px;
 }
 
 table{
 
-    width:100%;
+    width:max-content;
+    min-width:100%;
 
     border-collapse:collapse;
 
@@ -91,19 +89,39 @@ table{
     border:3px solid #0b3d91;
 
     box-shadow:0 5px 15px rgba(0,0,0,0.15);
-
 }
 
 th,td{
 
-    border:2px solid #555;
+    border:1px solid #555;
 
-    padding:12px;
+    padding:4px 8px;
 
     text-align:center;
 
-    font-size:15px;
+    font-size:12px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    line-height:1;
+
+    height:28px;
 }
+
+/* AUTO WIDTH BASED ON CONTENT */
+
+table{
+    table-layout:auto;
+}
+
+td{
+    max-width:250px;
+}
+/* HEADER */
 
 th{
 
@@ -116,7 +134,11 @@ th{
     position:sticky;
 
     top:0;
+
+    z-index:2;
 }
+
+/* ROW COLORS */
 
 tr:nth-child(even){
     background:#f2f5ff;
@@ -159,6 +181,7 @@ tr:hover{
 
     #filters{
         flex-direction:column;
+        align-items:stretch;
     }
 
     #searchInput,
@@ -167,8 +190,8 @@ tr:hover{
     }
 
     th,td{
-        font-size:13px;
-        padding:8px;
+        font-size:12px;
+        padding:8px 10px;
     }
 
 }
