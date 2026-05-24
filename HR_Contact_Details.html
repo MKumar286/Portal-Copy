@@ -27,6 +27,21 @@ body{
     margin-bottom:25px;
 }
 
+    <div class="filters">
+
+    <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search Data..."
+        onkeyup="searchTable()"
+    >
+
+    <select id="batchFilter" onchange="filterBatch()">
+        <option value="">All Batches</option>
+    </select>
+
+</div>
+
 /* Table */
 table{
     width:100%;
@@ -86,6 +101,31 @@ th{
 }
 
 }
+    .filters{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+    margin-bottom:15px;
+    flex-wrap:wrap;
+}
+
+#searchInput,
+#batchFilter{
+    padding:12px 15px;
+    border:2px solid #0b3d91;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    background:white;
+}
+
+#searchInput{
+    width:280px;
+}
+
+#batchFilter{
+    width:180px;
+}
 
 </style>
 </head>
@@ -121,6 +161,7 @@ Papa.parse(csvURL,{
     complete:function(results){
 
         let data = results.data;
+        populateBatchFilter(data);
 
         let tableHTML = "";
 
@@ -159,6 +200,74 @@ Papa.parse(csvURL,{
     }
 
 });
+    function searchTable(){
+
+    let input = document.getElementById("searchInput").value.toLowerCase();
+
+    let rows = document.querySelectorAll("#dataTable tr");
+
+    rows.forEach((row,index)=>{
+
+        if(index===0) return;
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(input) ? "" : "none";
+
+    });
+
+}
+
+function populateBatchFilter(data){
+
+    let batchSelect = document.getElementById("batchFilter");
+
+    let batches = new Set();
+
+    data.slice(1).forEach(row=>{
+
+        if(row[0]){
+            batches.add(row[0]);
+        }
+
+    });
+
+    batches.forEach(batch=>{
+
+        let option=document.createElement("option");
+
+        option.value=batch;
+
+        option.textContent=batch;
+
+        batchSelect.appendChild(option);
+
+    });
+
+}
+
+function filterBatch(){
+
+    let selected = document.getElementById("batchFilter").value.toLowerCase();
+
+    let rows = document.querySelectorAll("#dataTable tr");
+
+    rows.forEach((row,index)=>{
+
+        if(index===0) return;
+
+        let firstCell = row.cells[0]?.innerText.toLowerCase() || "";
+
+        if(selected===""){
+            row.style.display="";
+        }
+        else{
+            row.style.display = firstCell===selected ? "" : "none";
+        }
+
+    });
+
+}
 
 </script>
 
