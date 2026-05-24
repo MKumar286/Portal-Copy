@@ -42,6 +42,14 @@ body{
 
 </div>
 
+<div id="filters"></div>
+
+<div class="table-container">
+    <table id="dataTable"></table>
+</div>
+
+<div id="loading"></div>    
+
 /* Table */
 table{
     width:100%;
@@ -127,6 +135,54 @@ th{
     width:180px;
 }
 
+ #filters{
+    margin:20px 0;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+#searchInput,
+#batchFilter{
+    padding:10px 15px;
+    font-size:16px;
+    border:2px solid #0b3d91;
+    border-radius:8px;
+}
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#0b3d91;
+    color:white;
+    border:2px solid #000;
+    padding:10px;
+}
+
+td{
+    border:1px solid #000;
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f5f5f5;
+}
+
+.loading{
+    margin-top:20px;
+    font-size:20px;
+    color:#0b3d91;
+}   
+
 </style>
 </head>
 
@@ -141,133 +197,164 @@ th{
 </div>
 
 <table id="dataTable"></table>
-
 <script>
-
-/* ===========================
-   ADD YOUR GOOGLE SHEET CSV LINK HERE
-=========================== */
 
 const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSb-y0j0bmZw_m5r33iFrUg_mjVdy4QT7lTaHJPxgijcb2_gW2uFc6hdlS77pCI0g/pub?gid=1067544906&single=true&output=csv";
 
-/* ===========================
-   LOAD CSV DATA
-=========================== */
+function loadCSV() {
 
-Papa.parse(csvURL,{
+    document.getElementById("loading").innerHTML = "Loading Data...";
 
-    download:true,
+    Papa.parse(csvURL, {
 
-    complete:function(results){
+        download: true,
+        skipEmptyLines: true,
 
-        let data = results.data;
-        populateBatchFilter(data);
+        complete: function(results) {
 
-        let tableHTML = "";
+            const data = results.data;
 
-        data.forEach((row,rowIndex)=>{
+            if(data.length === 0){
+                document.getElementById("loading").innerHTML = "No Data Found";
+                return;
+            }
 
-            tableHTML += "<tr>";
+            createFilters(data);
 
-            row.forEach(cell=>{
+            createTable(data);
 
-                if(rowIndex === 0){
+            document.getElementById("loading").innerHTML = "";
 
-                    tableHTML += `<th>${cell}</th>`;
+        },
 
-                }else{
+        error: function(error) {
 
-                    tableHTML += `<td>${cell}</td>`;
+            console.log(error);
 
-                }
+            document.getElementById("loading").innerHTML =
+            "Unable to Load Data";
 
-            });
+        }
 
-            tableHTML += "</tr>";
+    });
 
-        });
+}
 
-        document.getElementById("dataTable").innerHTML = tableHTML;
+function createFilters(data){
 
-        document.getElementById("loading").style.display = "none";
+    const filterDiv = document.getElementById("filters");
 
-    },
+    const headers = data[0];
 
-    error:function(){
+    const batchIndex = headers.findIndex(h =>
+        h.toLowerCase().includes("batch")
+    );
 
-        document.getElementById("loading").innerHTML = "Unable to Load Data";
+    let batches = [];
+
+    if(batchIndex !== -1){
+
+        batches = [...new Set(
+            data.slice(1).map(row => row[batchIndex])
+        )];
 
     }
 
-});
-    function searchTable(){
+    filterDiv.innerHTML = `
 
-    let input = document.getElementById("searchInput").value.toLowerCase();
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Data..."
+        onkeyup="filterTable()"
+    >
 
-    let rows = document.querySelectorAll("#dataTable tr");
+    <select id="batchFilter" onchange="filterTable()">
 
-    rows.forEach((row,index)=>{
+        <option value="">All Batches</option>
 
-        if(index===0) return;
+        ${batches.map(batch =>
+            `<option value="${batch}">${batch}</option>`
+        ).join("")}
 
-        let text = row.innerText.toLowerCase();
+    </select>
 
-        row.style.display = text.includes(input) ? "" : "none";
-
-    });
-
-}
-
-function populateBatchFilter(data){
-
-    let batchSelect = document.getElementById("batchFilter");
-
-    let batches = new Set();
-
-    data.slice(1).forEach(row=>{
-
-        if(row[0]){
-            batches.add(row[0]);
-        }
-
-    });
-
-    batches.forEach(batch=>{
-
-        let option=document.createElement("option");
-
-        option.value=batch;
-
-        option.textContent=batch;
-
-        batchSelect.appendChild(option);
-
-    });
+    `;
 
 }
 
-function filterBatch(){
+function createTable(data){
 
-    let selected = document.getElementById("batchFilter").value.toLowerCase();
+    let tableHTML = "";
 
-    let rows = document.querySelectorAll("#dataTable tr");
+    data.forEach((row, rowIndex) => {
 
-    rows.forEach((row,index)=>{
+        tableHTML += "<tr>";
 
-        if(index===0) return;
+        row.forEach(cell => {
 
-        let firstCell = row.cells[0]?.innerText.toLowerCase() || "";
+            if(rowIndex === 0){
 
-        if(selected===""){
-            row.style.display="";
-        }
-        else{
-            row.style.display = firstCell===selected ? "" : "none";
-        }
+                tableHTML += `<th>${cell}</th>`;
+
+            } else {
+
+                tableHTML += `<td>${cell}</td>`;
+
+            }
+
+        });
+
+        tableHTML += "</tr>";
 
     });
 
+    document.getElementById("dataTable").innerHTML = tableHTML;
+
 }
+
+function filterTable(){
+
+    const search =
+    document.getElementById("searchInput").value.toLowerCase();
+
+    const batch =
+    document.getElementById("batchFilter").value.toLowerCase();
+
+    const table =
+    document.getElementById("dataTable");
+
+    const tr = table.getElementsByTagName("tr");
+
+    for(let i = 1; i < tr.length; i++){
+
+        const rowText =
+        tr[i].innerText.toLowerCase();
+
+        const rowHTML =
+        tr[i].innerHTML.toLowerCase();
+
+        const searchMatch =
+        rowText.includes(search);
+
+        const batchMatch =
+        batch === "" || rowHTML.includes(batch);
+
+        if(searchMatch && batchMatch){
+
+            tr[i].style.display = "";
+
+        } else {
+
+            tr[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+window.onload = loadCSV;
 
 </script>
 
