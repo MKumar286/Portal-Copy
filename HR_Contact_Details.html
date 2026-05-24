@@ -67,6 +67,34 @@ body{
     width:220px;
 }
 
+.count-card{
+
+    background:#0b3d91;
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:130px;
+
+    height:45px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+
+}    
+
 /* =========================
    TABLE
 ========================= */
@@ -206,7 +234,13 @@ tr:hover{
     HR Contact Details for the AY 2025-2026
 </div>
 
-<div id="filters"></div>
+<div id="filters">
+
+    <div class="count-card">
+        Rows: <span id="rowCount">0</span>
+    </div>
+
+</div>
 
 <div class="loading" id="loading">
     Loading Data...
@@ -367,6 +401,10 @@ function createTable(data){
     document.getElementById("dataTable").innerHTML =
     tableHTML;
 
+    document.getElementById("rowCount").innerText =
+    data.length - 1;
+
+
 }
 
 /* =====================================
@@ -376,13 +414,11 @@ function createTable(data){
 function filterTable(){
 
     const search =
-
     document.getElementById("searchInput")
     .value
     .toLowerCase();
 
     const batch =
-
     document.getElementById("batchFilter")
     .value
     .toLowerCase();
@@ -392,6 +428,8 @@ function filterTable(){
 
     const tr =
     table.getElementsByTagName("tr");
+
+    let visibleRows = 0;
 
     for(let i=1;i<tr.length;i++){
 
@@ -410,6 +448,8 @@ function filterTable(){
 
             tr[i].style.display = "";
 
+            visibleRows++;
+
         }else{
 
             tr[i].style.display = "none";
@@ -418,8 +458,10 @@ function filterTable(){
 
     }
 
-}
+    document.getElementById("rowCount").innerText =
+    visibleRows;
 
+}
 /* =====================================
    LOAD PAGE
 ===================================== */
