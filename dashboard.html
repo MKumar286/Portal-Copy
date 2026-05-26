@@ -533,7 +533,61 @@ grid-template-columns:1fr;
 
 }
 
+  /* ANALYTICS CARDS */
+
+.analytics-row{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+padding:20px;
+margin-top:20px;
+}
+
+.analytics-card{
+background:white;
+padding:18px;
+border-radius:18px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+text-align:center;
+}
+
+.analytics-card h3{
+margin-bottom:15px;
+font-size:18px;
+color:#333;
+}
+
+.analytics-card p{
+margin-top:10px;
+font-size:20px;
+font-weight:700;
+color:#1e40af;
+}
+
+.analytics-card canvas{
+width:100% !important;
+height:220px !important;
+}
+
+@media(max-width:1000px){
+
+.analytics-row{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:600px){
+
+.analytics-row{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -1020,7 +1074,110 @@ let eligibleStudents = data.filter(row => {
     }
 });
 
+    // ===== PIE CHARTS =====
+
+// Average Salary Chart
+
+new Chart(document.getElementById("avgSalaryChart"), {
+type: "pie",
+data: {
+labels: ["Average Salary"],
+datasets: [{
+data: [8.5],
+backgroundColor: ["#2563eb"]
+}]
+}
+});
+
+document.getElementById("avgSalaryValue").innerText = "8.5 LPA";
+
+// Median Salary Chart
+
+new Chart(document.getElementById("medianSalaryChart"), {
+type: "pie",
+data: {
+labels: ["Median Salary"],
+datasets: [{
+data: [6.8],
+backgroundColor: ["#16a34a"]
+}]
+}
+});
+
+document.getElementById("medianSalaryValue").innerText = "6.8 LPA";
+
+// Nature of Offers
+
+new Chart(document.getElementById("offerTypeChart"), {
+type: "pie",
+data: {
+labels: ["Full Time", "Internship + FTE", "Internship"],
+datasets: [{
+data: [60, 25, 15],
+backgroundColor: [
+"#2563eb",
+"#7c3aed",
+"#f59e0b"
+]
+}]
+}
+});
+
+// Internship Details
+
+new Chart(document.getElementById("internshipChart"), {
+type: "pie",
+data: {
+labels: ["CSE", "ECE", "EEE", "MECH"],
+datasets: [{
+data: [120, 80, 40, 30],
+backgroundColor: [
+"#0ea5e9",
+"#22c55e",
+"#eab308",
+"#ef4444"
+]
+}]
+}
+});
+
 </script>
+
+  <!-- NEW ANALYTICS CARDS -->
+
+<div class="analytics-row">
+
+  <!-- Average Salary -->
+
+  <div class="analytics-card">
+    <h3>Average Salary</h3>
+    <canvas id="avgSalaryChart"></canvas>
+    <p id="avgSalaryValue">0 LPA</p>
+  </div>
+
+  <!-- Median Salary -->
+
+  <div class="analytics-card">
+    <h3>Median Salary</h3>
+    <canvas id="medianSalaryChart"></canvas>
+    <p id="medianSalaryValue">0 LPA</p>
+  </div>
+
+  <!-- Nature of Offers -->
+
+  <div class="analytics-card">
+    <h3>Nature of Offers</h3>
+    <canvas id="offerTypeChart"></canvas>
+  </div>
+
+  <!-- Internship Details -->
+
+  <div class="analytics-card">
+    <h3>Internship Details</h3>
+    <canvas id="internshipChart"></canvas>
+  </div>
+
+</div>
 
 
 </body>
