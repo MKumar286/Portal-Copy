@@ -805,7 +805,7 @@ Academic Year
 
         <h3>Total Students</h3>
 
-        <p>885</p>
+       <p id="totalStudents">0</p>
 
     </div>
 
@@ -827,7 +827,8 @@ Academic Year
 
         <h3>Registered for Placements</h3>
 
-        <p>732</p>
+      <p id="registeredStudents">0</p>
+
 
     </div>
 
@@ -849,7 +850,7 @@ Academic Year
 
         <h3>Eligible for Placements</h3>
 
-        <p>587</p>
+      <p id="eligibleStudents">0</p>
 
     </div>
 
@@ -871,7 +872,7 @@ Academic Year
 
         <h3>Total Students Placed</h3>
 
-        <p>440</p>
+      <p id="placedStudents">0</p>
 
     </div>
 
@@ -893,7 +894,7 @@ Academic Year
 
         <h3>Total Offers</h3>
 
-        <p>581</p>
+        <p id="totalOffers">0</p>
 
     </div>
 
@@ -952,6 +953,70 @@ alert("Logged Out Successfully");
 window.location.href="index.html";
 
 }
+
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+
+const sheetURL = "PASTE_YOUR_CSV_LINK_HERE";
+
+Papa.parse(sheetURL, {
+    download: true,
+    header: true,
+
+    complete: function(results) {
+
+        let data = results.data.filter(row => row.Name !== "");
+
+        // 1. Total Students = Total Rows
+        let totalStudents = data.length;
+
+        // 2. Registered for Placements = Count of Yes
+        let registeredStudents = data.filter(
+            row => row["Registered for Placements"] === "Yes"
+        ).length;
+
+        // 3. Eligible Students
+        let eligibleStudents = data.filter(row => {
+
+            let registered =
+                row["Registered for Placements"] === "Yes";
+
+            let cgpa =
+                parseFloat(row["CGPA"]) >= 6.5;
+
+            return registered && cgpa;
+
+        }).length;
+
+        // 4. Total Students Placed
+        let placedStudents = data.filter(row => {
+
+            return Number(row["No. of Offers"]) > 0;
+
+        }).length;
+
+        // 5. Total Offers
+        let totalOffers = data.reduce((sum, row) => {
+
+            return sum + Number(row["No. of Offers"] || 0);
+
+        }, 0);
+
+        // Update Cards
+        document.getElementById("totalStudents").innerText = totalStudents;
+
+        document.getElementById("registeredStudents").innerText = registeredStudents;
+
+        document.getElementById("eligibleStudents").innerText = eligibleStudents;
+
+        document.getElementById("placedStudents").innerText = placedStudents;
+
+        document.getElementById("totalOffers").innerText = totalOffers;
+
+    }
+});
 
 </script>
 
