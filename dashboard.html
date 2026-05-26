@@ -49,7 +49,7 @@ letter-spacing:1px;
 
 .logo-section p{
 font-size:13px;
-margin-top:5px;cards
+margin-top:5px;
 color:#cbd5e1;
 }
 
@@ -253,6 +253,46 @@ color:#1e3a8a;
 position:relative;
 z-index:2;
 line-height:1;
+}
+
+  .card-icon{
+
+position:absolute;
+top:12px;
+right:12px;
+
+width:46px;
+height:46px;
+
+border-radius:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+box-shadow:
+0 8px 18px rgba(37,99,235,0.35),
+inset 0 2px 3px rgba(255,255,255,0.35);
+
+z-index:3;
+
+transition:0.3s;
+
+}
+
+.card:hover .card-icon{
+
+transform:scale(1.08) rotate(4deg);
+
+}
+
+.card-icon i{
+
+font-size:20px;
+color:white;
+
 }
 
 /* RESPONSIVE */
@@ -660,28 +700,58 @@ Academic Year
 <div class="cards">
 
 <div class="card">
+
+<div class="card-icon">
+<i class="fa-solid fa-user-graduate"></i>
+</div>
+
 <h3>Total Students</h3>
 <p>885</p>
+
 </div>
 
 <div class="card">
+
+<div class="card-icon">
+<i class="fa-solid fa-id-card"></i>
+</div>
+
 <h3>Registered for Placements</h3>
 <p>732</p>
+
 </div>
 
 <div class="card">
-<h3>Eligible Students </h3>
+
+<div class="card-icon">
+<i class="fa-solid fa-circle-check"></i>
+</div>
+
+<h3>Eligible Students</h3>
 <p>587</p>
+
 </div>
 
 <div class="card">
+
+<div class="card-icon">
+<i class="fa-solid fa-briefcase"></i>
+</div>
+
 <h3>Total Students Placed</h3>
 <p>440</p>
+
 </div>
 
 <div class="card">
+
+<div class="card-icon">
+<i class="fa-solid fa-award"></i>
+</div>
+
 <h3>Total Offers</h3>
 <p>581</p>
+
 </div>
 
 </div>
