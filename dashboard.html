@@ -978,17 +978,19 @@ Papa.parse(sheetURL, {
         ).length;
 
         // 3. Eligible Students
-        let eligibleStudents = data.filter(row => {
+let eligibleStudents = data.filter(row => {
 
-            let registered =
-                row["Registered for Placements"] === "Yes";
+    let registered =
+        row["Registered for Placements"]
+        ?.trim()
+        .toLowerCase() === "yes";
 
-            let cgpa =
-                parseFloat(row["CGPA"]) >= 6.5;
+    let cgpa =
+        parseFloat(row["CGPA"]?.trim()) || 0;
 
-            return registered && cgpa;
+    return registered && cgpa >= 6.5;
 
-        }).length;
+}).length;
 
         // 4. Total Students Placed
         let placedStudents = data.filter(row => {
