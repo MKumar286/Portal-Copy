@@ -200,9 +200,10 @@ color:#2563eb;
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(5,1fr);
 gap:14px;
 margin-bottom:22px;
+overflow-x:auto;
 }
 .card{
 
@@ -368,20 +369,38 @@ grid-template-columns:repeat(2,1fr);
 
 @media(max-width:700px){
 
+body{
+flex-direction:column;
+overflow:auto;
+}
+
+.sidebar{
+width:100%;
+height:auto;
+flex-direction:row;
+overflow-x:auto;
+}
+
+.menu{
+display:flex;
+margin-top:0;
+gap:10px;
+}
+
+.main-content{
+padding:16px;
+}
+
+.topbar{
+flex-direction:column;
+align-items:flex-start;
+gap:12px;
+}
+
 .cards{
-grid-template-columns:1fr;
-}
-
-.card{
-min-height:80px;
-}
-
-.card h3{
-font-size:12px;
-}
-
-.card p{
-font-size:20px;
+grid-template-columns:repeat(5,220px);
+overflow-x:auto;
+padding-bottom:10px;
 }
 
 }
