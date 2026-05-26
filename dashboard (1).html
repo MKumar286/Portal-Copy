@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MGIT Dashboard</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+display:flex;
+background:linear-gradient(135deg,#eef2ff,#dbeafe,#eff6ff);
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:linear-gradient(180deg,#0f172a,#1e3a8a,#2563eb);
+color:white;
+padding:22px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+box-shadow:8px 0 30px rgba(0,0,0,0.25);
+z-index:10;
+}
+
+.logo-section h1{
+font-size:30px;
+font-weight:800;
+letter-spacing:1px;
+}
+
+.logo-section p{
+font-size:13px;
+margin-top:5px;
+color:#cbd5e1;
+}
+
+.menu{
+margin-top:30px;
+}
+
+.menu-item{
+display:flex;
+align-items:center;
+gap:14px;
+padding:15px;
+border-radius:16px;
+cursor:pointer;
+margin-bottom:12px;
+transition:0.3s;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+}
+
+.menu-item:hover{
+background:rgba(255,255,255,0.18);
+transform:translateX(4px);
+}
+
+.menu-item i{
+font-size:18px;
+}
+
+.menu-item span{
+font-size:15px;
+font-weight:600;
+}
+
+.sub-menu{
+display:none;
+padding-left:20px;
+margin-top:-4px;
+margin-bottom:10px;
+}
+
+.sub-item{
+padding:10px 14px;
+font-size:14px;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+color:#dbeafe;
+margin-bottom:5px;
+}
+
+.sub-item:hover{
+background:rgba(255,255,255,0.12);
+}
+
+.nested-sub-menu{
+display:none;
+padding-left:18px;
+margin-top:6px;
+}
+
+.nested-item{
+padding:8px 12px;
+font-size:13px;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:5px;
+color:#e0e7ff;
+transition:0.3s;
+}
+
+.nested-item:hover{
+background:rgba(255,255,255,0.12);
+}
+
+.add-year-btn{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:10px;
+background:rgba(255,255,255,0.12);
+color:white;
+cursor:pointer;
+font-size:13px;
+transition:0.3s;
+}
+
+.add-year-btn:hover{
+background:rgba(255,255,255,0.22);
+}
+
+.logout{
+padding:14px;
+border-radius:14px;
+background:rgba(255,255,255,0.08);
+cursor:pointer;
+transition:0.3s;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logout:hover{
+background:#dc2626;
+}
+
+/* MAIN CONTENT */
+
+.main-content{
+flex:1;
+padding:28px;
+overflow-y:auto;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+}
+
+.topbar h2{
+font-size:34px;
+font-weight:800;
+color:#0f172a;
+}
+
+.admin-profile{
+background:rgba(255,255,255,0.75);
+padding:12px 18px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+display:flex;
+align-items:center;
+gap:10px;
+backdrop-filter:blur(12px);
+}
+
+.admin-profile i{
+font-size:22px;
+color:#2563eb;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:14px;
+margin-bottom:22px;
+}
+.card{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+background:
+linear-gradient(145deg,
+rgba(255,255,255,0.96),
+rgba(239,246,255,0.88));
+
+padding:12px 14px;
+
+border-radius:18px;
+
+border:1px solid rgba(255,255,255,0.7);
+
+box-shadow:
+0 10px 24px rgba(37,99,235,0.12),
+0 4px 10px rgba(0,0,0,0.05);
+
+min-height:90px;
+
+transition:0.3s;
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+/* TOP PREMIUM LINE */
+
+.card::before{
+
+content:'';
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:4px;
+
+background:linear-gradient(
+90deg,
+#2563eb,
+#38bdf8,
+#8b5cf6
+);
+
+}
+
+/* HOVER */
+
+.card:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 16px 28px rgba(37,99,235,0.18);
+
+}
+
+/* LEFT ICON */
+
+.card-left{
+
+flex-shrink:0;
+
+}
+
+/* ICON BOX */
+
+.card-icon{
+
+width:44px;
+height:44px;
+
+border-radius:14px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+linear-gradient(135deg,#2563eb,#38bdf8);
+
+box-shadow:
+0 8px 18px rgba(37,99,235,0.25);
+
+}
+
+/* ICON */
+
+.card-icon i{
+
+font-size:16px;
+color:white;
+
+}
+
+/* RIGHT CONTENT */
+
+.card-right{
+
+display:flex;
+flex-direction:column;
+
+justify-content:center;
+
+overflow:hidden;
+
+}
+
+/* TEXT SHOULD FULLY SHOW */
+
+.card h3{
+
+font-size:12px;
+
+font-weight:700;
+
+color:#475569;
+
+line-height:1.4;
+
+margin-bottom:6px;
+
+white-space:normal;
+
+overflow:visible;
+
+text-overflow:unset;
+
+}
+
+/* VALUE BELOW TEXT */
+
+.card p{
+
+font-size:22px;
+
+font-weight:800;
+
+color:#0f172a;
+
+line-height:1;
+
+}
+  
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.card{
+min-height:80px;
+}
+
+.card h3{
+font-size:12px;
+}
+
+.card p{
+font-size:20px;
+}
+
+}
+
+
+/* TABLE */
+
+.table-section{
+background:rgba(255,255,255,0.8);
+padding:24px;
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+backdrop-filter:blur(14px);
+}
+
+.table-section h3{
+margin-bottom:18px;
+color:#0f172a;
+font-size:24px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+overflow:hidden;
+border-radius:18px;
+}
+
+table th{
+background:linear-gradient(135deg,#1d4ed8,#2563eb);
+color:white;
+padding:14px;
+font-size:14px;
+text-align:left;
+}
+
+table td{
+padding:14px;
+border-bottom:1px solid #dbeafe;
+font-size:14px;
+background:white;
+}
+
+table tr:hover td{
+background:#eff6ff;
+}
+
+.status{
+padding:7px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:700;
+display:inline-block;
+}
+
+.completed{
+background:#dcfce7;
+color:#15803d;
+}
+
+.upcoming{
+background:#fef3c7;
+color:#b45309;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.sidebar{
+width:90px;
+padding:16px 10px;
+}
+
+.logo-section h1,
+.logo-section p,
+.menu-item span,
+.logout span{
+display:none;
+}
+
+.menu-item,
+.logout{
+justify-content:center;
+}
+
+}
+
+@media(max-width:700px){
+
+body{
+flex-direction:column;
+overflow:auto;
+}
+
+.sidebar{
+width:100%;
+height:auto;
+flex-direction:row;
+overflow-x:auto;
+}
+
+.menu{
+display:flex;
+margin-top:0;
+gap:10px;
+}
+
+.main-content{
+padding:16px;
+}
+
+.topbar{
+flex-direction:column;
+align-items:flex-start;
+gap:12px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div>
+
+<div class="logo-section">
+<h1>MGIT</h1>
+<p>Placement Portal</p>
+</div>
+
+<div class="menu">
+
+<div class="menu-item">
+<i class="fa-solid fa-chart-line"></i>
+<span>Dashboard</span>
+</div>
+
+<!-- STUDENTS MENU -->
+
+<div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
+
+<i class="fa-solid fa-users"></i>
+
+<span>Students</span>
+
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="sub-menu" id="studentSubMenu">
+
+<!-- Academic Year -->
+
+<div class="sub-item"
+onclick="toggleSubMenu('academicYears')">
+
+Academic Year
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<!-- YEAR LIST -->
+
+<!-- YEAR LIST -->
+
+<div class="nested-sub-menu" id="academicYears">
+
+<div id="yearContainer">
+
+<div class="nested-item">
+2025-2026
+</div>
+
+<div class="nested-item">
+2026-2027
+</div>
+
+<div class="nested-item">
+2027-2028
+</div>
+
+</div>
+
+<!-- ADD YEAR BUTTON -->
+
+<button class="add-year-btn"
+onclick="addAcademicYear()">
+
++ Add Academic Year
+
+</button>
+
+</div>
+
+</div>
+
+<!-- COMPANIES MENU -->
+
+<div class="menu-item"
+onclick="toggleSubMenu('companySubMenu')">
+
+<i class="fa-solid fa-building"></i>
+
+<span>Companies</span>
+
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="sub-menu" id="companySubMenu">
+
+<div class="sub-item"
+onclick="toggleSubMenu('companyYears')">
+
+Academic Year
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="nested-sub-menu" id="companyYears">
+
+<div class="nested-item">
+2025-2026
+</div>
+
+<div class="nested-item">
+2026-2027
+</div>
+
+<div class="nested-item">
+2027-2028
+</div>
+
+<div class="nested-item">
+2028-2029
+</div>
+
+</div>
+
+</div>
+
+<!-- PLACEMENTS MENU -->
+
+<div class="menu-item"
+onclick="toggleSubMenu('placementSubMenu')">
+
+<i class="fa-solid fa-briefcase"></i>
+
+<span>Placements</span>
+
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="sub-menu" id="placementSubMenu">
+
+<div class="sub-item"
+onclick="toggleSubMenu('placementYears')">
+
+Academic Year
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="academic-years">
+
+  <a href="2025-2026.html" class="academic-year-btn">
+    2025-2026
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2026-2027
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2027-2028
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2028-2029
+  </a>
+
+</div>
+
+</div>
+
+<!-- REPORTS MENU -->
+
+<div class="menu-item"
+onclick="toggleSubMenu('reportSubMenu')">
+
+<i class="fa-solid fa-file"></i>
+
+<span>Reports</span>
+
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="sub-menu" id="reportSubMenu">
+
+<div class="sub-item"
+onclick="toggleSubMenu('reportYears')">
+
+Academic Year
+<i class="fa-solid fa-angle-down"></i>
+
+</div>
+
+<div class="academic-years">
+
+  <a href="2025-2026.html" class="academic-year-btn">
+    2025-2026
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2026-2027
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2027-2028
+  </a>
+
+  <a href="#" class="academic-year-btn">
+    2028-2029
+  </a>
+
+</div>
+</div>
+
+<div class="menu-item">
+<i class="fa-solid fa-gear"></i>
+<span>Settings</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="logout" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span>Logout</span>
+</div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+
+<div class="main-content">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<h2>Dashboard Overview</h2>
+
+<div class="admin-profile">
+<i class="fa-solid fa-user-tie"></i>
+<span>TPO Admin</span>
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+    <!-- LEFT ICON -->
+
+    <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Total Students</h3>
+
+        <p>885</p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Registered for Placements</h3>
+
+        <p>732</p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Eligible for Placements</h3>
+
+        <p>587</p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Total Students Placed</h3>
+
+        <p>440</p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Total Offers</h3>
+
+        <p>581</p>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-section">
+
+<h3>Recent Placement Drives</h3>
+
+<table>
+
+<tr>
+<th>Company</th>
+<th>Role</th>
+<th>Package</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>TCS</td>
+<td>Ninja Developer</td>
+<td>3.6 LPA</td>
+<td>
+<span class="status completed">
+Completed
+</span>
+</td>
+</tr>
+
+<tr>
+<td>Infosys</td>
+<td>System Engineer</td>
+<td>4.2 LPA</td>
+<td>
+<span class="status upcoming">
+Upcoming
+</span>
+</td>
+</tr>
+
+<tr>
+<td>Accenture</td>
+<td>ASE</td>
+<td>4.5 LPA</td>
+<td>
+<span class="status completed">
+Completed
+</span>
+</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleSubMenu(id){
+
+let submenu=document.getElementById(id);
+
+if(submenu.style.display==="block"){
+
+submenu.style.display="none";
+
+}else{
+
+submenu.style.display="block";
+
+}
+
+}
+
+function addAcademicYear(){
+
+let container=document.getElementById("yearContainer");
+
+let items=container.getElementsByClassName("nested-item");
+
+let lastYear=items[items.length-1].innerText;
+
+let years=lastYear.split("-");
+
+let start=parseInt(years[0])+1;
+
+let end=parseInt(years[1])+1;
+
+let newDiv=document.createElement("div");
+
+newDiv.classList.add("nested-item");
+
+newDiv.innerText=start+"-"+end;
+
+container.appendChild(newDiv);
+
+}
+
+function logout(){
+
+alert("Logged Out Successfully");
+
+window.location.href="index.html";
+
+}
+
+</script>
+
+
+</body>
+</html>
