@@ -208,29 +208,26 @@ margin-bottom:22px;
 
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 
 background:
 linear-gradient(145deg,
-rgba(255,255,255,0.92),
-rgba(239,246,255,0.82));
+rgba(255,255,255,0.96),
+rgba(239,246,255,0.88));
 
-backdrop-filter:blur(18px);
-
-padding:12px;
+padding:12px 14px;
 
 border-radius:18px;
 
-border:1px solid rgba(255,255,255,0.6);
+border:1px solid rgba(255,255,255,0.7);
 
 box-shadow:
 0 10px 24px rgba(37,99,235,0.12),
-0 4px 10px rgba(0,0,0,0.06),
-inset 0 1px 1px rgba(255,255,255,0.7);
+0 4px 10px rgba(0,0,0,0.05);
 
-transition:0.35s ease;
+min-height:90px;
 
-min-height:82px;
+transition:0.3s;
 
 overflow:hidden;
 
@@ -238,7 +235,7 @@ position:relative;
 
 }
 
-/* PREMIUM TOP GLOW */
+/* TOP PREMIUM LINE */
 
 .card::before{
 
@@ -256,8 +253,7 @@ background:linear-gradient(
 90deg,
 #2563eb,
 #38bdf8,
-#8b5cf6,
-#2563eb
+#8b5cf6
 );
 
 }
@@ -266,21 +262,18 @@ background:linear-gradient(
 
 .card:hover{
 
-transform:translateY(-5px) scale(1.01);
+transform:translateY(-4px);
 
 box-shadow:
-0 16px 32px rgba(37,99,235,0.18),
-0 8px 18px rgba(0,0,0,0.08);
+0 16px 28px rgba(37,99,235,0.18);
 
 }
 
-/* ICON AREA */
+/* LEFT ICON */
 
 .card-left{
 
-display:flex;
-align-items:center;
-justify-content:center;
+flex-shrink:0;
 
 }
 
@@ -288,8 +281,8 @@ justify-content:center;
 
 .card-icon{
 
-width:46px;
-height:46px;
+width:44px;
+height:44px;
 
 border-radius:14px;
 
@@ -298,60 +291,58 @@ align-items:center;
 justify-content:center;
 
 background:
-linear-gradient(135deg,
-#2563eb,
-#38bdf8);
+linear-gradient(135deg,#2563eb,#38bdf8);
 
 box-shadow:
-0 8px 18px rgba(37,99,235,0.28),
-inset 0 2px 4px rgba(255,255,255,0.35);
-
-flex-shrink:0;
+0 8px 18px rgba(37,99,235,0.25);
 
 }
 
-/* ICON SIZE */
+/* ICON */
 
 .card-icon i{
 
-font-size:18px;
+font-size:16px;
 color:white;
 
 }
 
-/* TEXT AREA */
+/* RIGHT CONTENT */
 
 .card-right{
 
 display:flex;
 flex-direction:column;
+
 justify-content:center;
 
 overflow:hidden;
 
 }
 
-/* CARD TITLE */
+/* TEXT SHOULD FULLY SHOW */
 
 .card h3{
 
-font-size:11px;
+font-size:12px;
 
-font-weight:600;
+font-weight:700;
 
 color:#475569;
 
-margin-bottom:5px;
+line-height:1.4;
 
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
+margin-bottom:6px;
 
-letter-spacing:0.3px;
+white-space:normal;
+
+overflow:visible;
+
+text-overflow:unset;
 
 }
 
-/* CARD VALUE */
+/* VALUE BELOW TEXT */
 
 .card p{
 
@@ -363,10 +354,8 @@ color:#0f172a;
 
 line-height:1;
 
-letter-spacing:0.5px;
-
 }
-
+  
 /* RESPONSIVE */
 
 @media(max-width:1200px){
@@ -797,45 +786,89 @@ Academic Year
 
 <div class="card">
 
-<div class="card-icon">
-<i class="fa-solid fa-id-card"></i>
-</div>
+ <div class="card-left">
 
-<h3>Registered for Placements</h3>
-<p>732</p>
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
 
-</div>
+    </div>
 
-<div class="card">
+    <!-- RIGHT TEXT -->
 
-<div class="card-icon">
-<i class="fa-solid fa-circle-check"></i>
-</div>
+    <div class="card-right">
 
-<h3>Eligible Students</h3>
-<p>587</p>
+        <h3>Registered for Placements</h3>
 
-</div>
+        <p>732</p>
 
-<div class="card">
-
-<div class="card-icon">
-<i class="fa-solid fa-briefcase"></i>
-</div>
-
-<h3>Total Students Placed</h3>
-<p>440</p>
+    </div>
 
 </div>
 
 <div class="card">
 
-<div class="card-icon">
-<i class="fa-solid fa-award"></i>
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Eligible for Placements</h3>
+
+        <p>587</p>
+
+    </div>
+
 </div>
 
-<h3>Total Offers</h3>
-<p>581</p>
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Total Students Placed</h3>
+
+        <p>440</p>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+ <div class="card-left">
+
+        <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </div>
+
+    <!-- RIGHT TEXT -->
+
+    <div class="card-right">
+
+        <h3>Total Offers</h3>
+
+        <p>581</p>
+
+    </div>
 
 </div>
 
