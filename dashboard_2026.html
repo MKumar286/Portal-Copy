@@ -472,7 +472,7 @@ color:#0f172a;
 
 width:100% !important;
 
-height:220px !important;
+height:320px !important;
 
 }
 
@@ -625,7 +625,7 @@ grid-template-columns:1fr;
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 
 <body>
@@ -1427,16 +1427,46 @@ backgroundColor:[
 '#7c3aed',
 '#0ea5e9',
 '#14b8a6',
-'#f43f5e'
+'#f43f5e',
+  datalabels:{
+
+color:'#000',
+
+font:{
+weight:'bold',
+size:11
+},
+
+formatter:(value,context)=>{
+
+return context.chart.data.labels[
+context.dataIndex
+] + '\n' + value + ' LPA';
+
+}
+
+}
 
 ]
 
 }]
 
 },
-
+  
 options:{
-responsive:true
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+display:false
+}
+
+}
+
 }
 
 });
