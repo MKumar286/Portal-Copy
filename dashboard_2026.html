@@ -1222,137 +1222,185 @@ complete:function(chartResults){
 let data = chartResults.data.filter(
 row => row["Batch"] !== ""
 );
-
-
 // ========================================
-// AVG SALARY
+// BRANCHWISE AVG SALARY
 // ========================================
 
-let totalSalary = 0;
-
-let salaryCount = 0;
+let salaryData = {};
 
 data.forEach(row => {
+
+let branch = row["Branch"]?.trim();
 
 let salary =
 parseFloat(row["Salary package"]) || 0;
 
-if(salary > 0){
+if(branch && salary > 0){
 
-totalSalary += salary;
+if(!salaryData[branch]){
 
-salaryCount++;
+salaryData[branch] = {
+total:0,
+count:0
+};
+
+}
+
+salaryData[branch].total += salary;
+salaryData[branch].count++;
 
 }
 
 });
 
-let avgSalary =
-salaryCount > 0
-? (totalSalary / salaryCount).toFixed(2)
-: 0;
+let salaryLabels = [];
+let salaryValues = [];
+
+for(let branch in salaryData){
+
+salaryLabels.push(branch);
+
+salaryValues.push(
+(
+salaryData[branch].total /
+salaryData[branch].count
+).toFixed(2)
+);
+
+}
 
 
 // ========================================
-// AVG STIPEND
+// BRANCHWISE AVG STIPEND
 // ========================================
 
-let totalStipend = 0;
-
-let stipendCount = 0;
+let stipendData = {};
 
 data.forEach(row => {
+
+let branch = row["Branch"]?.trim();
 
 let stipend =
 parseFloat(row["Stipend(Per Month)"]) || 0;
 
-if(stipend > 0){
+if(branch && stipend > 0){
 
-totalStipend += stipend;
+if(!stipendData[branch]){
 
-stipendCount++;
+stipendData[branch] = {
+total:0,
+count:0
+};
+
+}
+
+stipendData[branch].total += stipend;
+stipendData[branch].count++;
 
 }
 
 });
 
-let avgStipend =
-stipendCount > 0
-? (totalStipend / stipendCount).toFixed(0)
-: 0;
+let stipendLabels = [];
+let stipendValues = [];
+
+for(let branch in stipendData){
+
+stipendLabels.push(branch);
+
+stipendValues.push(
+(
+stipendData[branch].total /
+stipendData[branch].count
+).toFixed(0)
+);
+
+}
 
 
 // ========================================
-// IT VS CORE
+// BRANCHWISE IT/CORE COUNT
 // ========================================
 
-let itOffers = 0;
+let natureLabels = [];
+let natureValues = [];
 
-let coreOffers = 0;
+let natureData = {};
 
 data.forEach(row => {
 
-let companyType =
+let branch = row["Branch"]?.trim();
+
+let type =
 row["Nature of the Company"]
 ?.trim()
 .toLowerCase();
 
-if(companyType === "it"){
+if(branch){
 
-itOffers++;
+if(!natureData[branch]){
+
+natureData[branch] = 0;
 
 }
 
-else if(companyType === "core"){
+if(type === "it" || type === "core"){
 
-coreOffers++;
+natureData[branch]++;
+
+}
 
 }
 
 });
 
+for(let branch in natureData){
+
+natureLabels.push(branch);
+
+natureValues.push(
+natureData[branch]
+);
+
+}
+
 
 // ========================================
-// BRANCH WISE OFFERS
+// BRANCHWISE OFFERS COUNT
 // ========================================
 
-let branchOffers = {};
+let offerData = {};
 
 data.forEach(row => {
 
-let batch =
-row["Batch"]?.trim();
+let branch = row["Branch"]?.trim();
 
-let branch =
-row["Branch"]?.trim();
+let offers =
+Number(row["No. of Offers"]) || 0;
 
-if(batch === "2026"){
+if(branch){
 
-if(branchOffers[branch]){
+if(!offerData[branch]){
 
-branchOffers[branch]++;
-
-}
-
-else{
-
-branchOffers[branch] = 1;
+offerData[branch] = 0;
 
 }
+
+offerData[branch] += offers;
 
 }
 
 });
 
-let branchLabels =
-Object.keys(branchOffers);
+let offerLabels =
+Object.keys(offerData);
 
-let branchCounts =
-Object.values(branchOffers);
+let offerValues =
+Object.values(offerData);
 
 
 // ========================================
-// AVG SALARY CHART
+// SALARY CHART
 // ========================================
 
 new Chart(
@@ -1360,144 +1408,15 @@ document.getElementById("salaryChart"),
 
 {
 
-type:'doughnut',
-
-data:{
-
-labels:['Average Salary'],
-
-datasets:[{
-
-data:[avgSalary,10-avgSalary],
-
-backgroundColor:[
-
-'#2563eb',
-'#dbeafe'
-
-],
-
-borderWidth:0
-
-}]
-
-},
-
-options:{
-
-plugins:{
-
-legend:{display:false}
-
-}
-
-}
-
-});
-
-
-// ========================================
-// STIPEND CHART
-// ========================================
-
-new Chart(
-document.getElementById("stipendChart"),
-
-{
-
-type:'doughnut',
-
-data:{
-
-labels:['Avg Stipend'],
-
-datasets:[{
-
-data:[avgStipend,50000-avgStipend],
-
-backgroundColor:[
-
-'#059669',
-'#d1fae5'
-
-],
-
-borderWidth:0
-
-}]
-
-},
-
-options:{
-
-plugins:{
-
-legend:{display:false}
-
-}
-
-}
-
-});
-
-
-// ========================================
-// NATURE CHART
-// ========================================
-
-new Chart(
-document.getElementById("natureChart"),
-
-{
-
 type:'pie',
 
 data:{
 
-labels:['IT','Core'],
+labels:salaryLabels,
 
 datasets:[{
 
-data:[itOffers,coreOffers],
-
-backgroundColor:[
-
-'#7c3aed',
-'#f59e0b'
-
-]
-
-}]
-
-},
-
-options:{
-
-responsive:true
-
-}
-
-});
-
-
-// ========================================
-// OFFERS CHART
-// ========================================
-
-new Chart(
-document.getElementById("offersChart"),
-
-{
-
-type:'pie',
-
-data:{
-
-labels:branchLabels,
-
-datasets:[{
-
-data:branchCounts,
+data:salaryValues,
 
 backgroundColor:[
 
@@ -1517,12 +1436,140 @@ backgroundColor:[
 },
 
 options:{
-
 responsive:true
-
 }
 
 });
+
+
+// ========================================
+// STIPEND CHART
+// ========================================
+
+new Chart(
+document.getElementById("stipendChart"),
+
+{
+
+type:'pie',
+
+data:{
+
+labels:stipendLabels,
+
+datasets:[{
+
+data:stipendValues,
+
+backgroundColor:[
+
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+
+]
+
+}]
+
+},
+
+options:{
+responsive:true
+}
+
+});
+
+
+// ========================================
+// NATURE CHART
+// ========================================
+
+new Chart(
+document.getElementById("natureChart"),
+
+{
+
+type:'pie',
+
+data:{
+
+labels:natureLabels,
+
+datasets:[{
+
+data:natureValues,
+
+backgroundColor:[
+
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+
+]
+
+}]
+
+},
+
+options:{
+responsive:true
+}
+
+});
+
+
+// ========================================
+// OFFERS CHART
+// ========================================
+
+new Chart(
+document.getElementById("offersChart"),
+
+{
+
+type:'pie',
+
+data:{
+
+labels:offerLabels,
+
+datasets:[{
+
+data:offerValues,
+
+backgroundColor:[
+
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+
+]
+
+}]
+
+},
+
+options:{
+responsive:true
+}
+
+});
+
 
 }
 
