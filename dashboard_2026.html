@@ -1040,7 +1040,6 @@ Academic Year
 
 </div>
 </div>
-
 <script>
 
 function toggleSubMenu(id){
@@ -1093,84 +1092,141 @@ window.location.href="index.html";
 
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script>
-// ============================
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+
+// ========================================
+// GOOGLE SHEET URLS
+// ========================================
+
 // STATS SHEET URL
-// ============================
+const statsSheetURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 
-const statsSheetURL ="https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
-
-// ============================
 // CHARTS SHEET URL
-// ============================
+const chartsSheetURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-const chartsSheetURL ="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-// ============================
-// LOAD STATS DATA
-// ============================
+// ========================================
+// LOAD STATS CARDS
+// ========================================
 
-Papa.parse(statsSheetURL, {
+Papa.parse(statsSheetURL,{
 
 download:true,
-
 header:true,
 
 complete:function(results){
 
-let data =
-results.data.filter(
+let data = results.data.filter(
 row => row.Name !== ""
 );
 
-    download: true,
-    header: true,
+// ========================================
+// TOTAL STUDENTS
+// ========================================
 
-    complete: function(results) {
+let totalStudents = data.length;
 
-        let data = results.data.filter(row => row.Name !== "");
 
-        // 1. Total Students = Total Rows
-        let totalStudents = data.length;
+// ========================================
+// REGISTERED STUDENTS
+// ========================================
 
-        // 2. Registered for Placements = Count of Yes
-        let registeredStudents = data.filter(
-            row => row["Registered for Placements"] === "Yes"
-        ).length;
+let registeredStudents = data.filter(
+row =>
+row["Registered for Placements"]
+?.trim()
+.toLowerCase() === "yes"
+).length;
 
-        // 3. Eligible Students
+
+// ========================================
+// ELIGIBLE STUDENTS
+// ========================================
+
 let eligibleStudents = data.filter(row => {
 
-    let registered =
-        row["Registered for Placements"]
-        ?.trim()
-        .toLowerCase() === "yes";
+let registered =
+row["Registered for Placements"]
+?.trim()
+.toLowerCase() === "yes";
 
-    let cgpa =
-        parseFloat(row["CGPA"]?.trim()) || 0;
+let cgpa =
+parseFloat(row["CGPA"]) || 0;
 
-    return registered && cgpa >= 6.5;
+return registered && cgpa >= 6.5;
 
 }).length;
 
-        // 4. Total Students Placed
-        let placedStudents = data.filter(row => {
 
-            return Number(row["No. of Offers"]) > 0;
+// ========================================
+// PLACED STUDENTS
+// ========================================
 
-        }).length;
+let placedStudents = data.filter(row => {
 
-        // 5. Total Offers
-        let totalOffers = data.reduce((sum, row) => {
+return Number(row["No. of Offers"]) > 0;
 
-            return sum + Number(row["No. of Offers"] || 0);
+}).length;
 
-        }, 0);
 
-// =============================
+// ========================================
+// TOTAL OFFERS
+// ========================================
+
+let totalOffers = data.reduce((sum,row)=>{
+
+return sum + Number(row["No. of Offers"] || 0);
+
+},0);
+
+
+// ========================================
+// UPDATE CARDS
+// ========================================
+
+document.getElementById("totalStudents").innerText =
+totalStudents;
+
+document.getElementById("registeredStudents").innerText =
+registeredStudents;
+
+document.getElementById("eligibleStudents").innerText =
+eligibleStudents;
+
+document.getElementById("placedStudents").innerText =
+placedStudents;
+
+document.getElementById("totalOffers").innerText =
+totalOffers;
+
+}
+
+});
+
+
+// ========================================
+// LOAD CHARTS
+// ========================================
+
+Papa.parse(chartsSheetURL,{
+
+download:true,
+header:true,
+
+complete:function(chartResults){
+
+let data = chartResults.data.filter(
+row => row["Batch"] !== ""
+);
+
+
+// ========================================
 // AVG SALARY
-// =============================
+// ========================================
 
 let totalSalary = 0;
 
@@ -1178,16 +1234,16 @@ let salaryCount = 0;
 
 data.forEach(row => {
 
-    let salary =
-    parseFloat(row["Salary package"]) || 0;
+let salary =
+parseFloat(row["Salary package"]) || 0;
 
-    if(salary > 0){
+if(salary > 0){
 
-        totalSalary += salary;
+totalSalary += salary;
 
-        salaryCount++;
+salaryCount++;
 
-    }
+}
 
 });
 
@@ -1197,9 +1253,9 @@ salaryCount > 0
 : 0;
 
 
-// =============================
-// AVG INTERNSHIP STIPEND
-// =============================
+// ========================================
+// AVG STIPEND
+// ========================================
 
 let totalStipend = 0;
 
@@ -1207,16 +1263,16 @@ let stipendCount = 0;
 
 data.forEach(row => {
 
-    let stipend =
-    parseFloat(row["Stipend(Per Month)"]) || 0;
+let stipend =
+parseFloat(row["Stipend(Per Month)"]) || 0;
 
-    if(stipend > 0){
+if(stipend > 0){
 
-        totalStipend += stipend;
+totalStipend += stipend;
 
-        stipendCount++;
+stipendCount++;
 
-    }
+}
 
 });
 
@@ -1225,9 +1281,10 @@ stipendCount > 0
 ? (totalStipend / stipendCount).toFixed(0)
 : 0;
 
-// =============================
-// IT vs CORE OFFERS
-// =============================
+
+// ========================================
+// IT VS CORE
+// ========================================
 
 let itOffers = 0;
 
@@ -1235,62 +1292,57 @@ let coreOffers = 0;
 
 data.forEach(row => {
 
-    let companyType =
-    row["Nature of the Company"]
-    ?.trim()
-    .toLowerCase();
+let companyType =
+row["Nature of the Company"]
+?.trim()
+.toLowerCase();
 
-    if(companyType === "it"){
+if(companyType === "it"){
 
-        itOffers++;
+itOffers++;
 
-    }
+}
 
-    else if(companyType === "core"){
+else if(companyType === "core"){
 
-        coreOffers++;
+coreOffers++;
 
-    }
+}
 
 });
 
 
-// =============================
-// BRANCH WISE OFFERS (2026)
-// =============================
+// ========================================
+// BRANCH WISE OFFERS
+// ========================================
 
 let branchOffers = {};
 
 data.forEach(row => {
 
-    let batch =
-    row["Batch"]?.trim();
+let batch =
+row["Batch"]?.trim();
 
-    let branch =
-    row["Branch"]?.trim();
+let branch =
+row["Branch"]?.trim();
 
-    // Only Batch 2026
+if(batch === "2026"){
 
-    if(batch === "2026"){
+if(branchOffers[branch]){
 
-        if(branchOffers[branch]){
+branchOffers[branch]++;
 
-            branchOffers[branch]++;
+}
 
-        }
+else{
 
-        else{
+branchOffers[branch] = 1;
 
-            branchOffers[branch] = 1;
+}
 
-        }
-
-    }
+}
 
 });
-
-
-// Convert Object to Arrays
 
 let branchLabels =
 Object.keys(branchOffers);
@@ -1299,11 +1351,9 @@ let branchCounts =
 Object.values(branchOffers);
 
 
-
-
-// =============================
+// ========================================
 // AVG SALARY CHART
-// =============================
+// ========================================
 
 new Chart(
 document.getElementById("salaryChart"),
@@ -1323,7 +1373,6 @@ data:[avgSalary,10-avgSalary],
 backgroundColor:[
 
 '#2563eb',
-
 '#dbeafe'
 
 ],
@@ -1347,9 +1396,9 @@ legend:{display:false}
 });
 
 
-// =============================
+// ========================================
 // STIPEND CHART
-// =============================
+// ========================================
 
 new Chart(
 document.getElementById("stipendChart"),
@@ -1369,7 +1418,6 @@ data:[avgStipend,50000-avgStipend],
 backgroundColor:[
 
 '#059669',
-
 '#d1fae5'
 
 ],
@@ -1393,9 +1441,9 @@ legend:{display:false}
 });
 
 
-// =============================
-// IT vs CORE CHART
-// =============================
+// ========================================
+// NATURE CHART
+// ========================================
 
 new Chart(
 document.getElementById("natureChart"),
@@ -1415,7 +1463,6 @@ data:[itOffers,coreOffers],
 backgroundColor:[
 
 '#7c3aed',
-
 '#f59e0b'
 
 ]
@@ -1432,9 +1479,10 @@ responsive:true
 
 });
 
-// =============================
-// BRANCH WISE OFFERS CHART
-// =============================
+
+// ========================================
+// OFFERS CHART
+// ========================================
 
 new Chart(
 document.getElementById("offersChart"),
@@ -1476,540 +1524,9 @@ responsive:true
 
 });
 
-
-        // Update Cards
-        document.getElementById("totalStudents").innerText = totalStudents;
-
-        document.getElementById("registeredStudents").innerText = registeredStudents;
-
-        document.getElementById("eligibleStudents").innerText = eligibleStudents;
-
-        document.getElementById("placedStudents").innerText = placedStudents;
-
-        document.getElementById("totalOffers").innerText = totalOffers;
-
-     
-// ============================
-// LOAD CHARTS DATA
-// ============================
-
-Papa.parse(chartsSheetURL, {
-
-download:true,
-
-header:true,
-
-complete:function(chartResults){
-
-let data =
-chartResults.data.filter(
-row => row["Batch"] !== ""
-);
-
-// =============================
-// AVG SALARY
-// =============================
-
-let totalSalary = 0;
-let salaryCount = 0;
-
-data.forEach(row => {
-
-let salary =
-parseFloat(row["Salary package"]) || 0;
-
-if(salary > 0){
-
-totalSalary += salary;
-salaryCount++;
-
 }
 
 });
-
-let avgSalary =
-salaryCount > 0
-? (totalSalary / salaryCount).toFixed(2)
-: 0;
-
-
-// =============================
-// AVG STIPEND
-// =============================
-
-let totalStipend = 0;
-let stipendCount = 0;
-
-data.forEach(row => {
-
-let stipend =
-parseFloat(row["Stipend(Per Month)"]) || 0;
-
-if(stipend > 0){
-
-totalStipend += stipend;
-stipendCount++;
-
-}
-
-});
-
-let avgStipend =
-stipendCount > 0
-? (totalStipend / stipendCount).toFixed(0)
-: 0;
-
-
-// =============================
-// IT vs CORE
-// =============================
-
-let itOffers = 0;
-let coreOffers = 0;
-
-data.forEach(row => {
-
-let type =
-row["Nature of the Company"]
-?.trim()
-.toLowerCase();
-
-if(type === "it"){
-
-itOffers++;
-
-}
-
-else if(type === "core"){
-
-coreOffers++;
-
-}
-
-});
-
-
-// =============================
-// BRANCH OFFERS
-// =============================
-
-let branchOffers = {};
-
-data.forEach(row => {
-
-let batch =
-row["Batch"]?.trim();
-
-let branch =
-row["Branch"]?.trim();
-
-if(batch === "2026"){
-
-if(branchOffers[branch]){
-
-branchOffers[branch]++;
-
-}
-
-else{
-
-branchOffers[branch] = 1;
-
-}
-
-}
-
-});
-
-let branchLabels =
-Object.keys(branchOffers);
-
-let branchCounts =
-Object.values(branchOffers);
-
-
-// =============================
-// SALARY CHART
-// =============================
-
-new Chart(document.getElementById("salaryChart"),{
-
-type:'doughnut',
-
-data:{
-labels:['Average Salary'],
-datasets:[{
-data:[avgSalary,10-avgSalary],
-backgroundColor:[
-'#2563eb',
-'#dbeafe'
-],
-borderWidth:0
-}]
-},
-
-options:{
-plugins:{
-legend:{display:false}
-}
-}
-
-});
-
-
-// =============================
-// STIPEND CHART
-// =============================
-
-new Chart(document.getElementById("stipendChart"),{
-
-type:'doughnut',
-
-data:{
-labels:['Avg Stipend'],
-datasets:[{
-data:[avgStipend,50000-avgStipend],
-backgroundColor:[
-'#059669',
-'#d1fae5'
-],
-borderWidth:0
-}]
-},
-
-options:{
-plugins:{
-legend:{display:false}
-}
-}
-
-});
-
-
-// =============================
-// NATURE CHART
-// =============================
-
-new Chart(document.getElementById("natureChart"),{
-
-type:'pie',
-
-data:{
-labels:['IT','Core'],
-datasets:[{
-data:[itOffers,coreOffers],
-backgroundColor:[
-'#7c3aed',
-'#f59e0b'
-]
-}]
-},
-
-options:{
-responsive:true
-}
-
-});
-
-
-// =============================
-// OFFERS CHART
-// =============================
-
-new Chart(document.getElementById("offersChart"),{
-
-type:'pie',
-
-data:{
-labels:branchLabels,
-datasets:[{
-data:branchCounts,
-backgroundColor:[
-'#2563eb',
-'#059669',
-'#dc2626',
-'#d97706',
-'#7c3aed',
-'#0ea5e9',
-'#14b8a6',
-'#f43f5e'
-]
-}]
-},
-
-options:{
-responsive:true
-}
-
-});
-
-}
-
-});
-
-  
-// ============================
-// LOAD CHARTS DATA
-// ============================
-
-Papa.parse(chartsSheetURL, {
-
-download:true,
-
-header:true,
-
-complete:function(chartResults){
-
-let data =
-chartResults.data.filter(
-row => row["Batch"] !== ""
-);
-
-// =============================
-// AVG SALARY
-// =============================
-
-let totalSalary = 0;
-let salaryCount = 0;
-
-data.forEach(row => {
-
-let salary =
-parseFloat(row["Salary package"]) || 0;
-
-if(salary > 0){
-
-totalSalary += salary;
-salaryCount++;
-
-}
-
-});
-
-let avgSalary =
-salaryCount > 0
-? (totalSalary / salaryCount).toFixed(2)
-: 0;
-
-
-// =============================
-// AVG STIPEND
-// =============================
-
-let totalStipend = 0;
-let stipendCount = 0;
-
-data.forEach(row => {
-
-let stipend =
-parseFloat(row["Stipend(Per Month)"]) || 0;
-
-if(stipend > 0){
-
-totalStipend += stipend;
-stipendCount++;
-
-}
-
-});
-
-let avgStipend =
-stipendCount > 0
-? (totalStipend / stipendCount).toFixed(0)
-: 0;
-
-
-// =============================
-// IT vs CORE
-// =============================
-
-let itOffers = 0;
-let coreOffers = 0;
-
-data.forEach(row => {
-
-let type =
-row["Nature of the Company"]
-?.trim()
-.toLowerCase();
-
-if(type === "it"){
-
-itOffers++;
-
-}
-
-else if(type === "core"){
-
-coreOffers++;
-
-}
-
-});
-
-
-// =============================
-// BRANCH OFFERS
-// =============================
-
-let branchOffers = {};
-
-data.forEach(row => {
-
-let batch =
-row["Batch"]?.trim();
-
-let branch =
-row["Branch"]?.trim();
-
-if(batch === "2026"){
-
-if(branchOffers[branch]){
-
-branchOffers[branch]++;
-
-}
-
-else{
-
-branchOffers[branch] = 1;
-
-}
-
-}
-
-});
-
-let branchLabels =
-Object.keys(branchOffers);
-
-let branchCounts =
-Object.values(branchOffers);
-
-
-// =============================
-// SALARY CHART
-// =============================
-
-new Chart(document.getElementById("salaryChart"),{
-
-type:'doughnut',
-
-data:{
-labels:['Average Salary'],
-datasets:[{
-data:[avgSalary,10-avgSalary],
-backgroundColor:[
-'#2563eb',
-'#dbeafe'
-],
-borderWidth:0
-}]
-},
-
-options:{
-plugins:{
-legend:{display:false}
-}
-}
-
-});
-
-
-// =============================
-// STIPEND CHART
-// =============================
-
-new Chart(document.getElementById("stipendChart"),{
-
-type:'doughnut',
-
-data:{
-labels:['Avg Stipend'],
-datasets:[{
-data:[avgStipend,50000-avgStipend],
-backgroundColor:[
-'#059669',
-'#d1fae5'
-],
-borderWidth:0
-}]
-},
-
-options:{
-plugins:{
-legend:{display:false}
-}
-}
-
-});
-
-
-// =============================
-// NATURE CHART
-// =============================
-
-new Chart(document.getElementById("natureChart"),{
-
-type:'pie',
-
-data:{
-labels:['IT','Core'],
-datasets:[{
-data:[itOffers,coreOffers],
-backgroundColor:[
-'#7c3aed',
-'#f59e0b'
-]
-}]
-},
-
-options:{
-responsive:true
-}
-
-});
-
-
-// =============================
-// OFFERS CHART
-// =============================
-
-new Chart(document.getElementById("offersChart"),{
-
-type:'pie',
-
-data:{
-labels:branchLabels,
-datasets:[{
-data:branchCounts,
-backgroundColor:[
-'#2563eb',
-'#059669',
-'#dc2626',
-'#d97706',
-'#7c3aed',
-'#0ea5e9',
-'#14b8a6',
-'#f43f5e'
-]
-}]
-},
-
-options:{
-responsive:true
-}
-
-});
-
-}
-
-});
-
-
-    }
-});
-
 
 </script>
 
