@@ -1405,10 +1405,10 @@ Object.values(offerData);
 // ========================================
 // SALARY CHART
 // ========================================
+// ================= AVG SALARY CHART =================
 
-new Chart(
+const salaryChart = new Chart(
 document.getElementById("salaryChart"),
-
 {
 
 type:'pie',
@@ -1430,9 +1430,14 @@ backgroundColor:[
 '#7c3aed',
 '#0ea5e9',
 '#14b8a6',
-'#f43f5e'
+'#f43f5e',
+'#22c55e',
+'#e11d48'
 
-]
+],
+
+borderWidth:2,
+borderColor:'#fff'
 
 }]
 
@@ -1443,8 +1448,11 @@ plugins:[ChartDataLabels],
 options:{
 
 responsive:true,
-
 maintainAspectRatio:false,
+
+layout:{
+padding:25
+},
 
 plugins:{
 
@@ -1452,20 +1460,69 @@ legend:{
 display:false
 },
 
+tooltip:{
+enabled:true
+},
+
 datalabels:{
 
-color:'#000',
+labels:{
+
+// BRANCH NAME INSIDE PIE
+title:{
+
+color:'#fff',
 
 font:{
 weight:'bold',
-size:11
+size:12
 },
 
 formatter:(value,context)=>{
 
 return context.chart.data.labels[
 context.dataIndex
-] + '\n' + value + ' LPA';
+];
+
+},
+
+anchor:'center',
+align:'center'
+
+},
+
+// SALARY VALUE OUTSIDE PIE
+value:{
+
+color:'#000',
+
+backgroundColor:'#fff',
+
+borderRadius:5,
+
+padding:{
+top:4,
+bottom:4,
+left:6,
+right:6
+},
+
+font:{
+weight:'bold',
+size:11
+},
+
+formatter:(value)=>{
+
+return value + ' LPA';
+
+},
+
+anchor:'end',
+align:'end',
+offset:14
+
+}
 
 }
 
@@ -1476,7 +1533,6 @@ context.dataIndex
 }
 
 });
-
 
 // ========================================
 // STIPEND CHART
