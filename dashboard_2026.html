@@ -615,21 +615,36 @@
                 let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
 
                 // --- PROCESS STIPEND ---
-                let stipendData = {};
-                data.forEach(row => {
-                    let branch = String(row["Branch"] || "").trim();
-                    let stipendText = String(row["Internship stipend"] || row["Stipend"] || "").replace(/,/g, '').replace('₹', '').trim();
-                    let stipend = parseFloat(stipendText) || 0;
+let stipendData = {};
+data.forEach(row => {
+    let branch = String(row["Branch"] || "").trim();
+    
+    // 1. Get the raw text from the column
+    let stipendText = String(row["Internship stipend"] || row["Stipend"] || "").trim();
 
-                    if (branch && stipend > 0) {
-                        if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
-                        stipendData[branch].total += stipend;
-                        stipendData[branch].count++;
-                    }
-                });
+    // 2. Clean the string: remove commas, currency symbols, and handle dashes/empty values
+    stipendText = stipendText
+        .replace(/,/g, '')
+        .replace('₹', '')
+        .trim();
 
-                let stipendLabels = Object.keys(stipendData);
-                let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
+    // 3. If it's just a hyphen, dash, or empty, treat it as 0
+    if (stipendText === '-' || stipendText === '—' || stipendText === '') {
+        stipendText = '0';
+    }
+
+    let stipend = parseFloat(stipendText) || 0;
+
+    // 4. Only calculate averages for rows that actually have a stipend greater than 0
+    if (branch && stipend > 0) {
+        if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
+        stipendData[branch].total += stipend;
+        stipendData[branch].count++;
+    }
+});
+
+let stipendLabels = Object.keys(stipendData);
+let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
 
                 // --- RENDER SALARY CHART ---
                 new Chart(document.getElementById("salaryChart"), {
