@@ -1018,26 +1018,7 @@ Academic Year
 
     </div>
 
-    <!-- NATURE OF OFFERS -->
-
-    <div class="pie-card">
-
-        <h3>Nature of Offers</h3>
-
-        <canvas id="natureChart"></canvas>
-
-    </div>
-
-    <!-- OVERALL OFFERS -->
-
-    <div class="pie-card">
-
-        <h3>Overall Offers</h3>
-
-        <canvas id="offersChart"></canvas>
-
-    </div>
-
+  
 </div>
 </div>
 <script>
@@ -1319,87 +1300,6 @@ stipendData[branch].count
 
 
 // ========================================
-// BRANCHWISE IT/CORE COUNT
-// ========================================
-
-let natureLabels = [];
-let natureValues = [];
-
-let natureData = {};
-
-data.forEach(row => {
-
-let branch = row["Branch"]?.trim();
-
-let type =
-row["Nature of the Company"]
-?.trim()
-.toLowerCase();
-
-if(branch){
-
-if(!natureData[branch]){
-
-natureData[branch] = 0;
-
-}
-
-if(type === "it" || type === "core"){
-
-natureData[branch]++;
-
-}
-
-}
-
-});
-
-for(let branch in natureData){
-
-natureLabels.push(branch);
-
-natureValues.push(
-natureData[branch]
-);
-
-}
-
-
-// ========================================
-// BRANCHWISE OFFERS COUNT
-// ========================================
-
-let offerData = {};
-
-data.forEach(row => {
-
-let branch = row["Branch"]?.trim();
-
-let offers =
-Number(row["No. of Offers"]) || 0;
-
-if(branch){
-
-if(!offerData[branch]){
-
-offerData[branch] = 0;
-
-}
-
-offerData[branch] += offers;
-
-}
-
-});
-
-let offerLabels =
-Object.keys(offerData);
-
-let offerValues =
-Object.values(offerData);
-
-
-// ========================================
 // SALARY CHART
 // ========================================
 // ========================================
@@ -1588,95 +1488,7 @@ responsive:true
 });
 
 
-// ========================================
-// NATURE CHART
-// ========================================
 
-new Chart(
-document.getElementById("natureChart"),
-
-{
-
-type:'pie',
-
-data:{
-
-labels:natureLabels,
-
-datasets:[{
-
-data:natureValues,
-
-backgroundColor:[
-
-'#2563eb',
-'#059669',
-'#dc2626',
-'#d97706',
-'#7c3aed',
-'#0ea5e9',
-'#14b8a6',
-'#f43f5e'
-
-]
-
-}]
-
-},
-
-options:{
-responsive:true
-}
-
-});
-
-
-// ========================================
-// OFFERS CHART
-// ========================================
-
-new Chart(
-document.getElementById("offersChart"),
-
-{
-
-type:'pie',
-
-data:{
-
-labels:offerLabels,
-
-datasets:[{
-
-data:offerValues,
-
-backgroundColor:[
-
-'#2563eb',
-'#059669',
-'#dc2626',
-'#d97706',
-'#7c3aed',
-'#0ea5e9',
-'#14b8a6',
-'#f43f5e'
-
-]
-
-}]
-
-},
-
-options:{
-responsive:true
-}
-
-});
-
-
-}
-
-});
 
 </script>
 
