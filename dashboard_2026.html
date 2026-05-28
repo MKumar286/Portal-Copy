@@ -1078,7 +1078,6 @@ window.location.href="index.html";
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
 <script>
 
 // ========================================
@@ -1105,35 +1104,51 @@ Papa.parse(statsSheetURL, {
 
     complete:function(results){
 
-        let data = results.data.filter(
-            row["Name"] && row["Name"].trim() !== ""
+        let data = results.data.filter(row =>
+            row["Name"] &&
+            String(row["Name"]).trim() !== ""
         );
 
+        // TOTAL STUDENTS
         let totalStudents = data.length;
 
+        // REGISTERED
         let registeredStudents = data.filter(row =>
-            row["Registered for Placements"] &&
-            row["Registered for Placements"].trim().toLowerCase() === "yes"
+
+            String(
+                row["Registered for Placements"] || ""
+            ).trim().toLowerCase() === "yes"
+
         ).length;
 
+        // ELIGIBLE
         let eligibleStudents = data.filter(row => {
 
             let registered =
-                row["Registered for Placements"] &&
-                row["Registered for Placements"].trim().toLowerCase() === "yes";
 
-            let cgpa = parseFloat(row["CGPA"]) || 0;
+                String(
+                    row["Registered for Placements"] || ""
+                ).trim().toLowerCase() === "yes";
+
+            let cgpa =
+                parseFloat(row["CGPA"]) || 0;
 
             return registered && cgpa >= 6.5;
 
         }).length;
 
+        // PLACED
         let placedStudents = data.filter(row =>
-            Number(row["No. of Offers"]) > 0
+
+            Number(row["No. of Offers"] || 0) > 0
+
         ).length;
 
+        // TOTAL OFFERS
         let totalOffers = data.reduce((sum,row)=>
+
             sum + Number(row["No. of Offers"] || 0)
+
         ,0);
 
         // UPDATE CARDS
@@ -1169,113 +1184,12 @@ Papa.parse(chartsSheetURL, {
 
     complete:function(results){
 
-        let data = results.data.filter(
-            row => row["Branch"] && row["Branch"].trim() !== ""
+        let data = results.data.filter(row =>
+
+            row["Branch"] &&
+            String(row["Branch"]).trim() !== ""
+
         );
-
-        // ========================================
-        // AVG SALARY
-        // ========================================
-
-        let salaryData = {};
-
-        data.forEach(row => {
-
-            let branch = row["Branch"]?.trim();
-
-            let salary =
-            parseFloat(row["Salary package"]) || 0;
-
-            if(branch && salary > 0){
-
-                if(!salaryData[branch]){
-
-                    salaryData[branch] = {
-                        total:0,
-                        count:0
-                    };
-
-                }
-
-                salaryData[branch].total += salary;
-                salaryData[branch].count++;
-
-            }
-
-        });
-
-        let salaryLabels = [];
-        let salaryValues = [];
-
-        for(let branch in salaryData){
-
-            salaryLabels.push(branch);
-
-            salaryValues.push(
-                (
-                    salaryData[branch].total /
-                    salaryData[branch].count
-                ).toFixed(2)
-            );
-
-        }
-
-
-        // ========================================
-        // AVG STIPEND
-        // ========================================
-
-        let stipendData = {};
-
-        data.forEach(row => {
-
-            let branch = row["Branch"]?.trim();
-
- let stipendText =
-String(row["Stipend(Per Month)"] || "")
-.replace(/,/g,'')
-.replace('₹','')
-.trim();
-
-let stipend =
-stipendText === "-" || stipendText === ""
-? 0
-: parseFloat(stipendText) || 0;
-
-            if(branch && stipend > 0){
-
-                if(!stipendData[branch]){
-
-                    stipendData[branch] = {
-                        total:0,
-                        count:0
-                    };
-
-                }
-
-                stipendData[branch].total += stipend;
-                stipendData[branch].count++;
-
-            }
-
-        });
-
-        let stipendLabels = [];
-        let stipendValues = [];
-
-        for(let branch in stipendData){
-
-            stipendLabels.push(branch);
-
-            stipendValues.push(
-                (
-                    stipendData[branch].total /
-                    stipendData[branch].count
-                ).toFixed(0)
-            );
-
-        }
-
 
         // ========================================
         // COMMON COLORS
@@ -1297,6 +1211,67 @@ stipendText === "-" || stipendText === ""
         ];
 
 
+
+        // ========================================
+        // AVG SALARY
+        // ========================================
+
+        let salaryData = {};
+
+        data.forEach(row => {
+
+            let branch =
+                String(row["Branch"] || "").trim();
+
+            let salaryText =
+                String(row["Salary package"] || "")
+                .replace(/,/g,'')
+                .replace('₹','')
+                .trim();
+
+            let salary =
+                parseFloat(salaryText) || 0;
+
+            if(branch && salary > 0){
+
+                if(!salaryData[branch]){
+
+                    salaryData[branch] = {
+
+                        total:0,
+                        count:0
+
+                    };
+
+                }
+
+                salaryData[branch].total += salary;
+                salaryData[branch].count++;
+
+            }
+
+        });
+
+        let salaryLabels = [];
+        let salaryValues = [];
+
+        for(let branch in salaryData){
+
+            salaryLabels.push(branch);
+
+            salaryValues.push(
+
+                (
+                    salaryData[branch].total /
+                    salaryData[branch].count
+                ).toFixed(2)
+
+            );
+
+        }
+
+
+
         // ========================================
         // SALARY CHART
         // ========================================
@@ -1308,14 +1283,20 @@ stipendText === "-" || stipendText === ""
                 type:'pie',
 
                 data:{
+
                     labels:salaryLabels,
 
                     datasets:[{
+
                         data:salaryValues,
+
                         backgroundColor:colors,
+
                         borderWidth:2,
                         borderColor:'#fff'
+
                     }]
+
                 },
 
                 plugins:[ChartDataLabels],
@@ -1345,9 +1326,11 @@ stipendText === "-" || stipendText === ""
                                     },
 
                                     formatter:(value,context)=>{
+
                                         return context.chart.data.labels[
                                             context.dataIndex
                                         ];
+
                                     },
 
                                     anchor:'center',
@@ -1371,7 +1354,9 @@ stipendText === "-" || stipendText === ""
                                     },
 
                                     formatter:(value)=>{
+
                                         return value + ' LPA';
+
                                     },
 
                                     anchor:'end',
@@ -1392,6 +1377,76 @@ stipendText === "-" || stipendText === ""
         );
 
 
+
+        // ========================================
+        // AVG STIPEND
+        // ========================================
+
+        let stipendData = {};
+
+        data.forEach(row => {
+
+            let branch =
+                String(row["Branch"] || "").trim();
+
+            let stipendText =
+                String(row["Stipend(Per Month)"] || "")
+                .replace(/,/g,'')
+                .replace('₹','')
+                .trim();
+
+            let stipend = 0;
+
+            if(
+                stipendText !== "-" &&
+                stipendText !== ""
+            ){
+
+                stipend =
+                    parseFloat(stipendText) || 0;
+
+            }
+
+            if(branch && stipend > 0){
+
+                if(!stipendData[branch]){
+
+                    stipendData[branch] = {
+
+                        total:0,
+                        count:0
+
+                    };
+
+                }
+
+                stipendData[branch].total += stipend;
+                stipendData[branch].count++;
+
+            }
+
+        });
+
+        let stipendLabels = [];
+        let stipendValues = [];
+
+        for(let branch in stipendData){
+
+            stipendLabels.push(branch);
+
+            stipendValues.push(
+
+                (
+                    stipendData[branch].total /
+                    stipendData[branch].count
+                ).toFixed(0)
+
+            );
+
+        }
+
+
+
         // ========================================
         // STIPEND CHART
         // ========================================
@@ -1403,14 +1458,20 @@ stipendText === "-" || stipendText === ""
                 type:'pie',
 
                 data:{
+
                     labels:stipendLabels,
 
                     datasets:[{
+
                         data:stipendValues,
+
                         backgroundColor:colors,
+
                         borderWidth:2,
                         borderColor:'#fff'
+
                     }]
+
                 },
 
                 plugins:[ChartDataLabels],
@@ -1440,9 +1501,11 @@ stipendText === "-" || stipendText === ""
                                     },
 
                                     formatter:(value,context)=>{
+
                                         return context.chart.data.labels[
                                             context.dataIndex
                                         ];
+
                                     },
 
                                     anchor:'center',
@@ -1466,7 +1529,9 @@ stipendText === "-" || stipendText === ""
                                     },
 
                                     formatter:(value)=>{
+
                                         return '₹' + value;
+
                                     },
 
                                     anchor:'end',
