@@ -1104,10 +1104,12 @@ Papa.parse(statsSheetURL, {
 
     complete:function(results){
 
-        let data = results.data.filter(row =>
-            row["Name"] &&
-            String(row["Name"]).trim() !== ""
-        );
+       let data = results.data.filter(row =>
+
+    row["Name"] &&
+    String(row["Name"]).trim() !== ""
+
+);
 
         // TOTAL STUDENTS
         let totalStudents = data.length;
@@ -1145,11 +1147,11 @@ Papa.parse(statsSheetURL, {
         ).length;
 
         // TOTAL OFFERS
-        let totalOffers = data.reduce((sum,row)=>
+     let totalOffers = data.reduce((sum,row)=>
 
-            sum + Number(row["No. of Offers"] || 0)
+    sum + (parseInt(row["No. of Offers"]) || 0)
 
-        ,0);
+,0);
 
         // UPDATE CARDS
 
@@ -1379,179 +1381,7 @@ Papa.parse(chartsSheetURL, {
 
 
         // ========================================
-        // AVG STIPEND
-        // ========================================
-
-        let stipendData = {};
-
-        data.forEach(row => {
-
-            let branch =
-                String(row["Branch"] || "").trim();
-
-            let stipendText =
-                String(row["Stipend(Per Month)"] || "")
-                .replace(/,/g,'')
-                .replace('₹','')
-                .trim();
-
-            let stipend = 0;
-
-            if(
-                stipendText !== "-" &&
-                stipendText !== ""
-            ){
-
-                stipend =
-                    parseFloat(stipendText) || 0;
-
-            }
-
-            if(branch && stipend > 0){
-
-                if(!stipendData[branch]){
-
-                    stipendData[branch] = {
-
-                        total:0,
-                        count:0
-
-                    };
-
-                }
-
-                stipendData[branch].total += stipend;
-                stipendData[branch].count++;
-
-            }
-
-        });
-
-        let stipendLabels = [];
-        let stipendValues = [];
-
-        for(let branch in stipendData){
-
-            stipendLabels.push(branch);
-
-            stipendValues.push(
-
-                (
-                    stipendData[branch].total /
-                    stipendData[branch].count
-                ).toFixed(0)
-
-            );
-
-        }
-
-
-
-        // ========================================
-        // STIPEND CHART
-        // ========================================
-
-        new Chart(
-            document.getElementById("stipendChart"),
-            {
-
-                type:'pie',
-
-                data:{
-
-                    labels:stipendLabels,
-
-                    datasets:[{
-
-                        data:stipendValues,
-
-                        backgroundColor:colors,
-
-                        borderWidth:2,
-                        borderColor:'#fff'
-
-                    }]
-
-                },
-
-                plugins:[ChartDataLabels],
-
-                options:{
-
-                    responsive:true,
-                    maintainAspectRatio:false,
-
-                    plugins:{
-
-                        legend:{
-                            display:false
-                        },
-
-                        datalabels:{
-
-                            labels:{
-
-                                title:{
-
-                                    color:'#fff',
-
-                                    font:{
-                                        weight:'bold',
-                                        size:11
-                                    },
-
-                                    formatter:(value,context)=>{
-
-                                        return context.chart.data.labels[
-                                            context.dataIndex
-                                        ];
-
-                                    },
-
-                                    anchor:'center',
-                                    align:'center'
-
-                                },
-
-                                value:{
-
-                                    color:'#000',
-
-                                    backgroundColor:'#fff',
-
-                                    borderRadius:5,
-
-                                    padding:4,
-
-                                    font:{
-                                        weight:'bold',
-                                        size:10
-                                    },
-
-                                    formatter:(value)=>{
-
-                                        return '₹' + value;
-
-                                    },
-
-                                    anchor:'end',
-                                    align:'end',
-                                    offset:18
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
+           }
 
 });
 
