@@ -472,7 +472,7 @@ color:#0f172a;
 
 width:100% !important;
 
-height:320px !important;
+height:500px !important;
 
 }
 
@@ -1450,9 +1450,21 @@ options:{
 responsive:true,
 maintainAspectRatio:false,
 
+radius:'88%',
 layout:{
-padding:25
+padding:{
+top:10,
+bottom:10,
+left:35,
+right:35
+}
 },
+elements:{
+arc:{
+borderWidth:2
+}
+},
+  
 
 plugins:{
 
@@ -1501,15 +1513,15 @@ backgroundColor:'#fff',
 borderRadius:5,
 
 padding:{
-top:4,
-bottom:4,
-left:6,
-right:6
+top:3,
+bottom:3,
+left:5,
+right:5
 },
 
 font:{
 weight:'bold',
-size:11
+size:10
 },
 
 formatter:(value)=>{
@@ -1520,7 +1532,9 @@ return value + ' LPA';
 
 anchor:'end',
 align:'end',
-offset:14
+offset:22,
+
+textAlign:'center'
 
 }
 
