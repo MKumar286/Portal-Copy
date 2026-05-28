@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academic Year Selection</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            font-family:Arial, sans-serif;
+
+            background:
+            radial-gradient(circle at top left, #1e293b 0%, transparent 25%),
+            radial-gradient(circle at bottom right, #0f172a 0%, transparent 25%),
+            linear-gradient(135deg, #020617, #0f172a, #111827);
+
+            overflow:hidden;
+        }
+
+        /* Animated Glow Effect */
+
+        body::before{
+            content:"";
+            position:absolute;
+            width:600px;
+            height:600px;
+            background:rgba(45, 106, 79, 0.15);
+            border-radius:50%;
+            filter:blur(120px);
+            top:-150px;
+            left:-150px;
+            animation:moveGlow 8s infinite alternate;
+        }
+
+        body::after{
+            content:"";
+            position:absolute;
+            width:500px;
+            height:500px;
+            background:rgba(2, 132, 199, 0.15);
+            border-radius:50%;
+            filter:blur(120px);
+            bottom:-150px;
+            right:-150px;
+            animation:moveGlow2 10s infinite alternate;
+        }
+
+        @keyframes moveGlow{
+
+            from{
+                transform:translate(0,0);
+            }
+
+            to{
+                transform:translate(100px,80px);
+            }
+
+        }
+
+        @keyframes moveGlow2{
+
+            from{
+                transform:translate(0,0);
+            }
+
+            to{
+                transform:translate(-120px,-70px);
+            }
+
+        }
+
+        .container{
+
+            position:relative;
+            z-index:2;
+
+            width:550px;
+
+            padding:40px;
+
+            border-radius:20px;
+
+            background:rgba(255,255,255,0.05);
+
+            backdrop-filter:blur(15px);
+
+            border:1px solid rgba(255,255,255,0.1);
+
+            box-shadow:
+            0 0 40px rgba(0,0,0,0.5),
+            0 0 80px rgba(0,0,0,0.3);
+
+        }
+
+        h2{
+
+            text-align:center;
+
+            color:white;
+
+            margin-bottom:30px;
+
+            font-size:32px;
+
+            letter-spacing:1px;
+
+        }
+
+        .row{
+
+            display:flex;
+
+            gap:15px;
+
+            align-items:center;
+
+        }
+
+        select{
+
+            flex:1;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:10px;
+
+            font-size:16px;
+
+            background:rgba(255,255,255,0.1);
+
+            color:white;
+
+            outline:none;
+
+            backdrop-filter:blur(5px);
+
+        }
+
+        option{
+            color:black;
+        }
+
+        button{
+
+            padding:14px 25px;
+
+            border:none;
+
+            border-radius:10px;
+
+            background:#2d6a4f;
+
+            color:white;
+
+            font-size:16px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        button:hover{
+
+            background:#40916c;
+
+            transform:translateY(-2px);
+
+            box-shadow:0 0 20px rgba(64,145,108,0.6);
+
+        }
+
+        @media(max-width:600px){
+
+            .container{
+                width:95%;
+                padding:25px;
+            }
+
+            .row{
+                flex-direction:column;
+            }
+
+            button{
+                width:100%;
+            }
+
+            select{
+                width:100%;
+            }
+
+        }
+
+    </style
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Select Academic Year</h2>
+
+        <form id="academicForm">
+
+    <div class="row">
+
+        <select id="academicYear" required>
+
+            <option value="">
+                -- Select Academic Year --
+            </option>
+
+            <option value="dashboard_2026.html">
+                2025-2026
+            </option>
+
+            <option value="dashboard_2023.html">
+                2026-2027
+            </option>
+
+            <option value="dashboard_2024.html">
+                2027-2028
+            </option>
+
+            <option value="dashboard_2025.html">
+                2029-2030
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Submit
+        </button>
+
+    </div>
+
+</form>
+    </div>
+
+    <script>
+
+document.getElementById("academicForm").addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    const selectedPage = document.getElementById("academicYear").value;
+
+    if(selectedPage !== ""){
+
+        window.location.href = selectedPage;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
