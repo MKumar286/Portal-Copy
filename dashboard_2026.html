@@ -1106,10 +1106,10 @@ Papa.parse(statsSheetURL, {
 
        let data = results.data.filter(row =>
 
-    row["Name"] &&
-    String(row["Name"]).trim() !== ""
+                          row["Name"] &&
+                           String(row["Name"]).trim() !== ""
 
-);
+                 );
 
         // TOTAL STUDENTS
         let totalStudents = data.length;
@@ -1147,7 +1147,7 @@ Papa.parse(statsSheetURL, {
         ).length;
 
         // TOTAL OFFERS
-     let totalOffers = data.reduce((sum,row)=>
+           let totalOffers = data.reduce((sum,row)=>
 
     sum + (parseInt(row["No. of Offers"]) || 0)
 
