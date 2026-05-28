@@ -1079,6 +1079,8 @@ window.location.href="index.html";
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
 <script>
 
 // ========================================
@@ -1095,100 +1097,65 @@ const chartsSheetURL =
 
 
 // ========================================
-// LOAD STATS CARDS
+// LOAD STATS
 // ========================================
 
-Papa.parse(statsSheetURL,{
+Papa.parse(statsSheetURL, {
 
-download:true,
-header:true,
+    download:true,
+    header:true,
 
-complete:function(results){
+    complete:function(results){
 
-let data = results.data.filter(
-row => row.Name !== ""
-);
+        let data = results.data.filter(
+            row => row.Name && row.Name.trim() !== ""
+        );
 
-// ========================================
-// TOTAL STUDENTS
-// ========================================
+        let totalStudents = data.length;
 
-let totalStudents = data.length;
+        let registeredStudents = data.filter(row =>
+            row["Registered for Placements"] &&
+            row["Registered for Placements"].trim().toLowerCase() === "yes"
+        ).length;
 
+        let eligibleStudents = data.filter(row => {
 
-// ========================================
-// REGISTERED STUDENTS
-// ========================================
+            let registered =
+                row["Registered for Placements"] &&
+                row["Registered for Placements"].trim().toLowerCase() === "yes";
 
-let registeredStudents = data.filter(
-row =>
-row["Registered for Placements"]
-?.trim()
-.toLowerCase() === "yes"
-).length;
+            let cgpa = parseFloat(row["CGPA"]) || 0;
 
+            return registered && cgpa >= 6.5;
 
-// ========================================
-// ELIGIBLE STUDENTS
-// ========================================
+        }).length;
 
-let eligibleStudents = data.filter(row => {
+        let placedStudents = data.filter(row =>
+            Number(row["No. of Offers"]) > 0
+        ).length;
 
-let registered =
-row["Registered for Placements"]
-?.trim()
-.toLowerCase() === "yes";
+        let totalOffers = data.reduce((sum,row)=>
+            sum + Number(row["No. of Offers"] || 0)
+        ,0);
 
-let cgpa =
-parseFloat(row["CGPA"]) || 0;
+        // UPDATE CARDS
 
-return registered && cgpa >= 6.5;
+        document.getElementById("totalStudents").innerText =
+        totalStudents;
 
-}).length;
+        document.getElementById("registeredStudents").innerText =
+        registeredStudents;
 
+        document.getElementById("eligibleStudents").innerText =
+        eligibleStudents;
 
-// ========================================
-// PLACED STUDENTS
-// ========================================
+        document.getElementById("placedStudents").innerText =
+        placedStudents;
 
-let placedStudents = data.filter(row => {
+        document.getElementById("totalOffers").innerText =
+        totalOffers;
 
-return Number(row["No. of Offers"]) > 0;
-
-}).length;
-
-
-// ========================================
-// TOTAL OFFERS
-// ========================================
-
-let totalOffers = data.reduce((sum,row)=>{
-
-return sum + Number(row["No. of Offers"] || 0);
-
-},0);
-
-
-// ========================================
-// UPDATE CARDS
-// ========================================
-
-document.getElementById("totalStudents").innerText =
-totalStudents;
-
-document.getElementById("registeredStudents").innerText =
-registeredStudents;
-
-document.getElementById("eligibleStudents").innerText =
-eligibleStudents;
-
-document.getElementById("placedStudents").innerText =
-placedStudents;
-
-document.getElementById("totalOffers").innerText =
-totalOffers;
-
-}
+    }
 
 });
 
@@ -1197,253 +1164,327 @@ totalOffers;
 // LOAD CHARTS
 // ========================================
 
-Papa.parse(chartsSheetURL,{
+Papa.parse(chartsSheetURL, {
 
-download:true,
-header:true,
+    download:true,
+    header:true,
 
-complete:function(chartResults){
+    complete:function(results){
 
-let data = chartResults.data.filter(
-row => row["Batch"] !== ""
-);
-// ========================================
-// BRANCHWISE AVG SALARY
-// ========================================
+        let data = results.data.filter(
+            row => row["Branch"] && row["Branch"].trim() !== ""
+        );
 
-let salaryData = {};
+        // ========================================
+        // AVG SALARY
+        // ========================================
 
-data.forEach(row => {
+        let salaryData = {};
 
-let branch = row["Branch"]?.trim();
+        data.forEach(row => {
 
-let salary =
-parseFloat(row["Salary package"]) || 0;
+            let branch = row["Branch"]?.trim();
 
-if(branch && salary > 0){
+            let salary =
+            parseFloat(row["Salary package"]) || 0;
 
-if(!salaryData[branch]){
+            if(branch && salary > 0){
 
-salaryData[branch] = {
-total:0,
-count:0
-};
+                if(!salaryData[branch]){
 
-}
+                    salaryData[branch] = {
+                        total:0,
+                        count:0
+                    };
 
-salaryData[branch].total += salary;
-salaryData[branch].count++;
+                }
 
-}
+                salaryData[branch].total += salary;
+                salaryData[branch].count++;
+
+            }
+
+        });
+
+        let salaryLabels = [];
+        let salaryValues = [];
+
+        for(let branch in salaryData){
+
+            salaryLabels.push(branch);
+
+            salaryValues.push(
+                (
+                    salaryData[branch].total /
+                    salaryData[branch].count
+                ).toFixed(2)
+            );
+
+        }
+
+
+        // ========================================
+        // AVG STIPEND
+        // ========================================
+
+        let stipendData = {};
+
+        data.forEach(row => {
+
+            let branch = row["Branch"]?.trim();
+
+            let stipend =
+            parseFloat(row["Stipend(Per Month)"]) || 0;
+
+            if(branch && stipend > 0){
+
+                if(!stipendData[branch]){
+
+                    stipendData[branch] = {
+                        total:0,
+                        count:0
+                    };
+
+                }
+
+                stipendData[branch].total += stipend;
+                stipendData[branch].count++;
+
+            }
+
+        });
+
+        let stipendLabels = [];
+        let stipendValues = [];
+
+        for(let branch in stipendData){
+
+            stipendLabels.push(branch);
+
+            stipendValues.push(
+                (
+                    stipendData[branch].total /
+                    stipendData[branch].count
+                ).toFixed(0)
+            );
+
+        }
+
+
+        // ========================================
+        // COMMON COLORS
+        // ========================================
+
+        const colors = [
+
+            '#2563eb',
+            '#059669',
+            '#dc2626',
+            '#d97706',
+            '#7c3aed',
+            '#0ea5e9',
+            '#14b8a6',
+            '#f43f5e',
+            '#22c55e',
+            '#f59e0b'
+
+        ];
+
+
+        // ========================================
+        // SALARY CHART
+        // ========================================
+
+        new Chart(
+            document.getElementById("salaryChart"),
+            {
+
+                type:'pie',
+
+                data:{
+                    labels:salaryLabels,
+
+                    datasets:[{
+                        data:salaryValues,
+                        backgroundColor:colors,
+                        borderWidth:2,
+                        borderColor:'#fff'
+                    }]
+                },
+
+                plugins:[ChartDataLabels],
+
+                options:{
+
+                    responsive:true,
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            display:false
+                        },
+
+                        datalabels:{
+
+                            labels:{
+
+                                title:{
+
+                                    color:'#fff',
+
+                                    font:{
+                                        weight:'bold',
+                                        size:11
+                                    },
+
+                                    formatter:(value,context)=>{
+                                        return context.chart.data.labels[
+                                            context.dataIndex
+                                        ];
+                                    },
+
+                                    anchor:'center',
+                                    align:'center'
+
+                                },
+
+                                value:{
+
+                                    color:'#000',
+
+                                    backgroundColor:'#fff',
+
+                                    borderRadius:5,
+
+                                    padding:4,
+
+                                    font:{
+                                        weight:'bold',
+                                        size:10
+                                    },
+
+                                    formatter:(value)=>{
+                                        return value + ' LPA';
+                                    },
+
+                                    anchor:'end',
+                                    align:'end',
+                                    offset:18
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        // ========================================
+        // STIPEND CHART
+        // ========================================
+
+        new Chart(
+            document.getElementById("stipendChart"),
+            {
+
+                type:'pie',
+
+                data:{
+                    labels:stipendLabels,
+
+                    datasets:[{
+                        data:stipendValues,
+                        backgroundColor:colors,
+                        borderWidth:2,
+                        borderColor:'#fff'
+                    }]
+                },
+
+                plugins:[ChartDataLabels],
+
+                options:{
+
+                    responsive:true,
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            display:false
+                        },
+
+                        datalabels:{
+
+                            labels:{
+
+                                title:{
+
+                                    color:'#fff',
+
+                                    font:{
+                                        weight:'bold',
+                                        size:11
+                                    },
+
+                                    formatter:(value,context)=>{
+                                        return context.chart.data.labels[
+                                            context.dataIndex
+                                        ];
+                                    },
+
+                                    anchor:'center',
+                                    align:'center'
+
+                                },
+
+                                value:{
+
+                                    color:'#000',
+
+                                    backgroundColor:'#fff',
+
+                                    borderRadius:5,
+
+                                    padding:4,
+
+                                    font:{
+                                        weight:'bold',
+                                        size:10
+                                    },
+
+                                    formatter:(value)=>{
+                                        return '₹' + value;
+                                    },
+
+                                    anchor:'end',
+                                    align:'end',
+                                    offset:18
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
 
 });
-
-let salaryLabels = [];
-let salaryValues = [];
-
-for(let branch in salaryData){
-
-salaryLabels.push(branch);
-
-salaryValues.push(
-(
-salaryData[branch].total /
-salaryData[branch].count
-).toFixed(2)
-);
-
-}
-
-  
-
-
-// ========================================
-// BRANCHWISE AVG STIPEND
-// ========================================
-
-let stipendData = {};
-
-data.forEach(row => {
-
-let branch = row["Branch"]?.trim();
-
-let stipend =
-parseFloat(row["Stipend(Per Month)"]) || 0;
-
-if(branch && stipend > 0){
-
-if(!stipendData[branch]){
-
-stipendData[branch] = {
-total:0,
-count:0
-};
-
-}
-
-stipendData[branch].total += stipend;
-stipendData[branch].count++;
-
-}
-
-});
-
-let stipendLabels = [];
-let stipendValues = [];
-
-for(let branch in stipendData){
-
-stipendLabels.push(branch);
-
-stipendValues.push(
-(
-stipendData[branch].total /
-stipendData[branch].count
-).toFixed(0)
-);
-
-}
-
-  // ========================================
-},
-
-formatter:(value,context)=>{
-
-return context.chart.data.labels[
-context.dataIndex
-];
-
-},
-
-anchor:'center',
-align:'center'
-
-},
-
-// SALARY OUTSIDE
-
-value:{
-
-color:'#000',
-
-backgroundColor:'#fff',
-
-borderRadius:5,
-
-padding:{
-top:3,
-bottom:3,
-left:5,
-right:5
-},
-
-font:{
-weight:'bold',
-size:10
-},
-
-formatter:(value)=>{
-
-return value + ' LPA';
-
-},
-
-anchor:'end',
-align:'end',
-offset:22,
-
-textAlign:'center'
-
-}
-
-}
-
-}
-
-}
-
-}
-
-});
-// ========================================
-// STIPEND CHART
-// ========================================
-
-// ========================================
-labels:{
-
-// BRANCH INSIDE
-
-title:{
-
-color:'#fff',
-
-font:{
-weight:'bold',
-size:12
-},
-
-formatter:(value,context)=>{
-
-return context.chart.data.labels[
-context.dataIndex
-];
-
-},
-
-anchor:'center',
-align:'center'
-
-},
-
-// STIPEND OUTSIDE
-
-value:{
-
-color:'#000',
-
-backgroundColor:'#fff',
-
-borderRadius:5,
-
-padding:{
-top:3,
-bottom:3,
-left:5,
-right:5
-},
-
-font:{
-weight:'bold',
-size:10
-},
-
-formatter:(value)=>{
-
-return '₹' + value;
-
-},
-
-anchor:'end',
-align:'end',
-offset:22
-
-}
-
-}
-
-}
-
-}
-
-}
-
-});
-
-
 
 </script>
-
 
 </body>
 </html>
