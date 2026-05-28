@@ -554,209 +554,221 @@
             window.location.href = "index.html";
         }
 
-      // ========================================
+// ========================================
 // GOOGLE SHEET URLS
 // ========================================
 const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-// Helper function to safely extract clean numbers from messy columns (like cells containing just a hyphen)
+// Clean hyphens, currency symbols, and convert safely to numbers
 function cleanNumericValue(val) {
-    if (!val) return 0;
+    if (val === undefined || val === null) return 0;
     let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
-    // If it's a hyphen, dash, empty, or non-numeric placeholder, safely return 0
     if (clean === '-' || clean === '—' || clean === '' || isNaN(Number(clean))) {
         return 0;
     }
     return parseFloat(clean) || 0;
 }
 
-// Helper to look up a key ignoring case or slight spacing differences
+// Case-insensitive lookups to avoid issues with sheet column spelling spaces
 function getRowValueInsensitive(row, keyName) {
     let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
     return targetKey ? row[targetKey] : null;
 }
 
 // ========================================
-// LOAD STATS
+// ASYNC ENGINE TO LOAD EVERYTHING RELIABLY
 // ========================================
-Papa.parse(statsSheetURL, {
-    download: true,
-    header: true,
-    complete: function (results) {
-        console.log("Stats Sheet Parsed Successfully. Sample Raw Row:", results.data[0]);
+async function initDashboard() {
+    console.log("🚀 Initializing Dashboard Data Fetch...");
+
+    // 1. FETCH AND PARSE STATS
+    try {
+        const response = await fetch(statsSheetURL);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const csvText = await response.text();
         
-        // Filter out empty rows
-        let data = results.data.filter(row => {
-            let name = getRowValueInsensitive(row, "Name");
-            return name && String(name).trim() !== "";
+        Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                console.log("✅ Stats CSV successfully downloaded. Total raw rows:", results.data.length);
+                if(results.data.length === 0) console.warn("⚠️ Stats sheet returned 0 rows!");
+
+                let data = results.data.filter(row => {
+                    let name = getRowValueInsensitive(row, "Name");
+                    return name && String(name).trim() !== "";
+                });
+
+                let totalStudents = data.length;
+                
+                let registeredStudents = data.filter(row => {
+                    let reg = getRowValueInsensitive(row, "Registered for Placements");
+                    return reg && String(reg).trim().toLowerCase() === "yes";
+                }).length;
+
+                let eligibleStudents = data.filter(row => {
+                    let reg = getRowValueInsensitive(row, "Registered for Placements");
+                    let registered = reg && String(reg).trim().toLowerCase() === "yes";
+                    let cgpaVal = getRowValueInsensitive(row, "CGPA");
+                    let cgpa = parseFloat(cgpaVal) || 0;
+                    return registered && cgpa >= 6.5;
+                }).length;
+
+                let placedStudents = data.filter(row => {
+                    let offersVal = getRowValueInsensitive(row, "No. of Offers");
+                    return cleanNumericValue(offersVal) > 0;
+                }).length;
+
+                let totalOffers = data.reduce((sum, row) => {
+                    let offersVal = getRowValueInsensitive(row, "No. of Offers");
+                    return sum + Math.floor(cleanNumericValue(offersVal));
+                }, 0);
+
+                // Update UI Elements safely
+                document.getElementById("totalStudents").innerText = totalStudents;
+                document.getElementById("registeredStudents").innerText = registeredStudents;
+                document.getElementById("eligibleStudents").innerText = eligibleStudents;
+                document.getElementById("placedStudents").innerText = placedStudents;
+                document.getElementById("totalOffers").innerText = totalOffers;
+                console.log("🎯 Stats Cards Updated Successfully.");
+            }
         });
-
-        let totalStudents = data.length;
-        
-        let registeredStudents = data.filter(row => {
-            let reg = getRowValueInsensitive(row, "Registered for Placements");
-            return reg && String(reg).trim().toLowerCase() === "yes";
-        }).length;
-
-        let eligibleStudents = data.filter(row => {
-            let reg = getRowValueInsensitive(row, "Registered for Placements");
-            let registered = reg && String(reg).trim().toLowerCase() === "yes";
-            let cgpaVal = getRowValueInsensitive(row, "CGPA");
-            let cgpa = parseFloat(cgpaVal) || 0;
-            return registered && cgpa >= 6.5;
-        }).length;
-
-        let placedStudents = data.filter(row => {
-            let offersVal = getRowValueInsensitive(row, "No. of Offers");
-            return cleanNumericValue(offersVal) > 0;
-        }).length;
-
-        let totalOffers = data.reduce((sum, row) => {
-            let offersVal = getRowValueInsensitive(row, "No. of Offers");
-            return sum + Math.floor(cleanNumericValue(offersVal));
-        }, 0);
-
-        // Update UI
-        document.getElementById("totalStudents").innerText = totalStudents;
-        document.getElementById("registeredStudents").innerText = registeredStudents;
-        document.getElementById("eligibleStudents").innerText = eligibleStudents;
-        document.getElementById("placedStudents").innerText = placedStudents;
-        document.getElementById("totalOffers").innerText = totalOffers;
-    },
-    error: function(err) {
-        console.error("Error loading stats sheet:", err);
+    } catch (error) {
+        console.error("❌ Fatal Error Fetching Stats Sheet:", error);
     }
-});
 
-// ========================================
-// LOAD CHARTS
-// ========================================
-Papa.parse(chartsSheetURL, {
-    download: true,
-    header: true,
-    complete: function (results) {
-        console.log("Charts Sheet Parsed Successfully. Sample Raw Row:", results.data[0]);
+    // 2. FETCH AND PARSE CHARTS
+    try {
+        const response = await fetch(chartsSheetURL);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const csvText = await response.text();
 
-        let data = results.data.filter(row => {
-            let branch = getRowValueInsensitive(row, "Branch");
-            return branch && String(branch).trim() !== "";
-        });
+        Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                console.log("✅ Charts CSV successfully downloaded. Total raw rows:", results.data.length);
 
-        const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
+                let data = results.data.filter(row => {
+                    let branch = getRowValueInsensitive(row, "Branch");
+                    return branch && String(branch).trim() !== "";
+                });
 
-        // --- PROCESS SALARY ---
-        let salaryData = {};
-        data.forEach(row => {
-            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-            let rawSalary = getRowValueInsensitive(row, "Salary package");
-            let salary = cleanNumericValue(rawSalary);
+                const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
 
-            if (branch && salary > 0) {
-                if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
-                salaryData[branch].total += salary;
-                salaryData[branch].count++;
-            }
-        });
+                // --- PROCESS SALARY ---
+                let salaryData = {};
+                data.forEach(row => {
+                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                    let rawSalary = getRowValueInsensitive(row, "Salary package");
+                    let salary = cleanNumericValue(rawSalary);
 
-        let salaryLabels = Object.keys(salaryData);
-        let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
+                    if (branch && salary > 0) {
+                        if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
+                        salaryData[branch].total += salary;
+                        salaryData[branch].count++;
+                    }
+                });
 
-        // --- PROCESS STIPEND ---
-        let stipendData = {};
-        data.forEach(row => {
-            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-            // This checks for both potential column names: 'Internship stipend' or just 'Stipend'
-            let rawStipend = getRowValueInsensitive(row, "Internship stipend") || getRowValueInsensitive(row, "Stipend");
-            let stipend = cleanNumericValue(rawStipend);
+                let salaryLabels = Object.keys(salaryData);
+                let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
 
-            if (branch && stipend > 0) {
-                if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
-                stipendData[branch].total += stipend;
-                stipendData[branch].count++;
-            }
-        });
+                // --- PROCESS STIPEND ---
+                let stipendData = {};
+                data.forEach(row => {
+                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                    let rawStipend = getRowValueInsensitive(row, "Internship stipend") || getRowValueInsensitive(row, "Stipend") || getRowValueInsensitive(row, "Stipend per month");
+                    let stipend = cleanNumericValue(rawStipend);
 
-        let stipendLabels = Object.keys(stipendData);
-        let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
+                    if (branch && stipend > 0) {
+                        if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
+                        stipendData[branch].total += stipend;
+                        stipendData[branch].count++;
+                    }
+                });
 
-        console.log("Processed Salary Data:", salaryData);
-        console.log("Processed Stipend Data:", stipendData);
+                let stipendLabels = Object.keys(stipendData);
+                let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
 
-        // --- RENDER SALARY CHART ---
-        if (salaryLabels.length > 0) {
-            new Chart(document.getElementById("salaryChart"), {
-                type: 'pie',
-                data: {
-                    labels: salaryLabels,
-                    datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                },
-                plugins: [ChartDataLabels],
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            labels: {
-                                title: {
-                                    color: '#fff', font: { weight: 'bold', size: 11 },
-                                    formatter: (value, context) => context.chart.data.labels[context.dataIndex],
-                                    anchor: 'center', align: 'center'
-                                },
-                                value: {
-                                    color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
-                                    formatter: (value) => value + ' LPA', anchor: 'end', align: 'end', offset: 18
+                // --- RENDER SALARY CHART ---
+                if (salaryLabels.length > 0) {
+                    new Chart(document.getElementById("salaryChart"), {
+                        type: 'pie',
+                        data: {
+                            labels: salaryLabels,
+                            datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+                        },
+                        plugins: [ChartDataLabels],
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                datalabels: {
+                                    labels: {
+                                        title: {
+                                            color: '#fff', font: { weight: 'bold', size: 11 },
+                                            formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+                                            anchor: 'center', align: 'center'
+                                        },
+                                        value: {
+                                            color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
+                                            formatter: (value) => value + ' LPA', anchor: 'end', align: 'end', offset: 18
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
+                    });
+                    console.log("📊 Salary Chart Rendered.");
+                } else {
+                    console.warn("⚠️ No valid salary metrics found to draw chart.");
                 }
-            });
-        } else {
-            console.warn("No valid salary data found to render chart.");
-        }
 
-        // --- RENDER STIPEND CHART ---
-        if (stipendLabels.length > 0) {
-            new Chart(document.getElementById("stipendChart"), {
-                type: 'pie',
-                data: {
-                    labels: stipendLabels,
-                    datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                },
-                plugins: [ChartDataLabels],
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            labels: {
-                                title: {
-                                    color: '#fff', font: { weight: 'bold', size: 11 },
-                                    formatter: (value, context) => context.chart.data.labels[context.dataIndex],
-                                    anchor: 'center', align: 'center'
-                                },
-                                value: {
-                                    color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
-                                    formatter: (value) => '₹' + value, anchor: 'end', align: 'end', offset: 18
+                // --- RENDER STIPEND CHART ---
+                if (stipendLabels.length > 0) {
+                    new Chart(document.getElementById("stipendChart"), {
+                        type: 'pie',
+                        data: {
+                            labels: stipendLabels,
+                            datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+                        },
+                        plugins: [ChartDataLabels],
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                datalabels: {
+                                    labels: {
+                                        title: {
+                                            color: '#fff', font: { weight: 'bold', size: 11 },
+                                            formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+                                            anchor: 'center', align: 'center'
+                                        },
+                                        value: {
+                                            color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
+                                            formatter: (value) => '₹' + value, anchor: 'end', align: 'end', offset: 18
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
+                    });
+                    console.log("📊 Stipend Chart Rendered.");
+                } else {
+                    console.warn("⚠️ No valid stipend metrics found to draw chart.");
                 }
-            });
-        } else {
-            console.warn("No valid stipend data found to render chart.");
-        }
-    },
-    error: function(err) {
-        console.error("Error loading charts sheet:", err);
+            }
+        });
+    } catch (error) {
+        console.error("❌ Fatal Error Fetching Charts Sheet:", error);
     }
-});
-        
-    </script>
-    </body>
+}
 
-</html>
+// Ensure the page elements exist completely before executing
+window.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+</body>
+</html>        
