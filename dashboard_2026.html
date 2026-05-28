@@ -1041,12 +1041,6 @@ Academic Year
 </div>
 </div>
 
-
-</div>
-
-<script>
-</div>
-
 <script>
 
 function toggleSubMenu(id){
@@ -1101,10 +1095,35 @@ window.location.href="index.html";
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+// ============================
+// STATS SHEET URL
+// ============================
 
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
+const statsSheetURL ="https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 
-Papa.parse(sheetURL, {
+// ============================
+// CHARTS SHEET URL
+// ============================
+
+const chartsSheetURL ="https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
+
+// ============================
+// LOAD STATS DATA
+// ============================
+
+Papa.parse(statsSheetURL, {
+
+download:true,
+
+header:true,
+
+complete:function(results){
+
+let data =
+results.data.filter(
+row => row.Name !== ""
+);
+
     download: true,
     header: true,
 
@@ -1206,7 +1225,6 @@ stipendCount > 0
 ? (totalStipend / stipendCount).toFixed(0)
 : 0;
 
-javascript id="cxfm6m"
 // =============================
 // IT vs CORE OFFERS
 // =============================
@@ -1469,6 +1487,525 @@ responsive:true
         document.getElementById("placedStudents").innerText = placedStudents;
 
         document.getElementById("totalOffers").innerText = totalOffers;
+
+     
+// ============================
+// LOAD CHARTS DATA
+// ============================
+
+Papa.parse(chartsSheetURL, {
+
+download:true,
+
+header:true,
+
+complete:function(chartResults){
+
+let data =
+chartResults.data.filter(
+row => row["Batch"] !== ""
+);
+
+// =============================
+// AVG SALARY
+// =============================
+
+let totalSalary = 0;
+let salaryCount = 0;
+
+data.forEach(row => {
+
+let salary =
+parseFloat(row["Salary package"]) || 0;
+
+if(salary > 0){
+
+totalSalary += salary;
+salaryCount++;
+
+}
+
+});
+
+let avgSalary =
+salaryCount > 0
+? (totalSalary / salaryCount).toFixed(2)
+: 0;
+
+
+// =============================
+// AVG STIPEND
+// =============================
+
+let totalStipend = 0;
+let stipendCount = 0;
+
+data.forEach(row => {
+
+let stipend =
+parseFloat(row["Stipend(Per Month)"]) || 0;
+
+if(stipend > 0){
+
+totalStipend += stipend;
+stipendCount++;
+
+}
+
+});
+
+let avgStipend =
+stipendCount > 0
+? (totalStipend / stipendCount).toFixed(0)
+: 0;
+
+
+// =============================
+// IT vs CORE
+// =============================
+
+let itOffers = 0;
+let coreOffers = 0;
+
+data.forEach(row => {
+
+let type =
+row["Nature of the Company"]
+?.trim()
+.toLowerCase();
+
+if(type === "it"){
+
+itOffers++;
+
+}
+
+else if(type === "core"){
+
+coreOffers++;
+
+}
+
+});
+
+
+// =============================
+// BRANCH OFFERS
+// =============================
+
+let branchOffers = {};
+
+data.forEach(row => {
+
+let batch =
+row["Batch"]?.trim();
+
+let branch =
+row["Branch"]?.trim();
+
+if(batch === "2026"){
+
+if(branchOffers[branch]){
+
+branchOffers[branch]++;
+
+}
+
+else{
+
+branchOffers[branch] = 1;
+
+}
+
+}
+
+});
+
+let branchLabels =
+Object.keys(branchOffers);
+
+let branchCounts =
+Object.values(branchOffers);
+
+
+// =============================
+// SALARY CHART
+// =============================
+
+new Chart(document.getElementById("salaryChart"),{
+
+type:'doughnut',
+
+data:{
+labels:['Average Salary'],
+datasets:[{
+data:[avgSalary,10-avgSalary],
+backgroundColor:[
+'#2563eb',
+'#dbeafe'
+],
+borderWidth:0
+}]
+},
+
+options:{
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+
+// =============================
+// STIPEND CHART
+// =============================
+
+new Chart(document.getElementById("stipendChart"),{
+
+type:'doughnut',
+
+data:{
+labels:['Avg Stipend'],
+datasets:[{
+data:[avgStipend,50000-avgStipend],
+backgroundColor:[
+'#059669',
+'#d1fae5'
+],
+borderWidth:0
+}]
+},
+
+options:{
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+
+// =============================
+// NATURE CHART
+// =============================
+
+new Chart(document.getElementById("natureChart"),{
+
+type:'pie',
+
+data:{
+labels:['IT','Core'],
+datasets:[{
+data:[itOffers,coreOffers],
+backgroundColor:[
+'#7c3aed',
+'#f59e0b'
+]
+}]
+},
+
+options:{
+responsive:true
+}
+
+});
+
+
+// =============================
+// OFFERS CHART
+// =============================
+
+new Chart(document.getElementById("offersChart"),{
+
+type:'pie',
+
+data:{
+labels:branchLabels,
+datasets:[{
+data:branchCounts,
+backgroundColor:[
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+]
+}]
+},
+
+options:{
+responsive:true
+}
+
+});
+
+}
+
+});
+
+  
+// ============================
+// LOAD CHARTS DATA
+// ============================
+
+Papa.parse(chartsSheetURL, {
+
+download:true,
+
+header:true,
+
+complete:function(chartResults){
+
+let data =
+chartResults.data.filter(
+row => row["Batch"] !== ""
+);
+
+// =============================
+// AVG SALARY
+// =============================
+
+let totalSalary = 0;
+let salaryCount = 0;
+
+data.forEach(row => {
+
+let salary =
+parseFloat(row["Salary package"]) || 0;
+
+if(salary > 0){
+
+totalSalary += salary;
+salaryCount++;
+
+}
+
+});
+
+let avgSalary =
+salaryCount > 0
+? (totalSalary / salaryCount).toFixed(2)
+: 0;
+
+
+// =============================
+// AVG STIPEND
+// =============================
+
+let totalStipend = 0;
+let stipendCount = 0;
+
+data.forEach(row => {
+
+let stipend =
+parseFloat(row["Stipend(Per Month)"]) || 0;
+
+if(stipend > 0){
+
+totalStipend += stipend;
+stipendCount++;
+
+}
+
+});
+
+let avgStipend =
+stipendCount > 0
+? (totalStipend / stipendCount).toFixed(0)
+: 0;
+
+
+// =============================
+// IT vs CORE
+// =============================
+
+let itOffers = 0;
+let coreOffers = 0;
+
+data.forEach(row => {
+
+let type =
+row["Nature of the Company"]
+?.trim()
+.toLowerCase();
+
+if(type === "it"){
+
+itOffers++;
+
+}
+
+else if(type === "core"){
+
+coreOffers++;
+
+}
+
+});
+
+
+// =============================
+// BRANCH OFFERS
+// =============================
+
+let branchOffers = {};
+
+data.forEach(row => {
+
+let batch =
+row["Batch"]?.trim();
+
+let branch =
+row["Branch"]?.trim();
+
+if(batch === "2026"){
+
+if(branchOffers[branch]){
+
+branchOffers[branch]++;
+
+}
+
+else{
+
+branchOffers[branch] = 1;
+
+}
+
+}
+
+});
+
+let branchLabels =
+Object.keys(branchOffers);
+
+let branchCounts =
+Object.values(branchOffers);
+
+
+// =============================
+// SALARY CHART
+// =============================
+
+new Chart(document.getElementById("salaryChart"),{
+
+type:'doughnut',
+
+data:{
+labels:['Average Salary'],
+datasets:[{
+data:[avgSalary,10-avgSalary],
+backgroundColor:[
+'#2563eb',
+'#dbeafe'
+],
+borderWidth:0
+}]
+},
+
+options:{
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+
+// =============================
+// STIPEND CHART
+// =============================
+
+new Chart(document.getElementById("stipendChart"),{
+
+type:'doughnut',
+
+data:{
+labels:['Avg Stipend'],
+datasets:[{
+data:[avgStipend,50000-avgStipend],
+backgroundColor:[
+'#059669',
+'#d1fae5'
+],
+borderWidth:0
+}]
+},
+
+options:{
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+
+// =============================
+// NATURE CHART
+// =============================
+
+new Chart(document.getElementById("natureChart"),{
+
+type:'pie',
+
+data:{
+labels:['IT','Core'],
+datasets:[{
+data:[itOffers,coreOffers],
+backgroundColor:[
+'#7c3aed',
+'#f59e0b'
+]
+}]
+},
+
+options:{
+responsive:true
+}
+
+});
+
+
+// =============================
+// OFFERS CHART
+// =============================
+
+new Chart(document.getElementById("offersChart"),{
+
+type:'pie',
+
+data:{
+labels:branchLabels,
+datasets:[{
+data:branchCounts,
+backgroundColor:[
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+]
+}]
+},
+
+options:{
+responsive:true
+}
+
+});
+
+}
+
+});
+
 
     }
 });
