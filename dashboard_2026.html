@@ -1402,6 +1402,9 @@ Object.values(offerData);
 // ========================================
 // SALARY CHART
 // ========================================
+// ========================================
+// SALARY CHART
+// ========================================
 
 new Chart(
 document.getElementById("salaryChart"),
@@ -1427,8 +1430,29 @@ backgroundColor:[
 '#7c3aed',
 '#0ea5e9',
 '#14b8a6',
-'#f43f5e',
-  datalabels:{
+'#f43f5e'
+
+]
+
+}]
+
+},
+
+plugins:[ChartDataLabels],
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+display:false
+},
+
+datalabels:{
 
 color:'#000',
 
@@ -1445,24 +1469,6 @@ context.dataIndex
 
 }
 
-}
-
-]
-
-}]
-
-},
-  
-options:{
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-plugins:{
-
-legend:{
-display:false
 }
 
 }
