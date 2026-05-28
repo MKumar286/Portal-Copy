@@ -1022,8 +1022,6 @@ Academic Year
 
     </div>
 
-  
-</div>
 </div>
 <script>
 
@@ -1108,7 +1106,7 @@ Papa.parse(statsSheetURL, {
     complete:function(results){
 
         let data = results.data.filter(
-            row => row.Name && row.Name.trim() !== ""
+            row["Name"] && row["Name"].trim() !== ""
         );
 
         let totalStudents = data.length;
@@ -1233,8 +1231,13 @@ Papa.parse(chartsSheetURL, {
 
             let branch = row["Branch"]?.trim();
 
-            let stipend =
-            parseFloat(row["Stipend(Per Month)"]) || 0;
+          let stipend =
+parseFloat(
+String(row["Stipend(Per Month)"])
+.replace(/,/g,'')
+.replace('₹','')
+.trim()
+) || 0;
 
             if(branch && stipend > 0){
 
