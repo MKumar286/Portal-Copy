@@ -2,1390 +2,697 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MGIT Dashboard</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
-body{
-display:flex;
-background:linear-gradient(135deg,#eef2ff,#dbeafe,#eff6ff);
-min-height:100vh;
-overflow-x:hidden;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-width:260px;
-background:linear-gradient(180deg,#0f172a,#1e3a8a,#2563eb);
-color:white;
-padding:22px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-box-shadow:8px 0 30px rgba(0,0,0,0.25);
-z-index:10;
-}
-
-.logo-section h1{
-font-size:30px;
-font-weight:800;
-letter-spacing:1px;
-}
-
-.logo-section p{
-font-size:13px;
-margin-top:5px;
-color:#cbd5e1;
-}
-
-.menu{
-margin-top:30px;
-}
-
-.menu-item{
-display:flex;
-align-items:center;
-gap:14px;
-padding:15px;
-border-radius:16px;
-cursor:pointer;
-margin-bottom:12px;
-transition:0.3s;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-}
-
-.menu-item:hover{
-background:rgba(255,255,255,0.18);
-transform:translateX(4px);
-}
-
-.menu-item i{
-font-size:18px;
-}
-
-.menu-item span{
-font-size:15px;
-font-weight:600;
-}
-
-.sub-menu{
-display:none;
-padding-left:20px;
-margin-top:-4px;
-margin-bottom:10px;
-}
-
-.sub-item{
-padding:10px 14px;
-font-size:14px;
-border-radius:10px;
-cursor:pointer;
-transition:0.3s;
-color:#dbeafe;
-margin-bottom:5px;
-}
-
-.sub-item:hover{
-background:rgba(255,255,255,0.12);
-}
-
-.nested-sub-menu{
-display:none;
-padding-left:18px;
-margin-top:6px;
-}
-
-.nested-item{
-padding:8px 12px;
-font-size:13px;
-border-radius:8px;
-cursor:pointer;
-margin-bottom:5px;
-color:#e0e7ff;
-transition:0.3s;
-}
-
-.nested-item:hover{
-background:rgba(255,255,255,0.12);
-}
-
-.add-year-btn{
-margin-top:10px;
-padding:10px;
-width:100%;
-border:none;
-border-radius:10px;
-background:rgba(255,255,255,0.12);
-color:white;
-cursor:pointer;
-font-size:13px;
-transition:0.3s;
-}
-
-.add-year-btn:hover{
-background:rgba(255,255,255,0.22);
-}
-
-.logout{
-padding:14px;
-border-radius:14px;
-background:rgba(255,255,255,0.08);
-cursor:pointer;
-transition:0.3s;
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.logout:hover{
-background:#dc2626;
-}
-
-/* MAIN CONTENT */
-
-.main-content{
-flex:1;
-padding:28px;
-overflow-y:auto;
-}
-
-/* TOPBAR */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:5px;
-}
-
-.topbar h2{
-font-size:24px;
-font-weight:700;
-color:#0f172a;
-}
-
-.admin-profile{
-background:rgba(255,255,255,0.75);
-padding:12px 18px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
-display:flex;
-align-items:center;
-gap:10px;
-backdrop-filter:blur(12px);
-}
-
-.admin-profile i{
-font-size:22px;
-color:#2563eb;
-}
-
-/* CARDS */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:14px;
-margin-bottom:22px;
-overflow-x:auto;
-}
-.card{
-
-display:flex;
-align-items:center;
-gap:12px;
-
-background:
-linear-gradient(145deg,
-rgba(255,255,255,0.96),
-rgba(239,246,255,0.88));
-
-padding:12px 14px;
-
-border-radius:18px;
-
-border:1px solid rgba(255,255,255,0.7);
-
-box-shadow:
-0 10px 24px rgba(37,99,235,0.12),
-0 4px 10px rgba(0,0,0,0.05);
-
-min-height:90px;
-
-transition:0.3s;
-
-overflow:hidden;
-
-position:relative;
-
-}
-
-/* TOP PREMIUM LINE */
-
-.card:nth-child(1)::before{
-background:linear-gradient(90deg,#2563eb,#60a5fa);
-}
-
-.card:nth-child(2)::before{
-background:linear-gradient(90deg,#059669,#34d399);
-}
-
-.card:nth-child(3)::before{
-background:linear-gradient(90deg,#d97706,#fbbf24);
-}
-
-.card:nth-child(4)::before{
-background:linear-gradient(90deg,#dc2626,#fb7185);
-}
-
-.card:nth-child(5)::before{
-background:linear-gradient(90deg,#7c3aed,#a78bfa);
-}
-/* HOVER */
-
-.card:hover{
-
-transform:translateY(-4px);
-
-box-shadow:
-0 16px 28px rgba(37,99,235,0.18);
-
-}
-
-/* LEFT ICON */
-
-.card-left{
-
-flex-shrink:0;
-
-}
-
-/* ICON BOX */
-
-.card-icon{
-width:44px;
-height:44px;
-border-radius:14px;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 8px 18px rgba(0,0,0,0.15);
-}
-
-.card:nth-child(1) .card-icon{
-background:linear-gradient(135deg,#2563eb,#60a5fa);
-}
-
-.card:nth-child(2) .card-icon{
-background:linear-gradient(135deg,#059669,#34d399);
-}
-
-.card:nth-child(3) .card-icon{
-background:linear-gradient(135deg,#d97706,#fbbf24);
-}
-
-.card:nth-child(4) .card-icon{
-background:linear-gradient(135deg,#dc2626,#fb7185);
-}
-
-.card:nth-child(5) .card-icon{
-background:linear-gradient(135deg,#7c3aed,#a78bfa);
-}
-/* ICON */
-
-.card-icon i{
-
-font-size:16px;
-color:white;
-
-}
-
-/* RIGHT CONTENT */
-
-.card-right{
-
-display:flex;
-flex-direction:column;
-
-justify-content:center;
-
-overflow:hidden;
-
-}
-
-/* TEXT SHOULD FULLY SHOW */
-
-.card h3{
-
-font-size:12px;
-
-font-weight:700;
-
-color:#475569;
-
-line-height:1.4;
-
-margin-bottom:6px;
-
-white-space:normal;
-
-overflow:visible;
-
-text-overflow:unset;
-
-}
-
-/* VALUE BELOW TEXT */
-
-.card p{
-
-font-size:22px;
-
-font-weight:800;
-
-color:#0f172a;
-
-line-height:1;
-
-}
-
-  
-/* RESPONSIVE */
-
-@media(max-width:1200px){
-
-.cards{
-grid-template-columns:repeat(2,1fr);
-}
-
-}
-
-@media(max-width:700px){
-
-body{
-flex-direction:column;
-overflow:auto;
-}
-
-.sidebar{
-width:100%;
-height:auto;
-flex-direction:row;
-overflow-x:auto;
-}
-
-.menu{
-display:flex;
-margin-top:0;
-gap:10px;
-}
-
-.main-content{
-padding:16px;
-}
-
-.topbar{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.cards{
-grid-template-columns:repeat(5,220px);
-overflow-x:auto;
-padding-bottom:10px;
-}
-
-}
-  
-/* PIE CHART ROW */
-
-.pie-charts-row{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:18px;
-
-margin-bottom:24px;
-
-}
-
-/* INDIVIDUAL CARD */
-
-.pie-card{
-
-background:rgba(255,255,255,0.88);
-
-padding:20px;
-
-border-radius:24px;
-
-box-shadow:0 10px 28px rgba(0,0,0,0.08);
-
-backdrop-filter:blur(12px);
-
-transition:0.3s;
-
-text-align:center;
-
-}
-
-.pie-card:hover{
-
-transform:translateY(-4px);
-
-box-shadow:0 14px 30px rgba(37,99,235,0.14);
-
-}
-
-.pie-card h3{
-
-font-size:18px;
-
-margin-bottom:16px;
-
-color:#0f172a;
-
-}
-
-  .chart-container{
-
-position:relative;
-
-width:100%;
-
-height:320px;
-
-}
-
-
-/* RESPONSIVE */
-
-@media(max-width:1200px){
-
-.pie-charts-row{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-}
-
-@media(max-width:700px){
-
-.pie-charts-row{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-  
-
-
-/* TABLE */
-
-.table-section{
-background:rgba(255,255,255,0.8);
-padding:24px;
-border-radius:24px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-backdrop-filter:blur(14px);
-}
-
-.table-section h3{
-margin-bottom:18px;
-color:#0f172a;
-font-size:24px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-overflow:hidden;
-border-radius:18px;
-}
-
-table th{
-background:linear-gradient(135deg,#1d4ed8,#2563eb);
-color:white;
-padding:14px;
-font-size:14px;
-text-align:left;
-}
-
-table td{
-padding:14px;
-border-bottom:1px solid #dbeafe;
-font-size:14px;
-background:white;
-}
-
-table tr:hover td{
-background:#eff6ff;
-}
-
-.status{
-padding:7px 14px;
-border-radius:30px;
-font-size:12px;
-font-weight:700;
-display:inline-block;
-}
-
-.completed{
-background:#dcfce7;
-color:#15803d;
-}
-
-.upcoming{
-background:#fef3c7;
-color:#b45309;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-.sidebar{
-width:90px;
-padding:16px 10px;
-}
-
-.logo-section h1,
-.logo-section p,
-.menu-item span,
-.logout span{
-display:none;
-}
-
-.menu-item,
-.logout{
-justify-content:center;
-}
-
-}
-
-@media(max-width:700px){
-
-body{
-flex-direction:column;
-overflow:auto;
-}
-
-.sidebar{
-width:100%;
-height:auto;
-flex-direction:row;
-overflow-x:auto;
-}
-
-.menu{
-display:flex;
-margin-top:0;
-gap:10px;
-}
-
-.main-content{
-padding:16px;
-}
-
-.topbar{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.cards{
-grid-template-columns:1fr;
-}
-
-}
-
- 
-
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGIT Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            background: linear-gradient(135deg, #eef2ff, #dbeafe, #eff6ff);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #0f172a, #1e3a8a, #2563eb);
+            color: white;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+        }
+
+        .logo-section h1 {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-section p {
+            font-size: 13px;
+            margin-top: 5px;
+            color: #cbd5e1;
+        }
+
+        .menu {
+            margin-top: 30px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px;
+            border-radius: 16px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateX(4px);
+        }
+
+        .menu-item i {
+            font-size: 18px;
+        }
+
+        .menu-item span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .sub-menu {
+            display: none;
+            padding-left: 20px;
+            margin-top: -4px;
+            margin-bottom: 10px;
+        }
+
+        .sub-item {
+            padding: 10px 14px;
+            font-size: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #dbeafe;
+            margin-bottom: 5px;
+        }
+
+        .sub-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .nested-sub-menu {
+            display: none;
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+
+        .nested-item {
+            padding: 8px 12px;
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            color: #e0e7ff;
+            transition: 0.3s;
+            display: block;
+            text-decoration: none;
+        }
+
+        .nested-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .add-year-btn {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .add-year-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .logout {
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout:hover {
+            background: #dc2626;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            padding: 28px;
+            overflow-y: auto;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .topbar h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .admin-profile {
+            background: rgba(255, 255, 255, 0.75);
+            padding: 12px 18px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(12px);
+        }
+
+        .admin-profile i {
+            font-size: 22px;
+            color: #2563eb;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.88));
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12), 0 4px 10px rgba(0, 0, 0, 0.05);
+            min-height: 90px;
+            transition: 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* TOP PREMIUM LINE OVERLAYS */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        .card:nth-child(1)::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+        .card:nth-child(2)::before { background: linear-gradient(90deg, #059669, #34d399); }
+        .card:nth-child(3)::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
+        .card:nth-child(4)::before { background: linear-gradient(90deg, #dc2626, #fb7185); }
+        .card:nth-child(5)::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(37, 99, 235, 0.18);
+        }
+
+        .card-left { flex-shrink: 0; }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .card:nth-child(1) .card-icon { background: linear-gradient(135deg, #2563eb, #60a5fa); }
+        .card:nth-child(2) .card-icon { background: linear-gradient(135deg, #059669, #34d399); }
+        .card:nth-child(3) .card-icon { background: linear-gradient(135deg, #d97706, #fbbf24); }
+        .card:nth-child(4) .card-icon { background: linear-gradient(135deg, #dc2626, #fb7185); }
+        .card:nth-child(5) .card-icon { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+        .card-icon i {
+            font-size: 16px;
+            color: white;
+        }
+
+        .card-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            white-space: normal;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1;
+        }
+
+        /* PIE CHART ROW */
+        .pie-charts-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .pie-card {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .pie-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(37, 99, 235, 0.14);
+        }
+
+        .pie-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #0f172a;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+        /* TABLE */
+        .table-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(14px);
+        }
+
+        .table-section h3 {
+            margin-bottom: 18px;
+            color: #0f172a;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        table th {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            color: white;
+            padding: 14px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 14px;
+            border-bottom: 1px solid #dbeafe;
+            font-size: 14px;
+            background: white;
+        }
+
+        table tr:hover td {
+            background: #eff6ff;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media(max-width:1200px) {
+            .cards { grid-template-columns: repeat(2, 1fr); }
+            .pie-charts-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media(max-width:900px) {
+            .sidebar { width: 90px; padding: 16px 10px; }
+            .logo-section h1, .logo-section p, .menu-item span, .logout span { display: none; }
+            .menu-item, .logout { justify-content: center; }
+        }
+
+        @media(max-width:700px) {
+            body { flex-direction: column; overflow-auto; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; }
+            .menu { display: flex; margin-top: 0; gap: 10px; }
+            .main-content { padding: 16px; }
+            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .cards { grid-template-columns: repeat(5, 220px); overflow-x: auto; padding-bottom: 10px; }
+            .pie-charts-row { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-<div>
-
-<div class="logo-section">
-<h1>MGIT</h1>
-<p>Placement Portal</p>
-</div>
-
-<div class="menu">
-
-<div class="menu-item">
-<i class="fa-solid fa-chart-line"></i>
-<span>Dashboard</span>
-</div>
-
-<!-- STUDENTS MENU -->
-
-<div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
-
-<i class="fa-solid fa-users"></i>
-
-<span>Students</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="sub-menu" id="studentSubMenu">
-
-<!-- Academic Year -->
-
-<div class="sub-item"
-onclick="toggleSubMenu('academicYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<!-- YEAR LIST -->
-
-<!-- YEAR LIST -->
-
-<div class="nested-sub-menu" id="academicYears">
-
-<div id="yearContainer">
-
-<div class="nested-item">
-2025-2026
-</div>
-
-<div class="nested-item">
-2026-2027
-</div>
-
-<div class="nested-item">
-2027-2028
-</div>
-
-</div>
-
-<!-- ADD YEAR BUTTON -->
-
-<button class="add-year-btn"
-onclick="addAcademicYear()">
-
-+ Add Academic Year
-
-</button>
-
-</div>
-
-</div>
-
-<!-- COMPANIES MENU -->
-
-<div class="menu-item"
-onclick="toggleSubMenu('companySubMenu')">
-
-<i class="fa-solid fa-building"></i>
-
-<span>Companies</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="sub-menu" id="companySubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('companyYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="nested-sub-menu" id="companyYears">
-
-<div class="nested-item">
-2025-2026
-</div>
-
-<div class="nested-item">
-2026-2027
-</div>
-
-<div class="nested-item">
-2027-2028
-</div>
-
-<div class="nested-item">
-2028-2029
-</div>
-
-</div>
-
-</div>
-
-<!-- PLACEMENTS MENU -->
-
-<div class="menu-item"
-onclick="toggleSubMenu('placementSubMenu')">
-
-<i class="fa-solid fa-briefcase"></i>
-
-<span>Placements</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="sub-menu" id="placementSubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('placementYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="academic-years">
-
-  <a href="2025-2026.html" class="academic-year-btn">
-    2025-2026
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2026-2027
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2027-2028
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2028-2029
-  </a>
-
-</div>
-
-</div>
-
-<!-- REPORTS MENU -->
-
-<div class="menu-item"
-onclick="toggleSubMenu('reportSubMenu')">
-
-<i class="fa-solid fa-file"></i>
-
-<span>Reports</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="sub-menu" id="reportSubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('reportYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
-</div>
-
-<div class="academic-years">
-
-  <a href="2025-2026.html" class="academic-year-btn">
-    2025-2026
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2026-2027
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2027-2028
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2028-2029
-  </a>
-
-</div>
-</div>
-
-<div class="menu-item">
-<i class="fa-solid fa-gear"></i>
-<span>Settings</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="logout" onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
-<span>Logout</span>
-</div>
-
-</div>
-
-<!-- MAIN CONTENT -->
-
-<div class="main-content">
-
-<!-- TOPBAR -->
-
-<div class="topbar">
-
-<h2>Dashboard Overview</h2>
-
-<div class="admin-profile">
-<i class="fa-solid fa-user-tie"></i>
-<span>TPO Admin</span>
-</div>
-
-</div>
-
-<!-- CARDS -->
-
-<div class="cards">
-
-<div class="card">
-
-    <!-- LEFT ICON -->
-
-    <div class="card-left">
-
-        <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+    <div class="sidebar">
+        <div>
+            <div class="logo-section">
+                <h1>MGIT</h1>
+                <p>Placement Portal</p>
+            </div>
+
+            <div class="menu">
+                <div class="menu-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+
+                <div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Students</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="sub-menu" id="studentSubMenu">
+                    <div class="sub-item" onclick="toggleSubMenu('academicYears')">
+                        Academic Year <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="nested-sub-menu" id="academicYears">
+                        <div id="yearContainer">
+                            <div class="nested-item">2025-2026</div>
+                            <div class="nested-item">2026-2027</div>
+                            <div class="nested-item">2027-2028</div>
+                        </div>
+                        <button class="add-year-btn" onclick="addAcademicYear()">+ Add Academic Year</button>
+                    </div>
+                </div>
+
+                <div class="menu-item" onclick="toggleSubMenu('companySubMenu')">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Companies</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="sub-menu" id="companySubMenu">
+                    <div class="sub-item" onclick="toggleSubMenu('companyYears')">
+                        Academic Year <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="nested-sub-menu" id="companyYears">
+                        <div class="nested-item">2025-2026</div>
+                        <div class="nested-item">2026-2027</div>
+                        <div class="nested-item">2027-2028</div>
+                        <div class="nested-item">2028-2029</div>
+                    </div>
+                </div>
+
+                <div class="menu-item" onclick="toggleSubMenu('placementSubMenu')">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Placements</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="sub-menu" id="placementSubMenu">
+                    <div class="sub-item" onclick="toggleSubMenu('placementYears')">
+                        Academic Year <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="nested-sub-menu" id="placementYears">
+                        <a href="2025-2026.html" class="nested-item">2025-2026</a>
+                        <a href="#" class="nested-item">2026-2027</a>
+                        <a href="#" class="nested-item">2027-2028</a>
+                        <a href="#" class="nested-item">2028-2029</a>
+                    </div>
+                </div>
+
+                <div class="menu-item" onclick="toggleSubMenu('reportSubMenu')">
+                    <i class="fa-solid fa-file"></i>
+                    <span>Reports</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="sub-menu" id="reportSubMenu">
+                    <div class="sub-item" onclick="toggleSubMenu('reportYears')">
+                        Academic Year <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="nested-sub-menu" id="reportYears">
+                        <a href="2025-2026.html" class="nested-item">2025-2026</a>
+                        <a href="#" class="nested-item">2026-2027</a>
+                        <a href="#" class="nested-item">2027-2028</a>
+                        <a href="#" class="nested-item">2028-2029</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
         </div>
 
+        <div class="logout" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </div>
     </div>
 
-    <!-- RIGHT TEXT -->
-
-    <div class="card-right">
-
-        <h3>Total Students</h3>
-
-       <p id="totalStudents">0</p>
-
-    </div>
-
-</div>
-
-<div class="card">
-
- <div class="card-left">
-
-        <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+    <div class="main-content">
+        <div class="topbar">
+            <h2>Dashboard Overview</h2>
+            <div class="admin-profile">
+                <i class="fa-solid fa-user-tie"></i>
+                <span>TPO Admin</span>
+            </div>
         </div>
 
-    </div>
-
-    <!-- RIGHT TEXT -->
-
-    <div class="card-right">
-
-        <h3>Registered for Placements</h3>
-
-      <p id="registeredStudents">0</p>
-
-
-    </div>
-
-</div>
-
-<div class="card">
-
- <div class="card-left">
-
-        <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+        <div class="cards">
+            <div class="card">
+                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="card-right"><h3>Total Students</h3><p id="totalStudents">0</p></div>
+            </div>
+            <div class="card">
+                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="card-right"><h3>Registered for Placements</h3><p id="registeredStudents">0</p></div>
+            </div>
+            <div class="card">
+                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="card-right"><h3>Eligible for Placements</h3><p id="eligibleStudents">0</p></div>
+            </div>
+            <div class="card">
+                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="card-right"><h3>Total Students Placed</h3><p id="placedStudents">0</p></div>
+            </div>
+            <div class="card">
+                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
+                <div class="card-right"><h3>Total Offers</h3><p id="totalOffers">0</p></div>
+            </div>
         </div>
 
-    </div>
-
-    <!-- RIGHT TEXT -->
-
-    <div class="card-right">
-
-        <h3>Eligible for Placements</h3>
-
-      <p id="eligibleStudents">0</p>
-
-    </div>
-
-</div>
-
-<div class="card">
-
- <div class="card-left">
-
-        <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+        <div class="pie-charts-row">
+            <div class="pie-card">
+                <h3>Avg Salary</h3>
+                <div class="chart-container"><canvas id="salaryChart"></canvas></div>
+            </div>
+            <div class="pie-card">
+                <h3>Avg Internship Stipend</h3>
+                <div class="chart-container"><canvas id="stipendChart"></canvas></div>
+            </div>
         </div>
-
     </div>
 
-    <!-- RIGHT TEXT -->
-
-    <div class="card-right">
-
-        <h3>Total Students Placed</h3>
-
-      <p id="placedStudents">0</p>
-
-    </div>
-
-</div>
-
-<div class="card">
-
- <div class="card-left">
-
-        <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
-        </div>
-
-    </div>
-
-    <!-- RIGHT TEXT -->
-
-    <div class="card-right">
-
-        <h3>Total Offers</h3>
-
-        <p id="totalOffers">0</p>
-
-    </div>
-
-</div>
-
-</div>
-
-
-<!-- ANALYTICS PIE CHARTS -->
-
-<div class="pie-charts-row">
-
-    <!-- AVG SALARY -->
-
-    <div class="pie-card">
-
-        <h3>Avg Salary</h3>
-        <div class="chart-container">
-        <canvas id="salaryChart"></canvas>
-    </div>
-
-    </div>
-
-    <!-- AVG INTERNSHIP STIPEND -->
-
-    <div class="pie-card">
-
-        <h3>Avg Internship Stipend</h3>
-
-        <div class="chart-container">
-        <canvas id="stipendChart"></canvas>
-      </div>
-
-    </div>
-
-</div>
-<script>
-
-function toggleSubMenu(id){
-
-let submenu=document.getElementById(id);
-
-if(submenu.style.display==="block"){
-
-submenu.style.display="none";
-
-}else{
-
-submenu.style.display="block";
-
-}
-
-}
-
-function addAcademicYear(){
-
-let container=document.getElementById("yearContainer");
-
-let items=container.getElementsByClassName("nested-item");
-
-let lastYear=items[items.length-1].innerText;
-
-let years=lastYear.split("-");
-
-let start=parseInt(years[0])+1;
-
-let end=parseInt(years[1])+1;
-
-let newDiv=document.createElement("div");
-
-newDiv.classList.add("nested-item");
-
-newDiv.innerText=start+"-"+end;
-
-container.appendChild(newDiv);
-
-}
-
-function logout(){
-
-alert("Logged Out Successfully");
-
-window.location.href="index.html";
-
-}
-
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script>
-
-// ========================================
-// GOOGLE SHEET URLS
-// ========================================
-
-// STATS SHEET URL
-const statsSheetURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
-
-// CHARTS SHEET URL
-const chartsSheetURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
-
-
-// ========================================
-// LOAD STATS
-// ========================================
-
-Papa.parse(statsSheetURL, {
-
-    download:true,
-    header:true,
-
-    complete:function(results){
-
-       let data = results.data.filter(row =>
-
-                          row["Name"] &&
-                           String(row["Name"]).trim() !== ""
-
-                 );
-
-        // TOTAL STUDENTS
-        let totalStudents = data.length;
-
-        // REGISTERED
-        let registeredStudents = data.filter(row =>
-
-            String(
-                row["Registered for Placements"] || ""
-            ).trim().toLowerCase() === "yes"
-
-        ).length;
-
-        // ELIGIBLE
-        let eligibleStudents = data.filter(row => {
-
-            let registered =
-
-                String(
-                    row["Registered for Placements"] || ""
-                ).trim().toLowerCase() === "yes";
-
-            let cgpa =
-                parseFloat(row["CGPA"]) || 0;
-
-            return registered && cgpa >= 6.5;
-
-        }).length;
-
-        // PLACED
-        let placedStudents = data.filter(row =>
-
-            Number(row["No. of Offers"] || 0) > 0
-
-        ).length;
-
-        // TOTAL OFFERS
-           let totalOffers = data.reduce((sum,row)=>
-
-    sum + (parseInt(row["No. of Offers"]) || 0)
-
-,0);
-
-        // UPDATE CARDS
-
-        document.getElementById("totalStudents").innerText =
-        totalStudents;
-
-        document.getElementById("registeredStudents").innerText =
-        registeredStudents;
-
-        document.getElementById("eligibleStudents").innerText =
-        eligibleStudents;
-
-        document.getElementById("placedStudents").innerText =
-        placedStudents;
-
-        document.getElementById("totalOffers").innerText =
-        totalOffers;
-
-    }
-
-});
-
-
-// ========================================
-// LOAD CHARTS
-// ========================================
-
-Papa.parse(chartsSheetURL, {
-
-    download:true,
-    header:true,
-
-    complete:function(results){
-
-        let data = results.data.filter(row =>
-
-            row["Branch"] &&
-            String(row["Branch"]).trim() !== ""
-
-        );
-
-        // ========================================
-        // COMMON COLORS
-        // ========================================
-
-        const colors = [
-
-            '#2563eb',
-            '#059669',
-            '#dc2626',
-            '#d97706',
-            '#7c3aed',
-            '#0ea5e9',
-            '#14b8a6',
-            '#f43f5e',
-            '#22c55e',
-            '#f59e0b'
-
-        ];
-
-
-
-        // ========================================
-        // AVG SALARY
-        // ========================================
-
-        let salaryData = {};
-
-        data.forEach(row => {
-
-            let branch =
-                String(row["Branch"] || "").trim();
-
-            let salaryText =
-                String(row["Salary package"] || "")
-                .replace(/,/g,'')
-                .replace('₹','')
-                .trim();
-
-            let salary =
-                parseFloat(salaryText) || 0;
-
-            if(branch && salary > 0){
-
-                if(!salaryData[branch]){
-
-                    salaryData[branch] = {
-
-                        total:0,
-                        count:0
-
-                    };
-
-                }
-
-                salaryData[branch].total += salary;
-                salaryData[branch].count++;
-
+    <script>
+        function toggleSubMenu(id) {
+            let submenu = document.getElementById(id);
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
             }
-
-        });
-
-        let salaryLabels = [];
-        let salaryValues = [];
-
-        for(let branch in salaryData){
-
-            salaryLabels.push(branch);
-
-            salaryValues.push(
-
-                (
-                    salaryData[branch].total /
-                    salaryData[branch].count
-                ).toFixed(2)
-
-            );
-
         }
 
+        function addAcademicYear() {
+            let container = document.getElementById("yearContainer");
+            let items = container.getElementsByClassName("nested-item");
+            let lastYear = items[items.length - 1].innerText;
+            let years = lastYear.split("-");
+            let start = parseInt(years[0]) + 1;
+            let end = parseInt(years[1]) + 1;
 
+            let newDiv = document.createElement("div");
+            newDiv.classList.add("nested-item");
+            newDiv.innerText = start + "-" + end;
+            container.appendChild(newDiv);
+        }
+
+        function logout() {
+            alert("Logged Out Successfully");
+            window.location.href = "index.html";
+        }
 
         // ========================================
-        // SALARY CHART
+        // GOOGLE SHEET URLS
         // ========================================
+        const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
+        const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-        new Chart(
-            document.getElementById("salaryChart"),
-            {
+        // ========================================
+        // LOAD STATS
+        // ========================================
+        Papa.parse(statsSheetURL, {
+            download: true,
+            header: true,
+            complete: function (results) {
+                let data = results.data.filter(row => row["Name"] && String(row["Name"]).trim() !== "");
 
-                type:'pie',
+                let totalStudents = data.length;
+                let registeredStudents = data.filter(row => String(row["Registered for Placements"] || "").trim().toLowerCase() === "yes").length;
+                let eligibleStudents = data.filter(row => {
+                    let registered = String(row["Registered for Placements"] || "").trim().toLowerCase() === "yes";
+                    let cgpa = parseFloat(row["CGPA"]) || 0;
+                    return registered && cgpa >= 6.5;
+                }).length;
+                let placedStudents = data.filter(row => Number(row["No. of Offers"] || 0) > 0).length;
+                let totalOffers = data.reduce((sum, row) => sum + (parseInt(row["No. of Offers"]) || 0), 0);
 
-                data:{
-
-                    labels:salaryLabels,
-
-                    datasets:[{
-
-                        data:salaryValues,
-
-                        backgroundColor:colors,
-
-                        borderWidth:2,
-                        borderColor:'#fff'
-
-                    }]
-
-                },
-
-                plugins:[ChartDataLabels],
-
-                options:{
-
-                    responsive:true,
-                    maintainAspectRatio:false,
-
-                    plugins:{
-
-                        legend:{
-                            display:false
-                        },
-
-                        datalabels:{
-
-                            labels:{
-
-                                title:{
-
-                                    color:'#fff',
-
-                                    font:{
-                                        weight:'bold',
-                                        size:11
-                                    },
-
-                                    formatter:(value,context)=>{
-
-                                        return context.chart.data.labels[
-                                            context.dataIndex
-                                        ];
-
-                                    },
-
-                                    anchor:'center',
-                                    align:'center'
-
-                                },
-
-                                value:{
-
-                                    color:'#000',
-
-                                    backgroundColor:'#fff',
-
-                                    borderRadius:5,
-
-                                    padding:4,
-
-                                    font:{
-                                        weight:'bold',
-                                        size:10
-                                    },
-
-                                    formatter:(value)=>{
-
-                                        return value + ' LPA';
-
-                                    },
-
-                                    anchor:'end',
-                                    align:'end',
-                                    offset:18
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
+                document.getElementById("totalStudents").innerText = totalStudents;
+                document.getElementById("registeredStudents").innerText = registeredStudents;
+                document.getElementById("eligibleStudents").innerText = eligibleStudents;
+                document.getElementById("placedStudents").innerText = placedStudents;
+                document.getElementById("totalOffers").innerText = totalOffers;
             }
-        );
-
-
+        });
 
         // ========================================
-           }
+        // LOAD CHARTS
+        // ========================================
+        Papa.parse(chartsSheetURL, {
+            download: true,
+            header: true,
+            complete: function (results) {
+                let data = results.data.filter(row => row["Branch"] && String(row["Branch"]).trim() !== "");
+                const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
 
-});
+                // --- PROCESS SALARY ---
+                let salaryData = {};
+                data.forEach(row => {
+                    let branch = String(row["Branch"] || "").trim();
+                    let salaryText = String(row["Salary package"] || "").replace(/,/g, '').replace('₹', '').trim();
+                    let salary = parseFloat(salaryText) || 0;
 
-</script>
+                    if (branch && salary > 0) {
+                        if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
+                        salaryData[branch].total += salary;
+                        salaryData[branch].count++;
+                    }
+                });
 
+                let salaryLabels = Object.keys(salaryData);
+                let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
+
+                // --- PROCESS STIPEND ---
+                let stipendData = {};
+                data.forEach(row => {
+                    let branch = String(row["Branch"] || "").trim();
+                    let stipendText = String(row["Internship stipend"] || row["Stipend"] || "").replace(/,/g, '').replace('₹', '').trim();
+                    let stipend = parseFloat(stipendText) || 0;
+
+                    if (branch && stipend > 0) {
+                        if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
+                        stipendData[branch].total += stipend;
+                        stipendData[branch].count++;
+                    }
+                });
+
+                let stipendLabels = Object.keys(stipendData);
+                let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
+
+                // --- RENDER SALARY CHART ---
+                new Chart(document.getElementById("salaryChart"), {
+                    type: 'pie',
+                    data: {
+                        labels: salaryLabels,
+                        datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+                    },
+                    plugins: [ChartDataLabels],
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                labels: {
+                                    title: {
+                                        color: '#fff', font: { weight: 'bold', size: 11 },
+                                        formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+                                        anchor: 'center', align: 'center'
+                                    },
+                                    value: {
+                                        color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
+                                        formatter: (value) => value + ' LPA', anchor: 'end', align: 'end', offset: 18
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // --- RENDER STIPEND CHART ---
+                new Chart(document.getElementById("stipendChart"), {
+                    type: 'pie',
+                    data: {
+                        labels: stipendLabels,
+                        datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
+                    },
+                    plugins: [ChartDataLabels],
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                labels: {
+                                    title: {
+                                        color: '#fff', font: { weight: 'bold', size: 11 },
+                                        formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+                                        anchor: 'center', align: 'center'
+                                    },
+                                    value: {
+                                        color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
+                                        formatter: (value) => '₹' + value, anchor: 'end', align: 'end', offset: 18
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>
