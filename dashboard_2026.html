@@ -414,6 +414,90 @@ padding-bottom:10px;
 
 }
   
+```css
+/* PIE CHART ROW */
+
+.pie-charts-row{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:18px;
+
+margin-bottom:24px;
+
+}
+
+/* INDIVIDUAL CARD */
+
+.pie-card{
+
+background:rgba(255,255,255,0.88);
+
+padding:20px;
+
+border-radius:24px;
+
+box-shadow:0 10px 28px rgba(0,0,0,0.08);
+
+backdrop-filter:blur(12px);
+
+transition:0.3s;
+
+text-align:center;
+
+}
+
+.pie-card:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 14px 30px rgba(37,99,235,0.14);
+
+}
+
+.pie-card h3{
+
+font-size:18px;
+
+margin-bottom:16px;
+
+color:#0f172a;
+
+}
+
+/* CHART SIZE */
+
+.pie-card canvas{
+
+width:100% !important;
+
+height:220px !important;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.pie-charts-row{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:700px){
+
+.pie-charts-row{
+
+grid-template-columns:1fr;
+
+}
+
+}
 
   
 
@@ -912,6 +996,53 @@ Academic Year
 </div>
 
 <!-- NEW ANALYTICS CARDS -->
+```html id="mht3zw"
+<!-- ANALYTICS PIE CHARTS -->
+
+<div class="pie-charts-row">
+
+    <!-- AVG SALARY -->
+
+    <div class="pie-card">
+
+        <h3>Avg Salary</h3>
+
+        <canvas id="salaryChart"></canvas>
+
+    </div>
+
+    <!-- AVG INTERNSHIP STIPEND -->
+
+    <div class="pie-card">
+
+        <h3>Avg Internship Stipend</h3>
+
+        <canvas id="stipendChart"></canvas>
+
+    </div>
+
+    <!-- NATURE OF OFFERS -->
+
+    <div class="pie-card">
+
+        <h3>Nature of Offers</h3>
+
+        <canvas id="natureChart"></canvas>
+
+    </div>
+
+    <!-- OVERALL OFFERS -->
+
+    <div class="pie-card">
+
+        <h3>Overall Offers</h3>
+
+        <canvas id="offersChart"></canvas>
+
+    </div>
+
+</div>
+
 
 
 </div>
@@ -1020,6 +1151,320 @@ let eligibleStudents = data.filter(row => {
             return sum + Number(row["No. of Offers"] || 0);
 
         }, 0);
+
+      ```javascript id="d4lh2e"
+// =============================
+// AVG SALARY
+// =============================
+
+let totalSalary = 0;
+
+let salaryCount = 0;
+
+data.forEach(row => {
+
+    let salary =
+    parseFloat(row["Salary package"]) || 0;
+
+    if(salary > 0){
+
+        totalSalary += salary;
+
+        salaryCount++;
+
+    }
+
+});
+
+let avgSalary =
+salaryCount > 0
+? (totalSalary / salaryCount).toFixed(2)
+: 0;
+
+
+// =============================
+// AVG INTERNSHIP STIPEND
+// =============================
+
+let totalStipend = 0;
+
+let stipendCount = 0;
+
+data.forEach(row => {
+
+    let stipend =
+    parseFloat(row["Stipend(Per Month)"]) || 0;
+
+    if(stipend > 0){
+
+        totalStipend += stipend;
+
+        stipendCount++;
+
+    }
+
+});
+
+let avgStipend =
+stipendCount > 0
+? (totalStipend / stipendCount).toFixed(0)
+: 0;
+
+javascript id="cxfm6m"
+// =============================
+// IT vs CORE OFFERS
+// =============================
+
+let itOffers = 0;
+
+let coreOffers = 0;
+
+data.forEach(row => {
+
+    let companyType =
+    row["Nature of the Company"]
+    ?.trim()
+    .toLowerCase();
+
+    if(companyType === "it"){
+
+        itOffers++;
+
+    }
+
+    else if(companyType === "core"){
+
+        coreOffers++;
+
+    }
+
+});
+
+
+// =============================
+// BRANCH WISE OFFERS (2026)
+// =============================
+
+let branchOffers = {};
+
+data.forEach(row => {
+
+    let batch =
+    row["Batch"]?.trim();
+
+    let branch =
+    row["Branch"]?.trim();
+
+    // Only Batch 2026
+
+    if(batch === "2026"){
+
+        if(branchOffers[branch]){
+
+            branchOffers[branch]++;
+
+        }
+
+        else{
+
+            branchOffers[branch] = 1;
+
+        }
+
+    }
+
+});
+
+
+// Convert Object to Arrays
+
+let branchLabels =
+Object.keys(branchOffers);
+
+let branchCounts =
+Object.values(branchOffers);
+
+
+
+
+// =============================
+// AVG SALARY CHART
+// =============================
+
+new Chart(
+document.getElementById("salaryChart"),
+
+{
+
+type:'doughnut',
+
+data:{
+
+labels:['Average Salary'],
+
+datasets:[{
+
+data:[avgSalary,10-avgSalary],
+
+backgroundColor:[
+
+'#2563eb',
+
+'#dbeafe'
+
+],
+
+borderWidth:0
+
+}]
+
+},
+
+options:{
+
+plugins:{
+
+legend:{display:false}
+
+}
+
+}
+
+});
+
+
+// =============================
+// STIPEND CHART
+// =============================
+
+new Chart(
+document.getElementById("stipendChart"),
+
+{
+
+type:'doughnut',
+
+data:{
+
+labels:['Avg Stipend'],
+
+datasets:[{
+
+data:[avgStipend,50000-avgStipend],
+
+backgroundColor:[
+
+'#059669',
+
+'#d1fae5'
+
+],
+
+borderWidth:0
+
+}]
+
+},
+
+options:{
+
+plugins:{
+
+legend:{display:false}
+
+}
+
+}
+
+});
+
+
+// =============================
+// IT vs CORE CHART
+// =============================
+
+new Chart(
+document.getElementById("natureChart"),
+
+{
+
+type:'pie',
+
+data:{
+
+labels:['IT','Core'],
+
+datasets:[{
+
+data:[itOffers,coreOffers],
+
+backgroundColor:[
+
+'#7c3aed',
+
+'#f59e0b'
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+
+```javascript id="w7n4eu"
+// =============================
+// BRANCH WISE OFFERS CHART
+// =============================
+
+new Chart(
+document.getElementById("offersChart"),
+
+{
+
+type:'pie',
+
+data:{
+
+labels:branchLabels,
+
+datasets:[{
+
+data:branchCounts,
+
+backgroundColor:[
+
+'#2563eb',
+'#059669',
+'#dc2626',
+'#d97706',
+'#7c3aed',
+'#0ea5e9',
+'#14b8a6',
+'#f43f5e'
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+```
+
 
         // Update Cards
         document.getElementById("totalStudents").innerText = totalStudents;
