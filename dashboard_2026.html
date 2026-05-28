@@ -1231,13 +1231,16 @@ Papa.parse(chartsSheetURL, {
 
             let branch = row["Branch"]?.trim();
 
-          let stipend =
-parseFloat(
-String(row["Stipend(Per Month)"])
+ let stipendText =
+String(row["Stipend(Per Month)"] || "")
 .replace(/,/g,'')
 .replace('₹','')
-.trim()
-) || 0;
+.trim();
+
+let stipend =
+stipendText === "-" || stipendText === ""
+? 0
+: parseFloat(stipendText) || 0;
 
             if(branch && stipend > 0){
 
