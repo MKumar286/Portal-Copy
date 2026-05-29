@@ -367,107 +367,6 @@ grid-template-columns:repeat(2,1fr);
 
 }
 
-@media(max-width:700px){
-
-body{
-flex-direction:column;
-overflow:auto;
-}
-
-.sidebar{
-width:100%;
-height:auto;
-flex-direction:row;
-overflow-x:auto;
-}
-
-.menu{
-display:flex;
-margin-top:0;
-gap:10px;
-}
-
-.main-content{
-padding:16px;
-}
-
-.topbar{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
-}
-
-.cards{
-grid-template-columns:repeat(5,220px);
-overflow-x:auto;
-padding-bottom:10px;
-}
-
-}
-
-
-/* TABLE */
-
-.table-section{
-background:rgba(255,255,255,0.8);
-padding:24px;
-border-radius:24px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-backdrop-filter:blur(14px);
-}
-
-.table-section h3{
-margin-bottom:18px;
-color:#0f172a;
-font-size:24px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-overflow:hidden;
-border-radius:18px;
-}
-
-table th{
-background:linear-gradient(135deg,#1d4ed8,#2563eb);
-color:white;
-padding:14px;
-font-size:14px;
-text-align:left;
-}
-
-table td{
-padding:14px;
-border-bottom:1px solid #dbeafe;
-font-size:14px;
-background:white;
-}
-
-table tr:hover td{
-background:#eff6ff;
-}
-
-.status{
-padding:7px 14px;
-border-radius:30px;
-font-size:12px;
-font-weight:700;
-display:inline-block;
-}
-
-.completed{
-background:#dcfce7;
-color:#15803d;
-}
-
-.upcoming{
-background:#fef3c7;
-color:#b45309;
-}
-
-/* RESPONSIVE */
-
 @media(max-width:900px){
 
 .sidebar{
@@ -527,11 +426,11 @@ grid-template-columns:1fr;
 
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
 </head>
 
 <body>
-
-<!-- SIDEBAR -->
 
 <div class="sidebar">
 
@@ -549,8 +448,6 @@ grid-template-columns:1fr;
 <span>Dashboard</span>
 </div>
 
-<!-- STUDENTS MENU -->
-
 <div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
 
 <i class="fa-solid fa-users"></i>
@@ -563,8 +460,6 @@ grid-template-columns:1fr;
 
 <div class="sub-menu" id="studentSubMenu">
 
-<!-- Academic Year -->
-
 <div class="sub-item"
 onclick="toggleSubMenu('academicYears')">
 
@@ -572,10 +467,6 @@ Academic Year
 <i class="fa-solid fa-angle-down"></i>
 
 </div>
-
-<!-- YEAR LIST -->
-
-<!-- YEAR LIST -->
 
 <div class="nested-sub-menu" id="academicYears">
 
@@ -595,8 +486,6 @@ Academic Year
 
 </div>
 
-<!-- ADD YEAR BUTTON -->
-
 <button class="add-year-btn"
 onclick="addAcademicYear()">
 
@@ -607,8 +496,6 @@ onclick="addAcademicYear()">
 </div>
 
 </div>
-
-<!-- COMPANIES MENU -->
 
 <div class="menu-item"
 onclick="toggleSubMenu('companySubMenu')">
@@ -653,8 +540,6 @@ Academic Year
 
 </div>
 
-<!-- PLACEMENTS MENU -->
-
 <div class="menu-item"
 onclick="toggleSubMenu('placementSubMenu')">
 
@@ -697,8 +582,6 @@ Academic Year
 </div>
 
 </div>
-
-<!-- REPORTS MENU -->
 
 <div class="menu-item"
 onclick="toggleSubMenu('reportSubMenu')">
@@ -758,11 +641,7 @@ Academic Year
 
 </div>
 
-<!-- MAIN CONTENT -->
-
 <div class="main-content">
-
-<!-- TOPBAR -->
 
 <div class="topbar">
 
@@ -775,13 +654,9 @@ Academic Year
 
 </div>
 
-<!-- CARDS -->
-
 <div class="cards">
 
 <div class="card">
-
-    <!-- LEFT ICON -->
 
     <div class="card-left">
 
@@ -791,13 +666,11 @@ Academic Year
 
     </div>
 
-    <!-- RIGHT TEXT -->
-
     <div class="card-right">
 
         <h3>Total Students</h3>
 
-        <p>885</p>
+        <p id="totalStudents">Loading...</p>
 
     </div>
 
@@ -812,14 +685,12 @@ Academic Year
         </div>
 
     </div>
-
-    <!-- RIGHT TEXT -->
 
     <div class="card-right">
 
         <h3>Registered for Placements</h3>
 
-        <p>732</p>
+        <p id="registeredStudents">Loading...</p>
 
     </div>
 
@@ -834,14 +705,12 @@ Academic Year
         </div>
 
     </div>
-
-    <!-- RIGHT TEXT -->
 
     <div class="card-right">
 
         <h3>Eligible for Placements</h3>
 
-        <p>587</p>
+        <p id="eligibleStudents">Loading...</p>
 
     </div>
 
@@ -856,14 +725,12 @@ Academic Year
         </div>
 
     </div>
-
-    <!-- RIGHT TEXT -->
 
     <div class="card-right">
 
         <h3>Total Students Placed</h3>
 
-        <p>440</p>
+        <p id="placedStudents">Loading...</p>
 
     </div>
 
@@ -879,13 +746,11 @@ Academic Year
 
     </div>
 
-    <!-- RIGHT TEXT -->
-
     <div class="card-right">
 
         <h3>Total Offers</h3>
 
-        <p>581</p>
+        <p id="totalOffers">Loading...</p>
 
     </div>
 
@@ -945,8 +810,88 @@ window.location.href="index.html";
 
 }
 
-</script>
+// =========================================================
+// LIVE SHEET CALCULATION ENGINE
+// =========================================================
+const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 
+function cleanNumericValue(val) {
+    if (val === undefined || val === null) return 0;
+    let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
+    if (clean === '-' || clean === '—' || clean === '' || isNaN(Number(clean))) {
+        return 0;
+    }
+    return parseFloat(clean) || 0;
+}
+
+function getRowValueInsensitive(row, keyName) {
+    let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
+    return targetKey ? row[targetKey] : null;
+}
+
+async function loadStatsDashboard() {
+    try {
+        const response = await fetch(statsSheetURL);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                // Filter out empty rows structurally
+                let data = results.data.filter(row => {
+                    let keys = Object.keys(row);
+                    return keys.length > 0 && row[keys[0]] !== "";
+                });
+
+                // Condition 1: Total Students (Count of rows)
+                let totalStudents = data.length;
+                
+                // Condition 2: Registered for Placements (Count of 'yes')
+                let registeredStudents = data.filter(row => {
+                    let reg = getRowValueInsensitive(row, "Registered for Placements");
+                    return reg && String(reg).trim().toLowerCase() === "yes";
+                }).length;
+
+                // Condition 3: Eligible Students (CGPA >= 6.5 AND Registered == 'yes')
+                let eligibleStudents = data.filter(row => {
+                    let reg = getRowValueInsensitive(row, "Registered for Placements");
+                    let isRegistered = reg && String(reg).trim().toLowerCase() === "yes";
+                    let cgpaVal = getRowValueInsensitive(row, "CGPA");
+                    let cgpa = parseFloat(cgpaVal) || 0;
+                    return isRegistered && cgpa >= 6.5;
+                }).length;
+
+                // Condition 4: Total Students Placed (Count of Non-zero numbers in No. of Offers)
+                let placedStudents = data.filter(row => {
+                    let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
+                    return cleanNumericValue(offersVal) > 0;
+                }).length;
+
+                // Condition 5: Total Offers (Sum of all values in No. of Offers)
+                let totalOffers = data.reduce((sum, row) => {
+                    let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
+                    return sum + Math.floor(cleanNumericValue(offersVal));
+                }, 0);
+
+                // Live dynamic assignment into elements
+                document.getElementById("totalStudents").innerText = totalStudents;
+                document.getElementById("registeredStudents").innerText = registeredStudents;
+                document.getElementById("eligibleStudents").innerText = eligibleStudents;
+                document.getElementById("placedStudents").innerText = placedStudents;
+                document.getElementById("totalOffers").innerText = totalOffers;
+            }
+        });
+    } catch (error) {
+        console.error("❌ Stats load failed:", error);
+    }
+}
+
+// Execute live data lookup when window finishes structural rendering
+window.addEventListener('DOMContentLoaded', loadStatsDashboard);
+
+</script>
 
 </body>
 </html>
