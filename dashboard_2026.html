@@ -205,223 +205,200 @@ gap:14px;
 margin-bottom:22px;
 overflow-x:auto;
 }
-.card{
 
+.card{
 display:flex;
 align-items:center;
 gap:12px;
-
-background:
-linear-gradient(145deg,
-rgba(255,255,255,0.96),
-rgba(239,246,255,0.88));
-
+background:linear-gradient(145deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88));
 padding:12px 14px;
-
 border-radius:18px;
-
-border:1px solid rgba(255,255,255,0.7);
-
-box-shadow:
-0 10px 24px rgba(37,99,235,0.12),
-0 4px 10px rgba(0,0,0,0.05);
-
+box-shadow:0 10px 24px rgba(37,99,235,0.12), 0 4px 10px rgba(0,0,0,0.05);
 min-height:90px;
-
 transition:0.3s;
-
 overflow:hidden;
-
 position:relative;
-
 }
 
-/* TOP PREMIUM LINE */
+/* INDIVIDUAL CARD BORDERS AND ICON BACKGROUNDS */
 
+/* 1. Total Students - Blue */
+.card-total {
+    border: 1.5px solid rgba(37, 99, 235, 0.4);
+}
+.card-total .card-icon {
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
+}
+.card-total::before {
+    background: linear-gradient(90deg, #2563eb, #38bdf8);
+}
+
+/* 2. Registered for Placements - Purple */
+.card-registered {
+    border: 1.5px solid rgba(124, 58, 237, 0.4);
+}
+.card-registered .card-icon {
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.25);
+}
+.card-registered::before {
+    background: linear-gradient(90deg, #7c3aed, #c084fc);
+}
+
+/* 3. Eligible for Placements - Teal/Cyan */
+.card-eligible {
+    border: 1.5px solid rgba(13, 148, 136, 0.4);
+}
+.card-eligible .card-icon {
+    background: linear-gradient(135deg, #0d9488, #2dd4bf);
+    box-shadow: 0 6px 14px rgba(13, 148, 136, 0.25);
+}
+.card-eligible::before {
+    background: linear-gradient(90deg, #0d9488, #2dd4bf);
+}
+
+/* 4. Total Students Placed - Green */
+.card-placed {
+    border: 1.5px solid rgba(22, 163, 74, 0.4);
+}
+.card-placed .card-icon {
+    background: linear-gradient(135deg, #16a34a, #4ade80);
+    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.25);
+}
+.card-placed::before {
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+}
+
+/* 5. Total Offers - Orange/Amber */
+.card-offers {
+    border: 1.5px solid rgba(217, 119, 6, 0.4);
+}
+.card-offers .card-icon {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+    box-shadow: 0 6px 14px rgba(217, 119, 6, 0.25);
+}
+.card-offers::before {
+    background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+
+/* TOP PREMIUM LINE OVERRIDE FOR ALL CARDS */
 .card::before{
-
 content:'';
-
 position:absolute;
-
 top:0;
 left:0;
-
 width:100%;
 height:4px;
-
-background:linear-gradient(
-90deg,
-#2563eb,
-#38bdf8,
-#8b5cf6
-);
-
 }
 
-/* HOVER */
-
+/* HOVER EFFECT */
 .card:hover{
-
 transform:translateY(-4px);
-
-box-shadow:
-0 16px 28px rgba(37,99,235,0.18);
-
+box-shadow:0 16px 28px rgba(15, 23, 42, 0.12);
 }
 
-/* LEFT ICON */
-
+/* LEFT ICON CONTAINER */
 .card-left{
-
 flex-shrink:0;
-
 }
 
-/* ICON BOX */
-
+/* ICON BOX BASE */
 .card-icon{
-
 width:44px;
 height:44px;
-
 border-radius:14px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
-background:
-linear-gradient(135deg,#2563eb,#38bdf8);
-
-box-shadow:
-0 8px 18px rgba(37,99,235,0.25);
-
 }
 
-/* ICON */
-
+/* ICON INSIDE BOX */
 .card-icon i{
-
 font-size:16px;
 color:white;
-
 }
 
 /* RIGHT CONTENT */
-
 .card-right{
-
 display:flex;
 flex-direction:column;
-
 justify-content:center;
-
 overflow:hidden;
-
 }
 
 /* TEXT SHOULD FULLY SHOW */
-
 .card h3{
-
 font-size:12px;
-
 font-weight:700;
-
 color:#475569;
-
 line-height:1.4;
-
 margin-bottom:6px;
-
 white-space:normal;
-
 overflow:visible;
-
 text-overflow:unset;
-
 }
 
 /* VALUE BELOW TEXT */
-
 .card p{
-
 font-size:22px;
-
 font-weight:800;
-
 color:#0f172a;
-
 line-height:1;
-
 }
   
 /* RESPONSIVE */
 
 @media(max-width:1200px){
-
 .cards{
 grid-template-columns:repeat(2,1fr);
 }
-
 }
 
 @media(max-width:900px){
-
 .sidebar{
 width:90px;
 padding:16px 10px;
 }
-
 .logo-section h1,
 .logo-section p,
 .menu-item span,
 .logout span{
 display:none;
 }
-
 .menu-item,
 .logout{
 justify-content:center;
 }
-
 }
 
 @media(max-width:700px){
-
 body{
 flex-direction:column;
 overflow:auto;
 }
-
 .sidebar{
 width:100%;
 height:auto;
 flex-direction:row;
 overflow-x:auto;
 }
-
 .menu{
 display:flex;
 margin-top:0;
 gap:10px;
 }
-
 .main-content{
 padding:16px;
 }
-
 .topbar{
 flex-direction:column;
 align-items:flex-start;
 gap:12px;
 }
-
 .cards{
 grid-template-columns:1fr;
 }
-
 }
 
 </style>
@@ -656,102 +633,77 @@ Academic Year
 
 <div class="cards">
 
-<div class="card">
+<div class="card card-total">
 
     <div class="card-left">
-
         <div class="card-icon">
             <i class="fa-solid fa-users"></i>
         </div>
-
     </div>
 
     <div class="card-right">
-
         <h3>Total Students</h3>
-
         <p id="totalStudents">Loading...</p>
-
     </div>
 
 </div>
 
-<div class="card">
+<div class="card card-registered">
 
- <div class="card-left">
-
+    <div class="card-left">
         <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-user-check"></i>
         </div>
-
     </div>
 
     <div class="card-right">
-
         <h3>Registered for Placements</h3>
-
         <p id="registeredStudents">Loading...</p>
-
     </div>
 
 </div>
 
-<div class="card">
+<div class="card card-eligible">
 
- <div class="card-left">
-
+    <div class="card-left">
         <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-user-shield"></i>
         </div>
-
     </div>
 
     <div class="card-right">
-
         <h3>Eligible for Placements</h3>
-
         <p id="eligibleStudents">Loading...</p>
-
     </div>
 
 </div>
 
-<div class="card">
+<div class="card card-placed">
 
- <div class="card-left">
-
+    <div class="card-left">
         <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-user-gradient"></i>
         </div>
-
     </div>
 
     <div class="card-right">
-
         <h3>Total Students Placed</h3>
-
         <p id="placedStudents">Loading...</p>
-
     </div>
 
 </div>
 
-<div class="card">
+<div class="card card-offers">
 
- <div class="card-left">
-
+    <div class="card-left">
         <div class="card-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-award"></i>
         </div>
-
     </div>
 
     <div class="card-right">
-
         <h3>Total Offers</h3>
-
         <p id="totalOffers">Loading...</p>
-
     </div>
 
 </div>
@@ -839,7 +791,6 @@ async function loadStatsDashboard() {
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                // Filter out empty rows structurally
                 let data = results.data.filter(row => {
                     let keys = Object.keys(row);
                     return keys.length > 0 && row[keys[0]] !== "";
@@ -888,7 +839,6 @@ async function loadStatsDashboard() {
     }
 }
 
-// Execute live data lookup when window finishes structural rendering
 window.addEventListener('DOMContentLoaded', loadStatsDashboard);
 
 </script>
