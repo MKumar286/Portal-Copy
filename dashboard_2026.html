@@ -1,538 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MGIT Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <title>Placement & Internship Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #94a3b8;
+            --sidebar-hover: #1e293b;
+            --sidebar-active: #2563eb;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
             display: flex;
-            background: linear-gradient(135deg, #eef2ff, #dbeafe, #eff6ff);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* SIDEBAR */
-        .sidebar {
+        /* --- SIDEBAR STRUCTURE --- */
+        aside {
             width: 260px;
-            background: linear-gradient(180deg, #0f172a, #1e3a8a, #2563eb);
-            color: white;
-            padding: 22px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 8px 0 30px rgba(0, 0, 0, 0.25);
-            z-index: 10;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo-section h1 {
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .logo-section p {
-            font-size: 13px;
-            margin-top: 5px;
-            color: #cbd5e1;
-        }
-
-        .menu {
-            margin-top: 30px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 15px;
-            border-radius: 16px;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: 0.3s;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.18);
-            transform: translateX(4px);
-        }
-
-        .menu-item i {
-            font-size: 18px;
-        }
-
-        .menu-item span {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .sub-menu {
-            display: none;
-            padding-left: 20px;
-            margin-top: -4px;
-            margin-bottom: 10px;
-        }
-
-        .sub-item {
-            padding: 10px 14px;
-            font-size: 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            color: #dbeafe;
-            margin-bottom: 5px;
-        }
-
-        .sub-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .nested-sub-menu {
-            display: none;
-            padding-left: 18px;
-            margin-top: 6px;
-        }
-
-        .nested-item {
-            padding: 8px 12px;
-            font-size: 13px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 5px;
-            color: #e0e7ff;
-            transition: 0.3s;
-            display: block;
-            text-decoration: none;
-        }
-
-        .nested-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .add-year-btn {
-            margin-top: 10px;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.12);
-            color: white;
-            cursor: pointer;
-            font-size: 13px;
-            transition: 0.3s;
-        }
-
-        .add-year-btn:hover {
-            background: rgba(255, 255, 255, 0.22);
-        }
-
-        .logout {
-            padding: 14px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout:hover {
-            background: #dc2626;
-        }
-
-        /* MAIN CONTENT */
-        .main-content {
-            flex: 1;
-            padding: 28px;
-            overflow-y: auto;
-        }
-
-        /* TOPBAR */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .topbar h2 {
-            font-size: 24px;
+        .brand {
+            padding: 24px;
+            font-size: 1.2rem;
             font-weight: 700;
-            color: #0f172a;
-        }
-
-        .admin-profile {
-            background: rgba(255, 255, 255, 0.75);
-            padding: 12px 18px;
-            border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e293b;
             display: flex;
             align-items: center;
             gap: 10px;
-            backdrop-filter: blur(12px);
         }
 
-        .admin-profile i {
-            font-size: 22px;
-            color: #2563eb;
+        .menu-container {
+            flex: 1;
+            padding: 20px 0;
+            overflow-y: auto;
         }
 
-        /* CARDS */
-        .cards {
+        .menu-item {
+            padding: 12px 24px;
+            color: var(--sidebar-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .menu-item:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+
+        .menu-item i {
+            width: 20px;
+        }
+
+        .submenu {
+            display: none;
+            background-color: #0b0f19;
+            padding: 5px 0;
+        }
+
+        .nested-item {
+            padding: 10px 24px 10px 54px;
+            color: #64748b;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nested-item:hover, .nested-item.active {
+            color: #fff;
+        }
+
+        .action-btn-container {
+            padding: 10px 24px;
+        }
+
+        .add-year-btn {
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            border: 1px dashed #334155;
+            color: var(--sidebar-text);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .add-year-btn:hover {
+            border-color: var(--sidebar-active);
+            color: #fff;
+        }
+
+        .logout-box {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .logout-btn:hover { background-color: #b91c1c; }
+
+        /* --- MAIN CONTENT AREA --- */
+        main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        header {
+            margin-bottom: 32px;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        header p {
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* --- STATS CARD ROW --- */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 14px;
-            margin-bottom: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
         .card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.88));
-            padding: 12px 14px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12), 0 4px 10px rgba(0, 0, 0, 0.05);
-            min-height: 90px;
-            transition: 0.3s;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* TOP PREMIUM LINE OVERLAYS */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
-        .card:nth-child(1)::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
-        .card:nth-child(2)::before { background: linear-gradient(90deg, #059669, #34d399); }
-        .card:nth-child(3)::before { background: linear-gradient(90deg, #d97706, #fbbf24); }
-        .card:nth-child(4)::before { background: linear-gradient(90deg, #dc2626, #fb7185); }
-        .card:nth-child(5)::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 28px rgba(37, 99, 235, 0.18);
-        }
-
-        .card-left { flex-shrink: 0; }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-        }
-
-        .card:nth-child(1) .card-icon { background: linear-gradient(135deg, #2563eb, #60a5fa); }
-        .card:nth-child(2) .card-icon { background: linear-gradient(135deg, #059669, #34d399); }
-        .card:nth-child(3) .card-icon { background: linear-gradient(135deg, #d97706, #fbbf24); }
-        .card:nth-child(4) .card-icon { background: linear-gradient(135deg, #dc2626, #fb7185); }
-        .card:nth-child(5) .card-icon { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
-
-        .card-icon i {
-            font-size: 16px;
-            color: white;
-        }
-
-        .card-right {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            overflow: hidden;
         }
 
-        .card h3 {
-            font-size: 12px;
+        .card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 1.75rem;
             font-weight: 700;
-            color: #475569;
-            line-height: 1.4;
-            margin-bottom: 6px;
-            white-space: normal;
-        }
-
-        .card p {
-            font-size: 22px;
-            font-weight: 800;
             color: #0f172a;
-            line-height: 1;
         }
 
-        /* PIE CHART ROW */
-        .pie-charts-row {
+        /* --- VISUALIZATION CHARTS ROW --- */
+        .charts-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 32px;
+        }
+
+        .chart-wrapper {
+            background-color: var(--card-bg);
+            padding: 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-wrapper h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
             margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
         }
 
-        .pie-card {
-            background: rgba(255, 255, 255, 0.88);
-            padding: 20px;
-            border-radius: 24px;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-            backdrop-filter: blur(12px);
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        .pie-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 14px 30px rgba(37, 99, 235, 0.14);
-        }
-
-        .pie-card h3 {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: #0f172a;
-        }
-
-        .chart-container {
+        .canvas-container {
             position: relative;
+            height: 340px; /* Fixed clean viewport area for charts */
             width: 100%;
-            height: 320px;
-        }
-
-        /* TABLE */
-        .table-section {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 24px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(14px);
-        }
-
-        .table-section h3 {
-            margin-bottom: 18px;
-            color: #0f172a;
-            font-size: 24px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            overflow: hidden;
-            border-radius: 18px;
-        }
-
-        table th {
-            background: linear-gradient(135deg, #1d4ed8, #2563eb);
-            color: white;
-            padding: 14px;
-            font-size: 14px;
-            text-align: left;
-        }
-
-        table td {
-            padding: 14px;
-            border-bottom: 1px solid #dbeafe;
-            font-size: 14px;
-            background: white;
-        }
-
-        table tr:hover td {
-            background: #eff6ff;
-        }
-
-        /* RESPONSIVE DESIGN */
-        @media(max-width:1200px) {
-            .cards { grid-template-columns: repeat(2, 1fr); }
-            .pie-charts-row { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media(max-width:900px) {
-            .sidebar { width: 90px; padding: 16px 10px; }
-            .logo-section h1, .logo-section p, .menu-item span, .logout span { display: none; }
-            .menu-item, .logout { justify-content: center; }
-        }
-
-        @media(max-width:700px) {
-            body { flex-direction: column; overflow-auto; }
-            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; }
-            .menu { display: flex; margin-top: 0; gap: 10px; }
-            .main-content { padding: 16px; }
-            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .cards { grid-template-columns: repeat(5, 220px); overflow-x: auto; padding-bottom: 10px; }
-            .pie-charts-row { grid-template-columns: 1fr; }
         }
     </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
-
 <body>
 
-    <div class="sidebar">
-        <div>
-            <div class="logo-section">
-                <h1>MGIT</h1>
-                <p>Placement Portal</p>
+    <aside>
+        <div class="brand">
+            <i class="fa-solid fa-graduation-cap" style="color: var(--sidebar-active)"></i>
+            <span>IMS Portal</span>
+        </div>
+        
+        <div class="menu-container">
+            <div class="menu-item" onclick="toggleSubMenu('academicYears')">
+                <span><i class="fa-solid fa-calendar-days"></i> Academic Year</span>
+                <i class="fa-solid fa-chevron-down font-xs"></i>
+            </div>
+            <div class="submenu" id="academicYears" style="display: block;">
+                <div id="yearContainer">
+                    <div class="nested-item active">2024-25</div>
+                    <div class="nested-item">2023-24</div>
+                </div>
+                <div class="action-btn-container">
+                    <button class="add-year-btn" onclick="addAcademicYear()">+ Add Academic Year</button>
+                </div>
             </div>
 
-            <div class="menu">
-                <div class="menu-item">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Dashboard</span>
-                </div>
-
-                <div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
-                    <i class="fa-solid fa-users"></i>
-                    <span>Students</span>
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-                <div class="sub-menu" id="studentSubMenu">
-                    <div class="sub-item" onclick="toggleSubMenu('academicYears')">
-                        Academic Year <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    <div class="nested-sub-menu" id="academicYears">
-                        <div id="yearContainer">
-                            <div class="nested-item">2025-2026</div>
-                            <div class="nested-item">2026-2027</div>
-                            <div class="nested-item">2027-2028</div>
-                        </div>
-                        <button class="add-year-btn" onclick="addAcademicYear()">+ Add Academic Year</button>
-                    </div>
-                </div>
-
-                <div class="menu-item" onclick="toggleSubMenu('companySubMenu')">
-                    <i class="fa-solid fa-building"></i>
-                    <span>Companies</span>
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-                <div class="sub-menu" id="companySubMenu">
-                    <div class="sub-item" onclick="toggleSubMenu('companyYears')">
-                        Academic Year <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    <div class="nested-sub-menu" id="companyYears">
-                        <div class="nested-item">2025-2026</div>
-                        <div class="nested-item">2026-2027</div>
-                        <div class="nested-item">2027-2028</div>
-                        <div class="nested-item">2028-2029</div>
-                    </div>
-                </div>
-
-                <div class="menu-item" onclick="toggleSubMenu('placementSubMenu')">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <span>Placements</span>
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-                <div class="sub-menu" id="placementSubMenu">
-                    <div class="sub-item" onclick="toggleSubMenu('placementYears')">
-                        Academic Year <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    <div class="nested-sub-menu" id="placementYears">
-                        <a href="2025-2026.html" class="nested-item">2025-2026</a>
-                        <a href="#" class="nested-item">2026-2027</a>
-                        <a href="#" class="nested-item">2027-2028</a>
-                        <a href="#" class="nested-item">2028-2029</a>
-                    </div>
-                </div>
-
-                <div class="menu-item" onclick="toggleSubMenu('reportSubMenu')">
-                    <i class="fa-solid fa-file"></i>
-                    <span>Reports</span>
-                    <i class="fa-solid fa-angle-down"></i>
-                </div>
-                <div class="sub-menu" id="reportSubMenu">
-                    <div class="sub-item" onclick="toggleSubMenu('reportYears')">
-                        Academic Year <i class="fa-solid fa-angle-down"></i>
-                    </div>
-                    <div class="nested-sub-menu" id="reportYears">
-                        <a href="2025-2026.html" class="nested-item">2025-2026</a>
-                        <a href="#" class="nested-item">2026-2027</a>
-                        <a href="#" class="nested-item">2027-2028</a>
-                        <a href="#" class="nested-item">2028-2029</a>
-                    </div>
-                </div>
-
-                <div class="menu-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </div>
+            <div class="menu-item">
+                <span><i class="fa-solid fa-chart-pie"></i> Placement Analytics</span>
             </div>
         </div>
 
-        <div class="logout" onclick="logout()">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
+        <div class="logout-box">
+            <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-power-off"></i> Logout</button>
         </div>
-    </div>
+    </aside>
 
-    <div class="main-content">
-        <div class="topbar">
-            <h2>Dashboard Overview</h2>
-            <div class="admin-profile">
-                <i class="fa-solid fa-user-tie"></i>
-                <span>TPO Admin</span>
-            </div>
-        </div>
+    <main>
+        <header>
+            <h1>Placement & Internship Analytics</h1>
+            <p>Real-time processing direct from administrative spreadsheets</p>
+        </header>
 
-        <div class="cards">
+        <section class="stats-grid">
             <div class="card">
-                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
-                <div class="card-right"><h3>Total Students</h3><p id="totalStudents">0</p></div>
+                <span class="card-title">Total Strength</span>
+                <span class="card-value" id="totalStudents">0</span>
             </div>
             <div class="card">
-                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
-                <div class="card-right"><h3>Registered for Placements</h3><p id="registeredStudents">0</p></div>
+                <span class="card-title">Registered</span>
+                <span class="card-value" id="registeredStudents">0</span>
             </div>
             <div class="card">
-                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
-                <div class="card-right"><h3>Eligible for Placements</h3><p id="eligibleStudents">0</p></div>
+                <span class="card-title">Eligible Data</span>
+                <span class="card-value" id="eligibleStudents">0</span>
             </div>
             <div class="card">
-                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
-                <div class="card-right"><h3>Total Students Placed</h3><p id="placedStudents">0</p></div>
+                <span class="card-title">Placed Count</span>
+                <span class="card-value" id="placedStudents">0</span>
             </div>
             <div class="card">
-                <div class="card-left"><div class="card-icon"><i class="fa-solid fa-users"></i></div></div>
-                <div class="card-right"><h3>Total Offers</h3><p id="totalOffers">0</p></div>
+                <span class="card-title">Total Offers Generated</span>
+                <span class="card-value" id="totalOffers">0</span>
             </div>
-        </div>
+        </section>
 
-        <div class="pie-charts-row">
-            <div class="pie-card">
-                <h3>Avg Salary</h3>
-                <div class="chart-container"><canvas id="salaryChart"></canvas></div>
+        <section class="charts-grid">
+            <div class="chart-wrapper">
+                <h3>Average Salary Package Breakup (LPA)</h3>
+                <div class="canvas-container">
+                    <canvas id="salaryChart"></canvas>
+                </div>
             </div>
-            <div class="pie-card">
-                <h3>Avg Internship Stipend</h3>
-                <div class="chart-container"><canvas id="stipendChart"></canvas></div>
+
+            <div class="chart-wrapper">
+                <h3>Average Monthly Stipend Metric</h3>
+                <div class="canvas-container">
+                    <canvas id="stipendChart"></canvas>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script>
         function toggleSubMenu(id) {
             let submenu = document.getElementById(id);
-            if (submenu.style.display === "block") {
-                submenu.style.display = "none";
-            } else {
-                submenu.style.display = "block";
-            }
+            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
         }
 
         function addAcademicYear() {
@@ -554,221 +338,225 @@
             window.location.href = "index.html";
         }
 
-// ========================================
-// GOOGLE SHEET URLS
-// ========================================
-const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
-const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
+        // ========================================
+        // GOOGLE SPREADSHEET URL SOURCES
+        // ========================================
+        const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
+        const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-// Clean hyphens, currency symbols, and convert safely to numbers
-function cleanNumericValue(val) {
-    if (val === undefined || val === null) return 0;
-    let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
-    if (clean === '-' || clean === '—' || clean === '' || isNaN(Number(clean))) {
-        return 0;
-    }
-    return parseFloat(clean) || 0;
-}
+        // Regex sanitizer for financial metrics
+        function cleanNumericValue(val) {
+            if (val === undefined || val === null) return 0;
+            let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
+            if (clean === '-' || clean === '—' || clean === '' || isNaN(Number(clean))) {
+                return 0;
+            }
+            return parseFloat(clean) || 0;
+        }
 
-// Case-insensitive lookups to avoid issues with sheet column spelling spaces
-function getRowValueInsensitive(row, keyName) {
-    let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
-    return targetKey ? row[targetKey] : null;
-}
+        // Loose case-insensitive structural matching key tracker
+        function getRowValueInsensitive(row, keyName) {
+            let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
+            return targetKey ? row[targetKey] : null;
+        }
 
-// ========================================
-// ASYNC ENGINE TO LOAD EVERYTHING RELIABLY
-// ========================================
-async function initDashboard() {
-    console.log("🚀 Initializing Dashboard Data Fetch...");
+        // ========================================
+        // DATA POPULATION CONTROLLER
+        // ========================================
+        async function initDashboard() {
+            console.log("🚀 Initializing Async Data Engine...");
 
-    // 1. FETCH AND PARSE STATS
-    try {
-        const response = await fetch(statsSheetURL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const csvText = await response.text();
-        
-        Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                console.log("✅ Stats CSV successfully downloaded. Total raw rows:", results.data.length);
-                if(results.data.length === 0) console.warn("⚠️ Stats sheet returned 0 rows!");
-
-                let data = results.data.filter(row => {
-                    let name = getRowValueInsensitive(row, "Name");
-                    return name && String(name).trim() !== "";
-                });
-
-                let totalStudents = data.length;
+            // 1. CALCULATE AND POPULATE STATS CARDS
+            try {
+                const response = await fetch(statsSheetURL);
+                if (!response.ok) throw new Error(`Stats HTTP error! Status: ${response.status}`);
+                const csvText = await response.text();
                 
-                let registeredStudents = data.filter(row => {
-                    let reg = getRowValueInsensitive(row, "Registered for Placements");
-                    return reg && String(reg).trim().toLowerCase() === "yes";
-                }).length;
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        let data = results.data.filter(row => {
+                            let keys = Object.keys(row);
+                            return keys.length > 0 && row[keys[0]] !== "";
+                        });
 
-                let eligibleStudents = data.filter(row => {
-                    let reg = getRowValueInsensitive(row, "Registered for Placements");
-                    let registered = reg && String(reg).trim().toLowerCase() === "yes";
-                    let cgpaVal = getRowValueInsensitive(row, "CGPA");
-                    let cgpa = parseFloat(cgpaVal) || 0;
-                    return registered && cgpa >= 6.5;
-                }).length;
+                        let totalStudents = data.length;
+                        
+                        let registeredStudents = data.filter(row => {
+                            let reg = getRowValueInsensitive(row, "Registered for Placements");
+                            return reg && String(reg).trim().toLowerCase() === "yes";
+                        }).length;
 
-                let placedStudents = data.filter(row => {
-                    let offersVal = getRowValueInsensitive(row, "No. of Offers");
-                    return cleanNumericValue(offersVal) > 0;
-                }).length;
+                        let eligibleStudents = data.filter(row => {
+                            let reg = getRowValueInsensitive(row, "Registered for Placements");
+                            let registered = reg && String(reg).trim().toLowerCase() === "yes";
+                            let cgpaVal = getRowValueInsensitive(row, "CGPA");
+                            let cgpa = parseFloat(cgpaVal) || 0;
+                            return registered && cgpa >= 6.5;
+                        }).length;
 
-                let totalOffers = data.reduce((sum, row) => {
-                    let offersVal = getRowValueInsensitive(row, "No. of Offers");
-                    return sum + Math.floor(cleanNumericValue(offersVal));
-                }, 0);
+                        let placedStudents = data.filter(row => {
+                            let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
+                            return cleanNumericValue(offersVal) > 0;
+                        }).length;
 
-                // Update UI Elements safely
-                document.getElementById("totalStudents").innerText = totalStudents;
-                document.getElementById("registeredStudents").innerText = registeredStudents;
-                document.getElementById("eligibleStudents").innerText = eligibleStudents;
-                document.getElementById("placedStudents").innerText = placedStudents;
-                document.getElementById("totalOffers").innerText = totalOffers;
-                console.log("🎯 Stats Cards Updated Successfully.");
+                        let totalOffers = data.reduce((sum, row) => {
+                            let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
+                            return sum + Math.floor(cleanNumericValue(offersVal));
+                        }, 0);
+
+                        document.getElementById("totalStudents").innerText = totalStudents;
+                        document.getElementById("registeredStudents").innerText = registeredStudents;
+                        document.getElementById("eligibleStudents").innerText = eligibleStudents;
+                        document.getElementById("placedStudents").innerText = placedStudents;
+                        document.getElementById("totalOffers").innerText = totalOffers;
+                        console.log("🎯 Summary Counter Cards Compiled Successfully.");
+                    }
+                });
+            } catch (error) {
+                console.error("❌ Stats Fetch Error:", error);
             }
-        });
-    } catch (error) {
-        console.error("❌ Fatal Error Fetching Stats Sheet:", error);
-    }
 
-    // 2. FETCH AND PARSE CHARTS
-    try {
-        const response = await fetch(chartsSheetURL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const csvText = await response.text();
+            // 2. PARSE DATA AND DRAW PIE CHARTS
+            try {
+                const response = await fetch(chartsSheetURL);
+                if (!response.ok) throw new Error(`Charts HTTP error! Status: ${response.status}`);
+                const csvText = await response.text();
 
-        Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                console.log("✅ Charts CSV successfully downloaded. Total raw rows:", results.data.length);
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        let data = results.data.filter(row => {
+                            let branch = getRowValueInsensitive(row, "Branch");
+                            return branch && String(branch).trim() !== "";
+                        });
 
-                let data = results.data.filter(row => {
-                    let branch = getRowValueInsensitive(row, "Branch");
-                    return branch && String(branch).trim() !== "";
-                });
+                        const paletteColors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
 
-                const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
+                        // --- BREAKDOWN SALARY AVERAGES ---
+                        let salaryMap = {};
+                        data.forEach(row => {
+                            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                            let rawSalary = getRowValueInsensitive(row, "Salary package");
+                            let salary = cleanNumericValue(rawSalary);
 
-                // --- PROCESS SALARY ---
-                let salaryData = {};
-                data.forEach(row => {
-                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                    let rawSalary = getRowValueInsensitive(row, "Salary package");
-                    let salary = cleanNumericValue(rawSalary);
+                            if (branch && salary > 0) {
+                                if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
+                                salaryMap[branch].total += salary;
+                                salaryMap[branch].count++;
+                            }
+                        });
 
-                    if (branch && salary > 0) {
-                        if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
-                        salaryData[branch].total += salary;
-                        salaryData[branch].count++;
-                    }
-                });
+                        let salaryLabels = Object.keys(salaryMap);
+                        let salaryValues = salaryLabels.map(b => (salaryMap[b].total / salaryMap[b].count).toFixed(2));
 
-                let salaryLabels = Object.keys(salaryData);
-                let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
+                        // --- BREAKDOWN STIPEND AVERAGES ---
+                        let stipendMap = {};
+                        data.forEach(row => {
+                            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                            // Exact targeted look-up based on specified column configuration rules
+                            let rawStipend = row["Stipend(Per Month)"] || getRowValueInsensitive(row, "Stipend(Per Month)");
+                            let stipend = cleanNumericValue(rawStipend);
 
-                // --- PROCESS STIPEND ---
-                let stipendData = {};
-                data.forEach(row => {
-                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                    let rawStipend = getRowValueInsensitive(row, "Stipend") || getRowValueInsensitive(row, "Stipend (Per Month)")|| getRowValueInsensitive(row, "Stipend(Per Month)");
-                    let stipend = cleanNumericValue(rawStipend);
+                            if (branch && stipend > 0) {
+                                if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
+                                stipendMap[branch].total += stipend;
+                                stipendMap[branch].count++;
+                            }
+                        });
 
-                    if (branch && stipend > 0) {
-                        if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
-                        stipendData[branch].total += stipend;
-                        stipendData[branch].count++;
-                    }
-                });
+                        let stipendLabels = Object.keys(stipendMap);
+                        let stipendValues = stipendLabels.map(b => (stipendMap[b].total / stipendMap[b].count).toFixed(2));
 
-                let stipendLabels = Object.keys(stipendData);
-                let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
-
-                // --- RENDER SALARY CHART ---
-                if (salaryLabels.length > 0) {
-                    new Chart(document.getElementById("salaryChart"), {
-                        type: 'pie',
-                        data: {
-                            labels: salaryLabels,
-                            datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                        },
-                        plugins: [ChartDataLabels],
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                datalabels: {
-                                    labels: {
-                                        title: {
-                                            color: '#fff', font: { weight: 'bold', size: 11 },
-                                            formatter: (value, context) => context.chart.data.labels[context.dataIndex],
-                                            anchor: 'center', align: 'center'
-                                        },
-                                        value: {
-                                            color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
-                                            formatter: (value) => value + ' LPA', anchor: 'end', align: 'end', offset: 18
+                        // --- RENDER RECONFIGURED SALARY PIE CHART ---
+                        if (salaryLabels.length > 0) {
+                            new Chart(document.getElementById("salaryChart"), {
+                                type: 'pie',
+                                data: {
+                                    labels: salaryLabels,
+                                    datasets: [{ 
+                                        data: salaryValues, 
+                                        backgroundColor: paletteColors, 
+                                        borderWidth: 2, 
+                                        borderColor: '#fff' 
+                                    }]
+                                },
+                                plugins: [ChartDataLabels],
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    layout: {
+                                        // Added safe breathing room padding to prevent long texts/numbers from cutting off
+                                        padding: { top: 30, bottom: 30, left: 30, right: 30 }
+                                    },
+                                    plugins: {
+                                        legend: { display: false }, // Completely turned off standard blocks to focus on clean side indicators
+                                        datalabels: {
+                                            anchor: 'end',
+                                            align: 'end',
+                                            offset: 10, // Moves data text safely outside slice limits
+                                            color: '#1e293b', 
+                                            font: { weight: '600', size: 11 },
+                                            // Displays both Branch Name and Average Metric clean side-by-side
+                                            formatter: (value, context) => {
+                                                let branchName = context.chart.data.labels[context.dataIndex];
+                                                return branchName + " (" + value + " LPA)";
+                                            }
                                         }
                                     }
                                 }
-                            }
+                            });
+                            console.log("📊 Clean Salary Chart Constructed.");
                         }
-                    });
-                    console.log("📊 Salary Chart Rendered.");
-                } else {
-                    console.warn("⚠️ No valid salary metrics found to draw chart.");
-                }
 
-                // --- RENDER STIPEND CHART ---
-                if (stipendLabels.length > 0) {
-                    new Chart(document.getElementById("stipendChart"), {
-                        type: 'pie',
-                        data: {
-                            labels: stipendLabels,
-                            datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                        },
-                        plugins: [ChartDataLabels],
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                datalabels: {
-                                    labels: {
-                                        title: {
-                                            color: '#fff', font: { weight: 'bold', size: 11 },
-                                            formatter: (value, context) => context.chart.data.labels[context.dataIndex],
-                                            anchor: 'center', align: 'center'
-                                        },
-                                        value: {
-                                            color: '#000', backgroundColor: '#fff', borderRadius: 5, padding: 4, font: { weight: 'bold', size: 10 },
-                                            formatter: (value) => '₹' + value, anchor: 'end', align: 'end', offset: 18
+                        // --- RENDER RECONFIGURED STIPEND PIE CHART ---
+                        if (stipendLabels.length > 0) {
+                            new Chart(document.getElementById("stipendChart"), {
+                                type: 'pie',
+                                data: {
+                                    labels: stipendLabels,
+                                    datasets: [{ 
+                                        data: stipendValues, 
+                                        backgroundColor: paletteColors, 
+                                        borderWidth: 2, 
+                                        borderColor: '#fff' 
+                                    }]
+                                },
+                                plugins: [ChartDataLabels],
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    layout: {
+                                        padding: { top: 30, bottom: 30, left: 30, right: 30 }
+                                    },
+                                    plugins: {
+                                        legend: { display: false },
+                                        datalabels: {
+                                            anchor: 'end',
+                                            align: 'end',
+                                            offset: 10,
+                                            color: '#1e293b',
+                                            font: { weight: '600', size: 11 },
+                                            formatter: (value, context) => {
+                                                let branchName = context.chart.data.labels[context.dataIndex];
+                                                return branchName + " (₹" + parseFloat(value).toLocaleString('en-IN') + ")";
+                                            }
                                         }
                                     }
                                 }
-                            }
+                            });
+                            console.log("📊 Clean Stipend Chart Constructed.");
                         }
-                    });
-                    console.log("📊 Stipend Chart Rendered.");
-                } else {
-                    console.warn("⚠️ No valid stipend metrics found to draw chart.");
-                }
+                    }
+                });
+            } catch (error) {
+                console.error("❌ Charts Fetch Error:", error);
             }
-        });
-    } catch (error) {
-        console.error("❌ Fatal Error Fetching Charts Sheet:", error);
-    }
-}
+        }
 
-// Ensure the page elements exist completely before executing
-window.addEventListener('DOMContentLoaded', initDashboard);
-</script>
+        window.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
 </body>
-</html>        
+</html>
