@@ -1,568 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placement & Internship Dashboard</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+const csvLinks = {
+  A: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOuipD2-NGSfsSNYmZtQiaOyxCrTGMUhdXXbTfOeP46d53qe7jLaCzgWp-hYw4_A/pub?gid=1397944008&single=true&output=csv"
+};
 
-    <style>
-        :root {
-            --bg-primary: #f8fafc;
-            --sidebar-bg: #0f172a;
-            --sidebar-text: #94a3b8;
-            --sidebar-hover: #1e293b;
-            --sidebar-active: #2563eb;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --border-color: #e2e8f0;
+function openCard(cardId) {
+
+  const csvUrl = csvLinks[cardId];
+
+  if (!csvUrl) {
+    alert("CSV link not found");
+    return;
+  }
+
+  Papa.parse(csvUrl, {
+    download: true,
+    header: true,
+
+    complete: function(results) {
+
+      console.log(results.data);
+
+      let tableHTML = `
+        <html>
+        <head>
+        <title>2025-2026</title>
+
+        <style>
+
+        body{
+          font-family:Arial;
+          padding:20px;
+          background:#f4f4f4;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+        table{
+          width:100%;
+          border-collapse:collapse;
+          background:white;
         }
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            display: flex;
-            min-height: 100vh;
+        th,td{
+          border:1px solid #ccc;
+          padding:10px;
+          text-align:left;
         }
 
-        /* --- SIDEBAR --- */
-        aside {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 100;
+        th{
+          background:#4CAF50;
+          color:white;
         }
 
-        .brand {
-            padding: 24px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        </style>
+        </head>
+        <body>
 
-        .menu-container {
-            flex: 1;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
+        <h2>2025-2026</h2>
+        <table>
+      `;
 
-        .menu-item {
-            padding: 12px 24px;
-            color: var(--sidebar-text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
-        }
+      const headers = Object.keys(results.data[0]);
 
-        .menu-item:hover {
-            background-color: var(--sidebar-hover);
-            color: #fff;
-        }
+      tableHTML += "<tr>";
 
-        .menu-item i {
-            width: 20px;
-        }
+      headers.forEach(header => {
+        tableHTML += `<th>${header}</th>`;
+      });
 
-        .submenu {
-            display: none;
-            background-color: #0b0f19;
-            padding: 5px 0;
-        }
+      tableHTML += "</tr>";
 
-        .nested-item {
-            padding: 10px 24px 10px 54px;
-            color: #64748b;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
+      results.data.forEach(row => {
 
-        .nested-item:hover, .nested-item.active {
-            color: #fff;
-        }
+        tableHTML += "<tr>";
 
-        .action-btn-container {
-            padding: 10px 24px;
-        }
+        headers.forEach(header => {
+          tableHTML += `<td>${row[header] || ""}</td>`;
+        });
 
-        .add-year-btn {
-            width: 100%;
-            padding: 8px;
-            background: transparent;
-            border: 1px dashed #334155;
-            color: var(--sidebar-text);
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
+        tableHTML += "</tr>";
+      });
 
-        .add-year-btn:hover {
-            border-color: var(--sidebar-active);
-            color: #fff;
-        }
+      tableHTML += "</table></body></html>";
 
-        .logout-box {
-            padding: 20px;
-            border-top: 1px solid #1e293b;
-        }
+      const newWindow = window.open();
 
-        .logout-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #dc2626;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
+      newWindow.document.write(tableHTML);
 
-        .logout-btn:hover { background-color: #b91c1c; }
+    },
 
-        /* --- MAIN CONTENT --- */
-        main {
-            margin-left: 260px;
-            flex: 1;
-            padding: 40px;
-        }
+    error: function(error) {
+      console.error(error);
+      alert("Unable to load CSV data");
+    }
 
-        header {
-            margin-bottom: 32px;
-        }
+  });
 
-        header h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        header p {
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        /* --- STATS CARD ROW --- */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #64748b;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .card-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        /* --- CHARTS ROW --- */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 32px;
-        }
-
-        .chart-wrapper {
-            background-color: var(--card-bg);
-            padding: 28px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        .chart-wrapper h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-        }
-
-        .canvas-container {
-            position: relative;
-            height: 340px;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-
-    <aside>
-        <div class="brand">
-            <i class="fa-solid fa-graduation-cap" style="color: var(--sidebar-active)"></i>
-            <span>IMS Portal</span>
-        </div>
-        
-        <div class="menu-container">
-            <div class="menu-item" onclick="toggleSubMenu('academicYears')">
-                <span><i class="fa-solid fa-calendar-days"></i> Academic Year</span>
-                <i class="fa-solid fa-chevron-down font-xs"></i>
-            </div>
-            <div class="submenu" id="academicYears" style="display: block;">
-                <div id="yearContainer">
-                    <div class="nested-item active">2024-25</div>
-                    <div class="nested-item">2023-24</div>
-                </div>
-                <div class="action-btn-container">
-                    <button class="add-year-btn" onclick="addAcademicYear()">+ Add Academic Year</button>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <span><i class="fa-solid fa-chart-pie"></i> Placement Analytics</span>
-            </div>
-        </div>
-
-        <div class="logout-box">
-            <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-power-off"></i> Logout</button>
-        </div>
-    </aside>
-
-    <main>
-        <header>
-            <h1>Placement & Internship Analytics</h1>
-            <p>Real-time processing direct from administrative spreadsheets</p>
-        </header>
-
-        <section class="stats-grid">
-            <div class="card">
-                <span class="card-title">Total Strength</span>
-                <span class="card-value" id="totalStudents">0</span>
-            </div>
-            <div class="card">
-                <span class="card-title">Registered</span>
-                <span class="card-value" id="registeredStudents">0</span>
-            </div>
-            <div class="card">
-                <span class="card-title">Eligible Data</span>
-                <span class="card-value" id="eligibleStudents">0</span>
-            </div>
-            <div class="card">
-                <span class="card-title">Placed Count</span>
-                <span class="card-value" id="placedStudents">0</span>
-            </div>
-            <div class="card">
-                <span class="card-title">Total Offers Generated</span>
-                <span class="card-value" id="totalOffers">0</span>
-            </div>
-        </section>
-
-        <section class="charts-grid">
-            <div class="chart-wrapper">
-                <h3>Average Salary Package Breakup (LPA)</h3>
-                <div class="canvas-container">
-                    <canvas id="salaryChart"></canvas>
-                </div>
-            </div>
-
-            <div class="chart-wrapper">
-                <h3>Average Monthly Stipend Metric</h3>
-                <div class="canvas-container">
-                    <canvas id="stipendChart"></canvas>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        function toggleSubMenu(id) {
-            let submenu = document.getElementById(id);
-            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
-        }
-
-        function addAcademicYear() {
-            let container = document.getElementById("yearContainer");
-            let items = container.getElementsByClassName("nested-item");
-            let lastYear = items[items.length - 1].innerText;
-            let years = lastYear.split("-");
-            let start = parseInt(years[0]) + 1;
-            let end = parseInt(years[1]) + 1;
-
-            let newDiv = document.createElement("div");
-            newDiv.classList.add("nested-item");
-            newDiv.innerText = start + "-" + end;
-            container.appendChild(newDiv);
-        }
-
-        function logout() {
-            alert("Logged Out Successfully");
-            window.location.href = "index.html";
-        }
-
-        // ========================================
-        // GOOGLE SPREADSHEET SOURCES
-        // ========================================
-        const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
-        const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
-
-        function cleanNumericValue(val) {
-            if (val === undefined || val === null) return 0;
-            let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
-            if (clean === '-' || clean === '—' || clean === '' || isNaN(Number(clean))) {
-                return 0;
-            }
-            return parseFloat(clean) || 0;
-        }
-
-        function getRowValueInsensitive(row, keyName) {
-            let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
-            return targetKey ? row[targetKey] : null;
-        }
-
-        // ========================================
-        // ASYNC DATA POPULATION RUNNER
-        // ========================================
-        async function initDashboard() {
-            console.log("🚀 Initializing Dashboard Data Fetch...");
-
-            // STEP 1: CALCULATE STATS
-            try {
-                const response = await fetch(statsSheetURL);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const csvText = await response.text();
-                
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        let data = results.data.filter(row => {
-                            let keys = Object.keys(row);
-                            return keys.length > 0 && row[keys[0]] !== "";
-                        });
-
-                        let totalStudents = data.length;
-                        
-                        let registeredStudents = data.filter(row => {
-                            let reg = getRowValueInsensitive(row, "Registered for Placements");
-                            return reg && String(reg).trim().toLowerCase() === "yes";
-                        }).length;
-
-                        let eligibleStudents = data.filter(row => {
-                            let reg = getRowValueInsensitive(row, "Registered for Placements");
-                            let registered = reg && String(reg).trim().toLowerCase() === "yes";
-                            let cgpaVal = getRowValueInsensitive(row, "CGPA");
-                            let cgpa = parseFloat(cgpaVal) || 0;
-                            return registered && cgpa >= 6.5;
-                        }).length;
-
-                        let placedStudents = data.filter(row => {
-                            let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
-                            return cleanNumericValue(offersVal) > 0;
-                        }).length;
-
-                        let totalOffers = data.reduce((sum, row) => {
-                            let offersVal = getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers");
-                            return sum + Math.floor(cleanNumericValue(offersVal));
-                        }, 0);
-
-                        document.getElementById("totalStudents").innerText = totalStudents;
-                        document.getElementById("registeredStudents").innerText = registeredStudents;
-                        document.getElementById("eligibleStudents").innerText = eligibleStudents;
-                        document.getElementById("placedStudents").innerText = placedStudents;
-                        document.getElementById("totalOffers").innerText = totalOffers;
-                    }
-                });
-            } catch (error) {
-                console.error("❌ Error Fetching Stats Sheet:", error);
-            }
-
-            // STEP 2: CALCULATE METRICS & GENERATE CHARTS
-            try {
-                const response = await fetch(chartsSheetURL);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const csvText = await response.text();
-
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        let data = results.data.filter(row => {
-                            let branch = getRowValueInsensitive(row, "Branch");
-                            return branch && String(branch).trim() !== "";
-                        });
-
-                        const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
-
-                        // --- SALARY CALCULATIONS ---
-                        let salaryData = {};
-                        data.forEach(row => {
-                            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                            let rawSalary = getRowValueInsensitive(row, "Salary package");
-                            let salary = cleanNumericValue(rawSalary);
-
-                            if (branch && salary > 0) {
-                                if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
-                                salaryData[branch].total += salary;
-                                salaryData[branch].count++;
-                            }
-                        });
-
-                        let salaryLabels = Object.keys(salaryData);
-                        let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
-
-                        // --- STIPEND(PER MONTH) CALCULATIONS ---
-                        let stipendData = {};
-                        data.forEach(row => {
-                            let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                            let rawStipend = row["Stipend(Per Month)"] || getRowValueInsensitive(row, "Stipend(Per Month)");
-                            let stipend = cleanNumericValue(rawStipend);
-
-                            if (branch && stipend > 0) {
-                                if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
-                                stipendData[branch].total += stipend;
-                                stipendData[branch].count++;
-                            }
-                        });
-
-                        let stipendLabels = Object.keys(stipendData);
-                        let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
-
-                        // --- RENDER ORIGINAL STYLE SALARY PIE CHART ---
-                        if (salaryLabels.length > 0) {
-                            new Chart(document.getElementById("salaryChart"), {
-                                type: 'pie',
-                                data: {
-                                    labels: salaryLabels,
-                                    datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                                },
-                                plugins: [ChartDataLabels],
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: {
-                                        legend: { display: false },
-                                        datalabels: {
-                                            labels: {
-                                                title: {
-                                                    color: '#fff', 
-                                                    font: { weight: 'bold', size: 11 },
-                                                    // Layout Protected: Arranges Avg Salary directly beside the Branch name on slice
-                                                    formatter: (value, context) => {
-                                                        let branch = context.chart.data.labels[context.dataIndex];
-                                                        return branch + " (" + value + " LPA)";
-                                                    },
-                                                    anchor: 'center', 
-                                                    align: 'center'
-                                                },
-                                                value: {
-                                                    color: '#000', 
-                                                    backgroundColor: '#fff', 
-                                                    borderRadius: 5, 
-                                                    padding: 4, 
-                                                    font: { weight: 'bold', size: 10 },
-                                                    formatter: (value) => value + ' LPA', 
-                                                    anchor: 'end', 
-                                                    align: 'end', 
-                                                    offset: 18
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-                        }
-
-                        // --- RENDER ORIGINAL STYLE STIPEND PIE CHART ---
-                        if (stipendLabels.length > 0) {
-                            new Chart(document.getElementById("stipendChart"), {
-                                type: 'pie',
-                                data: {
-                                    labels: stipendLabels,
-                                    datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
-                                },
-                                plugins: [ChartDataLabels],
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: {
-                                        legend: { display: false },
-                                        datalabels: {
-                                            labels: {
-                                                title: {
-                                                    color: '#fff', 
-                                                    font: { weight: 'bold', size: 11 },
-                                                    // Layout Protected: Arranges Avg Stipend directly beside the Branch name on slice
-                                                    formatter: (value, context) => {
-                                                        let branch = context.chart.data.labels[context.dataIndex];
-                                                        return branch + " (₹" + Math.round(value) + ")";
-                                                    },
-                                                    anchor: 'center', 
-                                                    align: 'center'
-                                                },
-                                                value: {
-                                                    color: '#000', 
-                                                    backgroundColor: '#fff', 
-                                                    borderRadius: 5, 
-                                                    padding: 4, 
-                                                    font: { weight: 'bold', size: 10 },
-                                                    formatter: (value) => '₹' + value, 
-                                                    anchor: 'end', 
-                                                    align: 'end', 
-                                                    offset: 18
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("❌ Error Fetching Charts Sheet:", error);
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', initDashboard);
-    </script>
-</body>
-</html>
+}
