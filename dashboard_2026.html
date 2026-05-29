@@ -678,7 +678,7 @@ async function initDashboard() {
                 let stipendData = {};
                 data.forEach(row => {
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                    let rawStipend = getRowValueInsensitive(row, " Stipend") || getRowValueInsensitive(row, "Stipend (Per Month)") || getRowValueInsensitive(row, "Stipend(Per Month)";
+                    let rawStipend = getRowValueInsensitive(row, "Stipend") || getRowValueInsensitive(row, "Stipend (Per Month)")|| getRowValueInsensitive(row, "Stipend(Per Month)");
                     let stipend = cleanNumericValue(rawStipend);
 
                     if (branch && stipend > 0) {
