@@ -854,14 +854,17 @@ async function loadStatsDashboard() {
 // LIVE SHEET ENGINE 2: NEW AVG SALARY PIE CHART
 // =========================================================
 // !!! PASTE YOUR NEW SPREADSHEET PLACEMENT CSV DATA LINK HERE !!!
-const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv"; 
+const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv
+"; 
 
 async function loadSalaryChart() {
-    if (chartsSheetURL === "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv") {
+    // If the URL is empty or missing, skip loading
+    if (!chartsSheetURL || chartsSheetURL === "") {
         console.warn("⚠️ Please configure your new chartsSheetURL value to display the Pie Chart.");
         return;
     }
 
+  
     try {
         const response = await fetch(chartsSheetURL);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
