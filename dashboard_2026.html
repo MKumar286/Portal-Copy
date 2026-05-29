@@ -857,13 +857,11 @@ async function loadStatsDashboard() {
 const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv"; 
 
 async function loadSalaryChart() {
-    // If the URL is empty or missing, skip loading
     if (!chartsSheetURL || chartsSheetURL === "") {
         console.warn("⚠️ Please configure your new chartsSheetURL value to display the Pie Chart.");
         return;
     }
 
-  
     try {
         const response = await fetch(chartsSheetURL);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -873,15 +871,12 @@ async function loadSalaryChart() {
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                // Filter rows containing branches cleanly
                 let data = results.data.filter(row => {
                     let branch = getRowValueInsensitive(row, "Branch");
                     return branch && String(branch).trim() !== "";
                 });
 
-                // Professional presentation layout colors
                 const paletteColors = ['#2563eb', '#7c3aed', '#0d9488', '#16a34a', '#d97706', '#0ea5e9', '#f43f5e', '#14b8a6'];
-
                 let branchAggregation = {};
 
                 data.forEach(row => {
@@ -905,6 +900,10 @@ async function loadSalaryChart() {
                 });
 
                 if (branches.length > 0) {
+                    // Destroy old instance if re-rendering to prevent canvas memory leaks
+                    let chartStatus = Chart.getChart("salaryChart");
+                    if (chartStatus) chartStatus.destroy();
+
                     new Chart(document.getElementById("salaryChart"), {
                         type: 'pie',
                         data: {
@@ -920,21 +919,33 @@ async function loadSalaryChart() {
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
+                            layout: {
+                                // Added padding so outside labels don't get clipped at the edges
+                                padding: {
+                                    top: 30,
+                                    bottom: 30,
+                                    left: 40,
+                                    right: 40
+                                }
+                            },
                             plugins: {
                                 legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                    labels: { font: { family: 'Segoe UI', size: 12 }, padding: 15 }
+                                    display: false // 1. Completely removes the legend labels from the bottom
                                 },
                                 datalabels: {
-                                    color: '#ffffff',
-                                    font: { family: 'Segoe UI', weight: 'bold', size: 12 },
+                                    color: '#0f172a', // Clean slate dark color for readable text outside the pie
+                                    font: { family: 'Segoe UI', weight: '600', size: 12 },
+                                    
+                                    // 2. Positions the labels explicitly outside the circle boundaries
+                                    anchor: 'end',
+                                    align: 'end',
+                                    offset: 12,
+                                    
+                                    // 3. Formats the text cleanly with a visual dash separator line between branch and salary
                                     formatter: (value, context) => {
                                         let labelName = context.chart.data.labels[context.dataIndex];
-                                        return labelName + "\n" + value + " LPA";
-                                    },
-                                    textShadowColor: 'rgba(0, 0, 0, 0.4)',
-                                    textShadowBlur: 4
+                                        return labelName + " — " + value + " LPA";
+                                    }
                                 }
                             }
                         }
@@ -946,8 +957,8 @@ async function loadSalaryChart() {
         console.error("❌ Salary Chart rendering failed:", error);
     }
 }
-
-// Global initialization window launcher hooks
+    
+    // Global initialization window launcher hooks
 window.addEventListener('DOMContentLoaded', () => {
     loadStatsDashboard();
     loadSalaryChart();
