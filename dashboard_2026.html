@@ -341,15 +341,38 @@ line-height:1;
     max-width: 500px; /* Kept concise so pie chart stays neatly proportioned */
     margin-top: 20px;
 }
-
+/* 3D RGB GLOWING CHART CARD */
 .chart-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     padding: 24px;
     border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.6);
     text-align: center;
+    backdrop-filter: blur(14px);
+    position: relative;
+    
+    /* Elegant 3D depth drop shadow */
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15), 
+                inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    
+    /* Smooth 1.5px border track using a colored gradient */
+    border: 1.5px solid transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
+                      linear-gradient(135deg, #ff007f, #7c3aed, #00f2fe, #4ade80);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+/* Dynamic Hover Glow effect to boost the 3D RGB appearance */
+.chart-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(124, 58, 237, 0.25), 
+                0 0 20px rgba(0, 242, 254, 0.2);
+    
+    /* Shifts the gradient dynamically on hover */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
+                      linear-gradient(225deg, #00f2fe, #4ade80, #ff007f, #7c3aed);
 }
 
 .chart-card h3 {
