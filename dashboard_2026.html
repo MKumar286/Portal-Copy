@@ -39,7 +39,7 @@
             min-height: 100vh;
         }
 
-        /* --- SIDEBAR STRUCTURE --- */
+        /* --- SIDEBAR --- */
         aside {
             width: 260px;
             background-color: var(--sidebar-bg);
@@ -148,7 +148,7 @@
 
         .logout-btn:hover { background-color: #b91c1c; }
 
-        /* --- MAIN CONTENT AREA --- */
+        /* --- MAIN CONTENT --- */
         main {
             margin-left: 260px;
             flex: 1;
@@ -203,7 +203,7 @@
             color: #0f172a;
         }
 
-        /* --- VISUALIZATION CHARTS ROW --- */
+        /* --- CHARTS ROW --- */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -229,7 +229,7 @@
 
         .canvas-container {
             position: relative;
-            height: 340px; /* Fixed clean viewport area for charts */
+            height: 340px;
             width: 100%;
         }
     </style>
@@ -339,12 +339,11 @@
         }
 
         // ========================================
-        // GOOGLE SPREADSHEET URL SOURCES
+        // GOOGLE SPREADSHEET SOURCES
         // ========================================
         const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
         const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv";
 
-        // Regex sanitizer for financial metrics
         function cleanNumericValue(val) {
             if (val === undefined || val === null) return 0;
             let clean = String(val).replace(/,/g, '').replace(/[₹$]/g, '').trim();
@@ -354,22 +353,21 @@
             return parseFloat(clean) || 0;
         }
 
-        // Loose case-insensitive structural matching key tracker
         function getRowValueInsensitive(row, keyName) {
             let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
             return targetKey ? row[targetKey] : null;
         }
 
         // ========================================
-        // DATA POPULATION CONTROLLER
+        // ASYNC DATA POPULATION RUNNER
         // ========================================
         async function initDashboard() {
-            console.log("🚀 Initializing Async Data Engine...");
+            console.log("🚀 Initializing Dashboard Data Fetch...");
 
-            // 1. CALCULATE AND POPULATE STATS CARDS
+            // STEP 1: CALCULATE STATS
             try {
                 const response = await fetch(statsSheetURL);
-                if (!response.ok) throw new Error(`Stats HTTP error! Status: ${response.status}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csvText = await response.text();
                 
                 Papa.parse(csvText, {
@@ -411,17 +409,16 @@
                         document.getElementById("eligibleStudents").innerText = eligibleStudents;
                         document.getElementById("placedStudents").innerText = placedStudents;
                         document.getElementById("totalOffers").innerText = totalOffers;
-                        console.log("🎯 Summary Counter Cards Compiled Successfully.");
                     }
                 });
             } catch (error) {
-                console.error("❌ Stats Fetch Error:", error);
+                console.error("❌ Error Fetching Stats Sheet:", error);
             }
 
-            // 2. PARSE DATA AND DRAW PIE CHARTS
+            // STEP 2: CALCULATE METRICS & GENERATE CHARTS
             try {
                 const response = await fetch(chartsSheetURL);
-                if (!response.ok) throw new Error(`Charts HTTP error! Status: ${response.status}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csvText = await response.text();
 
                 Papa.parse(csvText, {
@@ -433,126 +430,135 @@
                             return branch && String(branch).trim() !== "";
                         });
 
-                        const paletteColors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
+                        const colors = ['#2563eb', '#059669', '#dc2626', '#d97706', '#7c3aed', '#0ea5e9', '#14b8a6', '#f43f5e', '#22c55e', '#f59e0b'];
 
-                        // --- BREAKDOWN SALARY AVERAGES ---
-                        let salaryMap = {};
+                        // --- SALARY CALCULATIONS ---
+                        let salaryData = {};
                         data.forEach(row => {
                             let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
                             let rawSalary = getRowValueInsensitive(row, "Salary package");
                             let salary = cleanNumericValue(rawSalary);
 
                             if (branch && salary > 0) {
-                                if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
-                                salaryMap[branch].total += salary;
-                                salaryMap[branch].count++;
+                                if (!salaryData[branch]) salaryData[branch] = { total: 0, count: 0 };
+                                salaryData[branch].total += salary;
+                                salaryData[branch].count++;
                             }
                         });
 
-                        let salaryLabels = Object.keys(salaryMap);
-                        let salaryValues = salaryLabels.map(b => (salaryMap[b].total / salaryMap[b].count).toFixed(2));
+                        let salaryLabels = Object.keys(salaryData);
+                        let salaryValues = salaryLabels.map(b => (salaryData[b].total / salaryData[b].count).toFixed(2));
 
-                        // --- BREAKDOWN STIPEND AVERAGES ---
-                        let stipendMap = {};
+                        // --- STIPEND(PER MONTH) CALCULATIONS ---
+                        let stipendData = {};
                         data.forEach(row => {
                             let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                            // Exact targeted look-up based on specified column configuration rules
                             let rawStipend = row["Stipend(Per Month)"] || getRowValueInsensitive(row, "Stipend(Per Month)");
                             let stipend = cleanNumericValue(rawStipend);
 
                             if (branch && stipend > 0) {
-                                if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
-                                stipendMap[branch].total += stipend;
-                                stipendMap[branch].count++;
+                                if (!stipendData[branch]) stipendData[branch] = { total: 0, count: 0 };
+                                stipendData[branch].total += stipend;
+                                stipendData[branch].count++;
                             }
                         });
 
-                        let stipendLabels = Object.keys(stipendMap);
-                        let stipendValues = stipendLabels.map(b => (stipendMap[b].total / stipendMap[b].count).toFixed(2));
+                        let stipendLabels = Object.keys(stipendData);
+                        let stipendValues = stipendLabels.map(b => (stipendData[b].total / stipendData[b].count).toFixed(2));
 
-                        // --- RENDER RECONFIGURED SALARY PIE CHART ---
+                        // --- RENDER ORIGINAL STYLE SALARY PIE CHART ---
                         if (salaryLabels.length > 0) {
                             new Chart(document.getElementById("salaryChart"), {
                                 type: 'pie',
                                 data: {
                                     labels: salaryLabels,
-                                    datasets: [{ 
-                                        data: salaryValues, 
-                                        backgroundColor: paletteColors, 
-                                        borderWidth: 2, 
-                                        borderColor: '#fff' 
-                                    }]
+                                    datasets: [{ data: salaryValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
                                 },
                                 plugins: [ChartDataLabels],
                                 options: {
                                     responsive: true,
                                     maintainAspectRatio: false,
-                                    layout: {
-                                        // Added safe breathing room padding to prevent long texts/numbers from cutting off
-                                        padding: { top: 30, bottom: 30, left: 30, right: 30 }
-                                    },
                                     plugins: {
-                                        legend: { display: false }, // Completely turned off standard blocks to focus on clean side indicators
+                                        legend: { display: false },
                                         datalabels: {
-                                            anchor: 'end',
-                                            align: 'end',
-                                            offset: 10, // Moves data text safely outside slice limits
-                                            color: '#1e293b', 
-                                            font: { weight: '600', size: 11 },
-                                            // Displays both Branch Name and Average Metric clean side-by-side
-                                            formatter: (value, context) => {
-                                                let branchName = context.chart.data.labels[context.dataIndex];
-                                                return branchName + " (" + value + " LPA)";
+                                            labels: {
+                                                title: {
+                                                    color: '#fff', 
+                                                    font: { weight: 'bold', size: 11 },
+                                                    // Layout Protected: Arranges Avg Salary directly beside the Branch name on slice
+                                                    formatter: (value, context) => {
+                                                        let branch = context.chart.data.labels[context.dataIndex];
+                                                        return branch + " (" + value + " LPA)";
+                                                    },
+                                                    anchor: 'center', 
+                                                    align: 'center'
+                                                },
+                                                value: {
+                                                    color: '#000', 
+                                                    backgroundColor: '#fff', 
+                                                    borderRadius: 5, 
+                                                    padding: 4, 
+                                                    font: { weight: 'bold', size: 10 },
+                                                    formatter: (value) => value + ' LPA', 
+                                                    anchor: 'end', 
+                                                    align: 'end', 
+                                                    offset: 18
+                                                }
                                             }
                                         }
                                     }
                                 }
                             });
-                            console.log("📊 Clean Salary Chart Constructed.");
                         }
 
-                        // --- RENDER RECONFIGURED STIPEND PIE CHART ---
+                        // --- RENDER ORIGINAL STYLE STIPEND PIE CHART ---
                         if (stipendLabels.length > 0) {
                             new Chart(document.getElementById("stipendChart"), {
                                 type: 'pie',
                                 data: {
                                     labels: stipendLabels,
-                                    datasets: [{ 
-                                        data: stipendValues, 
-                                        backgroundColor: paletteColors, 
-                                        borderWidth: 2, 
-                                        borderColor: '#fff' 
-                                    }]
+                                    datasets: [{ data: stipendValues, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }]
                                 },
                                 plugins: [ChartDataLabels],
                                 options: {
                                     responsive: true,
                                     maintainAspectRatio: false,
-                                    layout: {
-                                        padding: { top: 30, bottom: 30, left: 30, right: 30 }
-                                    },
                                     plugins: {
                                         legend: { display: false },
                                         datalabels: {
-                                            anchor: 'end',
-                                            align: 'end',
-                                            offset: 10,
-                                            color: '#1e293b',
-                                            font: { weight: '600', size: 11 },
-                                            formatter: (value, context) => {
-                                                let branchName = context.chart.data.labels[context.dataIndex];
-                                                return branchName + " (₹" + parseFloat(value).toLocaleString('en-IN') + ")";
+                                            labels: {
+                                                title: {
+                                                    color: '#fff', 
+                                                    font: { weight: 'bold', size: 11 },
+                                                    // Layout Protected: Arranges Avg Stipend directly beside the Branch name on slice
+                                                    formatter: (value, context) => {
+                                                        let branch = context.chart.data.labels[context.dataIndex];
+                                                        return branch + " (₹" + Math.round(value) + ")";
+                                                    },
+                                                    anchor: 'center', 
+                                                    align: 'center'
+                                                },
+                                                value: {
+                                                    color: '#000', 
+                                                    backgroundColor: '#fff', 
+                                                    borderRadius: 5, 
+                                                    padding: 4, 
+                                                    font: { weight: 'bold', size: 10 },
+                                                    formatter: (value) => '₹' + value, 
+                                                    anchor: 'end', 
+                                                    align: 'end', 
+                                                    offset: 18
+                                                }
                                             }
                                         }
                                     }
                                 }
                             });
-                            console.log("📊 Clean Stipend Chart Constructed.");
                         }
                     }
                 });
             } catch (error) {
-                console.error("❌ Charts Fetch Error:", error);
+                console.error("❌ Error Fetching Charts Sheet:", error);
             }
         }
 
