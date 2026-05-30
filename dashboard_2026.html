@@ -1001,7 +1001,7 @@ async function loadSalaryChart() {
                 data.forEach(row => {
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
                     let salary = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
-                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
+                    let company = String(getRowValueInsensitive(row, "Company Placed") || getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && salary > 0) {
                         // Chart Calculations
@@ -1079,7 +1079,7 @@ async function loadStipendChart() {
                     let stipendKey = Object.keys(row).find(k => k.replace(/\s+/g, '').toLowerCase().includes("stipend"));
                     let rawStipend = stipendKey ? row[stipendKey] : 0;
                     let stipend = cleanNumericValue(rawStipend);
-                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
+                    let company = String(getRowValueInsensitive(row, "Company Placed") || getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && stipend > 0) {
                         // Chart Calculations
