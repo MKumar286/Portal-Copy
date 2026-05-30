@@ -913,7 +913,7 @@ async function loadStipendChart() {
 
                 data.forEach(row => {
                     let branch = String(getRowValueInsensitive(row, "Branch")).trim();
-                    let stipend = cleanNumericValue(getRowValueInsensitive(row, "Stipend(Per Month)") || getRowValueInsensitive(row, "Stipend (Per Month)"));
+                    let stipend = cleanNumericValue(getRowValueInsensitive(row, "Stipend(Per Month)");// || getRowValueInsensitive(row, "Stipend (Per Month)"));
                     if (branch && stipend > 0) {
                         if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
                         stipendMap[branch].total += stipend;
