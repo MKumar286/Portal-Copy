@@ -220,8 +220,6 @@ overflow:hidden;
 position:relative;
 }
 
-/* INDIVIDUAL CARD BORDERS AND ICON BACKGROUNDS */
-
 .card-total {
     border: 1.5px solid rgba(37, 99, 235, 0.4);
 }
@@ -334,14 +332,16 @@ color:#0f172a;
 line-height:1;
 }
 
-/* NEW PIE CHART SECTION STYLING */
+/* SIDE-BY-SIDE RESPONSIVE CHARTS LAYOUT */
 .charts-row {
     display: grid;
-    grid-template-columns: 1fr;
-    max-width: 500px; /* Kept concise so pie chart stays neatly proportioned */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
     margin-top: 20px;
 }
-/* 3D RGB GLOWING CHART CARD */
+
+/* 3D RGB GLOWING CHART CARD FRAME */
 .chart-card {
     background: rgba(255, 255, 255, 0.95);
     padding: 24px;
@@ -349,28 +349,20 @@ line-height:1;
     text-align: center;
     backdrop-filter: blur(14px);
     position: relative;
-    
-    /* Elegant 3D depth drop shadow */
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15), 
                 inset 0 1px 2px rgba(255, 255, 255, 0.5);
-    
-    /* Smooth 1.5px border track using a colored gradient */
     border: 1.5px solid transparent;
     background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
                       linear-gradient(135deg, #ff007f, #7c3aed, #00f2fe, #4ade80);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
-/* Dynamic Hover Glow effect to boost the 3D RGB appearance */
 .chart-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 30px 60px rgba(124, 58, 237, 0.25), 
                 0 0 20px rgba(0, 242, 254, 0.2);
-    
-    /* Shifts the gradient dynamically on hover */
     background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
                       linear-gradient(225deg, #00f2fe, #4ade80, #ff007f, #7c3aed);
 }
@@ -385,14 +377,17 @@ line-height:1;
 .chart-container {
     position: relative;
     width: 100%;
-    height: 320px;
+    height: 340px; /* Slight height increase for clean outside dynamic label bounds */
 }
   
-/* RESPONSIVE */
+/* RESPONSIVE HOOKS */
 
 @media(max-width:1200px){
 .cards{
 grid-template-columns:repeat(2,1fr);
+}
+.charts-row {
+    grid-template-columns: 1fr;
 }
 }
 
@@ -439,9 +434,6 @@ gap:12px;
 }
 .cards{
 grid-template-columns:1fr;
-}
-.charts-row {
-    max-width: 100%;
 }
 }
 
@@ -742,12 +734,21 @@ Academic Year
 </div>
 
 <div class="charts-row">
+    
     <div class="chart-card">
         <h3>Avg Salary</h3>
         <div class="chart-container">
             <canvas id="salaryChart"></canvas>
         </div>
     </div>
+
+    <div class="chart-card">
+        <h3>Avg Stipend (Per Month)</h3>
+        <div class="chart-container">
+            <canvas id="stipendChart"></canvas>
+        </div>
+    </div>
+
 </div>
 
 </div>
@@ -874,14 +875,13 @@ async function loadStatsDashboard() {
 }
 
 // =========================================================
-// LIVE SHEET ENGINE 2: NEW AVG SALARY PIE CHART
+// LIVE SHEET ENGINE 2: TWIN DOUGHNUT CHARTS COMPILER
 // =========================================================
-// !!! PASTE YOUR NEW SPREADSHEET PLACEMENT CSV DATA LINK HERE !!!
-const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=492329818&single=true&output=csv"; 
+const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQOWjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=49232981"; 
 
-async function loadSalaryChart() {
-    if (!chartsSheetURL || chartsSheetURL === "") {
-        console.warn("⚠️ Please configure your new chartsSheetURL value to display the Pie Chart.");
+async function loadDashboardCharts() {
+    if (!chartsSheetURL || chartsSheetURL === "" ||  {
+        console.warn("⚠️ Please configure your chartsSheetURL value to display the Charts.");
         return;
     }
 
@@ -899,7 +899,7 @@ async function loadSalaryChart() {
                     return branch && String(branch).trim() !== "";
                 });
 
-                // Vibrant RGB Palette for the slices
+                // Shared Vibrant RGB color palettes
                 const paletteColors = [
                     'rgba(37, 99, 235, 0.9)',   // Blue
                     'rgba(124, 58, 237, 0.9)',  // Purple
@@ -911,80 +911,132 @@ async function loadSalaryChart() {
                     'rgba(234, 179, 8, 0.9)'    // Yellow
                 ];
 
-                // Bright, contrasting text colors matching the respective slice groups
                 const textColors = [
-                    'rgb(29, 78, 216)',   // Deep Blue
-                    'rgb(109, 40, 217)',  // Deep Purple
-                    'rgb(15, 118, 110)',  // Deep Teal
-                    'rgb(21, 128, 61)',   // Deep Green
-                    'rgb(180, 83, 9)',    // Deep Amber
-                    'rgb(3, 105, 161)',   // Deep Cyan
-                    'rgb(190, 24, 74)',   // Deep Rose
-                    'rgb(161, 98, 7)'     // Deep Yellow
+                    'rgb(29, 78, 216)', 'rgb(109, 40, 217)', 'rgb(15, 118, 110)', 
+                    'rgb(21, 128, 61)', 'rgb(180, 83, 9)', 'rgb(3, 105, 161)', 
+                    'rgb(190, 24, 74)', 'rgb(161, 98, 7)'
                 ];
 
                 let branchAggregation = {};
 
                 data.forEach(row => {
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                    
+                    // Extract values dynamically
                     let rawSalary = getRowValueInsensitive(row, "Salary package");
                     let salary = cleanNumericValue(rawSalary);
 
-                    if (branch && salary > 0) {
+                    let rawStipend = getRowValueInsensitive(row, "Stipend(Per Month)") || getRowValueInsensitive(row, "Stipend (Per Month)");
+                    let stipend = cleanNumericValue(rawStipend);
+
+                    if (branch) {
                         if (!branchAggregation[branch]) {
-                            branchAggregation[branch] = { totalSalary: 0, studentCount: 0 };
+                            branchAggregation[branch] = { 
+                                totalSalary: 0, salaryCount: 0,
+                                totalStipend: 0, stipendCount: 0 
+                            };
                         }
-                        branchAggregation[branch].totalSalary += salary;
-                        branchAggregation[branch].studentCount++;
+                        
+                        if (salary > 0) {
+                            branchAggregation[branch].totalSalary += salary;
+                            branchAggregation[branch].salaryCount++;
+                        }
+
+                        if (stipend > 0) {
+                            branchAggregation[branch].totalStipend += stipend;
+                            branchAggregation[branch].stipendCount++;
+                        }
                     }
                 });
 
                 let branches = Object.keys(branchAggregation);
-                let standardAverages = branches.map(b => {
-                    let avg = branchAggregation[b].totalSalary / branchAggregation[b].studentCount;
-                    return avg.toFixed(2); 
+                
+                // Calculates average arrays
+                let standardSalaryAverages = branches.map(b => {
+                    return branchAggregation[b].salaryCount > 0 
+                        ? (branchAggregation[b].totalSalary / branchAggregation[b].salaryCount).toFixed(2)
+                        : "0.00";
+                });
+
+                let standardStipendAverages = branches.map(b => {
+                    return branchAggregation[b].stipendCount > 0 
+                        ? (branchAggregation[b].totalStipend / branchAggregation[b].stipendCount).toFixed(0)
+                        : "0";
                 });
 
                 if (branches.length > 0) {
-                    let chartStatus = Chart.getChart("salaryChart");
-                    if (chartStatus) chartStatus.destroy();
+                    // Destroy legacy tracking references cleanly
+                    let oldSalaryChart = Chart.getChart("salaryChart");
+                    if (oldSalaryChart) oldSalaryChart.destroy();
+                    
+                    let oldStipendChart = Chart.getChart("stipendChart");
+                    if (oldStipendChart) oldStipendChart.destroy();
 
+                    // 1. RENDERS DETAILED AVG SALARY DOUGHNUT CHART (LEFT SIDE)
                     new Chart(document.getElementById("salaryChart"), {
-                        type: 'doughnut', // Switched to a premium doughnut chart layout for optimal label tracking
+                        type: 'doughnut',
                         data: {
                             labels: branches,
                             datasets: [{
-                                data: standardAverages,
+                                data: standardSalaryAverages,
                                 backgroundColor: paletteColors,
                                 borderWidth: 2,
                                 borderColor: '#ffffff',
-                                cutout: '45%' // Leaves perfect room for clean label tracking
+                                cutout: '45%'
                             }]
                         },
                         plugins: [ChartDataLabels],
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            layout: {
-                                padding: { top: 40, bottom: 40, left: 50, right: 50 }
-                            },
+                            layout: { padding: { top: 40, bottom: 40, left: 50, right: 50 } },
                             plugins: {
-                                legend: {
-                                    display: false
-                                },
+                                legend: { display: false },
                                 datalabels: {
-                                    // Configuration to pull package text cleanly to the outside edge
-                                    get color() {
-                                        return (context) => textColors[context.dataIndex % textColors.length];
-                                    },
-                                    font: { family: 'Segoe UI', weight: '700', size: 12 },
+                                    get color() { return (context) => textColors[context.dataIndex % textColors.length]; },
+                                    font: { family: 'Segoe UI', weight: '700', size: 11 },
                                     anchor: 'end',
                                     align: 'end',
                                     offset: 14,
                                     formatter: (value, context) => {
                                         let branchName = context.chart.data.labels[context.dataIndex];
-                                        // Renders branch info visibly near the sector edge with its unique calculated value
                                         return branchName + "\n➔ " + value + " LPA";
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // 2. RENDERS DETAILED AVG STIPEND DOUGHNUT CHART (RIGHT SIDE)
+                    new Chart(document.getElementById("stipendChart"), {
+                        type: 'doughnut',
+                        data: {
+                            labels: branches,
+                            datasets: [{
+                                data: standardStipendAverages,
+                                backgroundColor: paletteColors,
+                                borderWidth: 2,
+                                borderColor: '#ffffff',
+                                cutout: '45%'
+                            }]
+                        },
+                        plugins: [ChartDataLabels],
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            layout: { padding: { top: 40, bottom: 40, left: 50, right: 50 } },
+                            plugins: {
+                                legend: { display: false },
+                                datalabels: {
+                                    get color() { return (context) => textColors[context.dataIndex % textColors.length]; },
+                                    font: { family: 'Segoe UI', weight: '700', size: 11 },
+                                    anchor: 'end',
+                                    align: 'end',
+                                    offset: 14,
+                                    formatter: (value, context) => {
+                                        let branchName = context.chart.data.labels[context.dataIndex];
+                                        // Renders clean Indian Rupee localization format for the outside dynamic pointers
+                                        return branchName + "\n➔ ₹" + Number(value).toLocaleString('en-IN') + "/pm";
                                     }
                                 }
                             }
@@ -994,14 +1046,14 @@ async function loadSalaryChart() {
             }
         });
     } catch (error) {
-        console.error("❌ Salary Chart rendering failed:", error);
+        console.error("❌ Charts rendering failed:", error);
     }
 }
-    
-    // Global initialization window launcher hooks
+
+// Launcher Hooks
 window.addEventListener('DOMContentLoaded', () => {
     loadStatsDashboard();
-    loadSalaryChart();
+    loadDashboardCharts();
 });
 
 </script>
