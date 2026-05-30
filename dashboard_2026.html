@@ -760,7 +760,7 @@ Academic Year
 </div>
 
 </div>
-    <script>
+   <script>
 
 function toggleSubMenu(id){
     let submenu=document.getElementById(id);
@@ -792,7 +792,6 @@ function logout(){
 // =========================================================
 // LIVE SHEET ENGINE 1: METRIC COUNTER CARDS
 // =========================================================
-// FIXED: Ensured &output=csv is strictly appended
 const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 
 function cleanNumericValue(val) {
@@ -858,14 +857,12 @@ async function loadStatsDashboard() {
         });
     } catch (error) {
         console.error("❌ Stats load failed:", error);
-        document.getElementById("totalStudents").innerText = "Error";
     }
 }
 
 // =========================================================
 // LIVE SHEET ENGINE 2: TWIN DOUGHNUT CHARTS COMPILER
 // =========================================================
-// FIXED: Added &output=csv to bypass Google's HTML block response
 const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQOWjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=49232981&output=csv"; 
 
 async function loadDashboardCharts() {
@@ -957,7 +954,7 @@ async function loadDashboardCharts() {
                     let oldStipendChart = Chart.getChart("stipendChart");
                     if (oldStipendChart) oldStipendChart.destroy();
 
-                    // Left Chart
+                    // Render Left Chart safely
                     new Chart(document.getElementById("salaryChart"), {
                         type: 'doughnut',
                         data: {
@@ -992,7 +989,7 @@ async function loadDashboardCharts() {
                         }
                     });
 
-                    // Right Chart
+                    // Render Right Chart safely
                     new Chart(document.getElementById("stipendChart"), {
                         type: 'doughnut',
                         data: {
@@ -1041,6 +1038,5 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-
 </body>
 </html>
