@@ -445,6 +445,90 @@ grid-template-columns:1fr;
 }
 }
 
+/* SINGLE ROW FLEX CONTAINER FOR SUB-METRICS */
+.metrics-sub-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+/* 50/50 SPLIT HORIZONTAL CARD LAYER WITH 3D NEON depth EFFECTS */
+.split-metric-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    min-height: 90px;
+    position: relative;
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.split-metric-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Individual 3D Glowing Colored Border Effects */
+.highest-pkg-card { border: 2.5px solid #2563eb; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15), inset 0 1px 1px #fff; }
+.highest-stipend-card { border: 2.5px solid #7c3aed; box-shadow: 0 10px 20px rgba(124, 58, 237, 0.15), inset 0 1px 1px #fff; }
+.median-pkg-card { border: 2.5px solid #0d9488; box-shadow: 0 10px 20px rgba(13, 148, 136, 0.15), inset 0 1px 1px #fff; }
+.median-stipend-card { border: 2.5px solid #e11d48; box-shadow: 0 10px 20px rgba(225, 29, 72, 0.15), inset 0 1px 1px #fff; }
+
+/* LEFT HALF FRAME: TEXT LABEL */
+.card-left-half {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    border-right: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.metric-label-text {
+    font-family: 'Segoe UI', sans-serif;
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* RIGHT HALF FRAME: VALUE & COMPANY */
+.card-right-half {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 14px;
+    text-align: left;
+}
+
+.metric-peak-value {
+    font-family: 'Segoe UI', sans-serif;
+    color: #0f172a;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.metric-sub-company {
+    font-family: 'Segoe UI', sans-serif;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -869,22 +953,91 @@ const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjF
 async function loadStatsDashboard() {
     try {
         const response = await fetch(statsSheetURL);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const csvText = await response.text();
+        
         Papa.parse(csvText, {
-            header: true, skipEmptyLines: true,
+            header: true,
+            skipEmptyLines: true,
             complete: function(results) {
-                let data = results.data.filter(row => Object.keys(row).length > 0 && row[Object.keys(row)[0]] !== "");
+                let data = results.data.filter(row => {
+                    let keys = Object.keys(row);
+                    return keys.length > 0 && row[keys[0]] !== "";
+                });
+
+                // --- EXISTING COUNTER DATA CALCULATIONS ---
+                let totalStudents = data.length;
+                let registeredStudents = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
+                let eligibleStudents = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
+                let placedStudents = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
+                let totalOffers = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
+
+                document.getElementById("totalStudents").innerText = totalStudents;
+                document.getElementById("registeredStudents").innerText = registeredStudents;
+                document.getElementById("eligibleStudents").innerText = eligibleStudents;
+                document.getElementById("placedStudents").innerText = placedStudents;
+                document.getElementById("totalOffers").innerText = totalOffers;
+
+                // =========================================================
+                // NEW ADVANCED METRICS ENGINE (SAFE EXTRACTION)
+                // =========================================================
+                let peakSalary = 0;
+                let peakSalaryCompany = "—";
+                let peakStipend = 0;
+                let peakStipendCompany = "—";
                 
-                document.getElementById("totalStudents").innerText = data.length;
-                document.getElementById("registeredStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
-                document.getElementById("eligibleStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
-                document.getElementById("placedStudents").innerText = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
-                document.getElementById("totalOffers").innerText = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
+                let allSalaries = [];
+                let allStipends = [];
+
+                data.forEach(row => {
+                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
+                    
+                    let sal = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
+                    let stp = cleanNumericValue(getRowValueInsensitive(row, "Stipend(Per Month)") || getRowValueInsensitive(row, "Stipend (Per Month)"));
+
+                    if (sal > 0) {
+                        allSalaries.push(sal);
+                        if (sal > peakSalary) {
+                            peakSalary = sal;
+                            peakSalaryCompany = company;
+                        }
+                    }
+
+                    if (stp > 0) {
+                        allStipends.push(stp);
+                        if (stp > peakStipend) {
+                            peakStipend = stp;
+                            peakStipendCompany = company;
+                        }
+                    }
+                });
+
+                // Median Calculator Internal Function
+                function calculateMedian(arr) {
+                    if (arr.length === 0) return 0;
+                    let sorted = [...arr].sort((a, b) => a - b);
+                    let mid = Math.floor(sorted.length / 2);
+                    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+                }
+
+                let medianSalary = calculateMedian(allSalaries);
+                let medianStipend = calculateMedian(allStipends);
+
+                // Send Values Safely to HTML Cards
+                document.getElementById("peakSalary").innerText = peakSalary.toFixed(2) + " LPA";
+                document.getElementById("peakSalaryCompany").innerText = peakSalaryCompany;
+                
+                document.getElementById("peakStipend").innerText = "₹" + Math.floor(peakStipend).toLocaleString('en-IN') + "/pm";
+                document.getElementById("peakStipendCompany").innerText = peakStipendCompany;
+
+                document.getElementById("medianSalary").innerText = medianSalary.toFixed(2) + " LPA";
+                document.getElementById("medianStipend").innerText = "₹" + Math.floor(medianStipend).toLocaleString('en-IN') + "/pm";
             }
         });
-    } catch (e) { console.error("Stats Failed:", e); }
+    } catch (error) {
+        console.error("❌ Advanced metrics engine failed:", error);
+    }
 }
-
 // =========================================================
 // ENGINE 2: SPACE-PROOF SALARY CHART
 // =========================================================
