@@ -842,7 +842,7 @@ async function loadStatsDashboard() {
 }
 
 // =========================================================
-// ENGINE 2: ISOLATED SALARY CHART
+// ENGINE 2: SPACE-PROOF SALARY CHART
 // =========================================================
 async function loadSalaryChart() {
     try {
@@ -851,12 +851,15 @@ async function loadSalaryChart() {
         Papa.parse(csvText, {
             header: true, skipEmptyLines: true,
             complete: function(results) {
+                // Trim branch spaces on the initial pass
                 let data = results.data.filter(row => getRowValueInsensitive(row, "Branch"));
                 let salaryMap = {};
 
                 data.forEach(row => {
-                    let branch = String(getRowValueInsensitive(row, "Branch")).trim();
+                    // FIX: .trim() removes any accidental spaces at the start or end of the branch name
+                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
                     let salary = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
+                    
                     if (branch && salary > 0) {
                         if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
                         salaryMap[branch].total += salary;
@@ -899,7 +902,7 @@ async function loadSalaryChart() {
 }
 
 // =========================================================
-// ENGINE 3: ISOLATED STIPEND CHART
+// ENGINE 3: SPACE-PROOF STIPEND CHART
 // =========================================================
 async function loadStipendChart() {
     try {
@@ -912,8 +915,15 @@ async function loadStipendChart() {
                 let stipendMap = {};
 
                 data.forEach(row => {
-                    let branch = String(getRowValueInsensitive(row, "Branch")).trim();
-                    let stipend = cleanNumericValue(getRowValueInsensitive(row, "Stipend(Per Month)") || getRowValueInsensitive(row, "Stipend (Per Month)"));
+                    // FIX: Aggressive string trimming for branch matching
+                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                    
+                    // FIX: Strips out ALL internal spaces from the column header keys before looking for a match
+                    let stipendKey = Object.keys(row).find(k => k.replace(/\s+/g, '').toLowerCase().includes("stipend"));
+                    let rawStipend = stipendKey ? row[stipendKey] : 0;
+                    
+                    let stipend = cleanNumericValue(rawStipend);
+                    
                     if (branch && stipend > 0) {
                         if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
                         stipendMap[branch].total += stipend;
@@ -924,7 +934,10 @@ async function loadStipendChart() {
                 let branches = Object.keys(stipendMap);
                 let averages = branches.map(b => (stipendMap[b].total / stipendMap[b].count).toFixed(0));
 
-                if (branches.length === 0) return;
+                if (branches.length === 0) {
+                    console.warn("⚠️ No valid Stipend data found after clearing spaces.");
+                    return;
+                }
 
                 let oldChart = Chart.getChart("stipendChart");
                 if (oldChart) oldChart.destroy();
@@ -954,7 +967,6 @@ async function loadStipendChart() {
         });
     } catch (e) { console.error("Stipend Chart Failed:", e); }
 }
-
 // Master Initialization Launcher
 window.addEventListener('DOMContentLoaded', () => {
     loadStatsDashboard();
