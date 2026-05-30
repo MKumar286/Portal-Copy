@@ -333,6 +333,7 @@ line-height:1;
 }
 
 /* SIDE-BY-SIDE RESPONSIVE CHARTS LAYOUT */
+/* FIXED RESPONSIVE CHARTS LAYOUT */
 .charts-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -357,6 +358,11 @@ line-height:1;
     background-origin: border-box;
     background-clip: padding-box, border-box;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    
+    /* Forces card to have a structural minimum height */
+    min-height: 420px; 
+    display: flex;
+    flex-direction: column;
 }
 
 .chart-card:hover {
@@ -374,10 +380,12 @@ line-height:1;
     font-weight: 700;
 }
 
+/* FIXED: Explicitly sizing the chart canvas element wrapper */
 .chart-container {
     position: relative;
     width: 100%;
-    height: 340px; /* Slight height increase for clean outside dynamic label bounds */
+    height: 320px; 
+    flex-grow: 1;
 }
   
 /* RESPONSIVE HOOKS */
