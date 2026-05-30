@@ -449,90 +449,117 @@ grid-template-columns:1fr;
 .metrics-sub-row {
     display: flex;
     justify-content: space-between;
-    gap: 12px; /* Slightly tighter gap to give cards more breathing room */
+    gap: 14px;
     width: 100%;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    margin-top: 26px;
+    margin-bottom: 26px;
 }
 
-/* AUTO-ADJUSTING CARD LAYER WITH 3D NEON DEPTH EFFECTS */
+/* PREMIUM 3D METRIC CARD LAYER WITH SMOOTH GLOWS */
 .split-metric-card {
     flex: 1;
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 12px; /* Tighter radius fits small layouts better */
+    background: #ffffff;
+    border-radius: 14px;
     display: flex;
     align-items: center;
-    padding: 12px 14px; /* Reduced padding to maximize internal canvas space */
-    min-height: 80px;  /* Optimized height */
+    padding: 0; /* Cleared padding to let colored badges flush completely to edges */
+    min-height: 84px;
     position: relative;
-    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.08), 
-                inset 0 1px 1px rgba(255, 255, 255, 0.6);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
 }
 
 .split-metric-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
 }
 
-/* Individual 3D Glowing Colored Border Effects */
-.highest-pkg-card { border: 2px solid #2563eb; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12), inset 0 1px 1px #fff; }
-.highest-stipend-card { border: 2px solid #7c3aed; box-shadow: 0 8px 16px rgba(124, 58, 237, 0.12), inset 0 1px 1px #fff; }
-.median-pkg-card { border: 2px solid #0d9488; box-shadow: 0 8px 16px rgba(13, 148, 136, 0.12), inset 0 1px 1px #fff; }
-.median-stipend-card { border: 2px solid #e11d48; box-shadow: 0 8px 16px rgba(225, 29, 72, 0.12), inset 0 1px 1px #fff; }
+/* =========================================================
+   INDIVIDUAL 3D THEMES (Borders, Shadow Glows, & Left Badges)
+   ========================================================= */
 
-/* LEFT FRAME: TEXT LABEL (SCALED DOWN) */
+/* 1. Highest Package: Deep Royal Blue Theme */
+.highest-pkg-card { border: 2px solid #2563eb; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12); }
+.highest-pkg-card .card-left-half { background: rgba(37, 99, 235, 0.06); border-right: 1.5px dashed rgba(37, 99, 235, 0.3); }
+.highest-pkg-card .metric-sub-company { color: #1d4ed8; font-weight: 700; } /* Vivid Blue Company */
+
+/* 2. Highest Stipend: Vivid Purple Theme */
+.highest-stipend-card { border: 2px solid #7c3aed; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12); }
+.highest-stipend-card .card-left-half { background: rgba(124, 58, 237, 0.06); border-right: 1.5px dashed rgba(124, 58, 237, 0.3); }
+.highest-stipend-card .metric-sub-company { color: #6d28d9; font-weight: 700; } /* Vivid Purple Company */
+
+/* 3. Median Package: Sleek Teal Theme */
+.median-pkg-card { border: 2px solid #0d9488; box-shadow: 0 10px 25px rgba(13, 148, 136, 0.12); }
+.median-pkg-card .card-left-half { background: rgba(13, 148, 136, 0.06); border-right: 1.5px dashed rgba(13, 148, 136, 0.3); }
+.median-pkg-card .metric-sub-company { color: #0f766e; font-weight: 600; letter-spacing: 0.3px; } /* Clean Teal Drive Text */
+
+/* 4. Median Stipend: Energetic Crimson Theme */
+.median-stipend-card { border: 2px solid #e11d48; box-shadow: 0 10px 25px rgba(225, 29, 72, 0.12); }
+.median-stipend-card .card-left-half { background: rgba(225, 29, 72, 0.06); border-right: 1.5px dashed rgba(225, 29, 72, 0.3); }
+.median-stipend-card .metric-sub-company { color: #be123c; font-weight: 600; letter-spacing: 0.3px; } /* Clean Crimson Drive Text */
+
+
+/* =========================================================
+   INTERNAL LAYOUT & TYPOGRAPHY STYLE FIXES
+   ========================================================= */
+
+/* LEFT HALF FRAME: ACCENTUATED TEXT LABEL BADGE */
 .card-left-half {
     flex-shrink: 0;
-    width: auto; 
-    max-width: 45%;
+    width: 38%; /* Precision balanced split */
+    height: 100%;
     display: flex;
     align-items: center;
-    padding-right: 10px;
-    border-right: 1px solid rgba(148, 163, 184, 0.25);
+    justify-content: center;
+    padding: 0 12px;
+    text-align: center;
 }
 
 .metric-label-text {
-    font-family: 'Segoe UI', sans-serif;
-    color: #334155;
-    font-size: 11px; /* Decreased from 13px/15px for a clean, professional micro-label */
-    font-weight: 700;
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    color: #1e293b; /* Crisp dark charcoal for modern readability */
+    font-size: 11px;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 1.2;
+    letter-spacing: 0.6px;
+    line-height: 1.3;
 }
 
-/* RIGHT FRAME: VALUES & STRINGS (SCALED DOWN) */
+/* RIGHT HALF FRAME: CORE METRIC BLOCK */
 .card-right-half {
-    flex-grow: 1; 
-    width: auto;
+    flex-grow: 1;
+    width: 62%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 10px;
+    padding-left: 14px;
+    padding-right: 10px;
     text-align: left;
     overflow: hidden;
 }
 
+/* HIGHLY PRONOUNCED VALUES */
 .metric-peak-value {
-    font-family: 'Segoe UI', sans-serif;
-    color: #0f172a;
-    font-size: 16px; /* Decreased from 21px to guarantee numbers fit cleanly */
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    color: #0f172a; /* Ultra dark slate */
+    font-size: 17px;
     font-weight: 800;
     line-height: 1.1;
     white-space: nowrap;
+    letter-spacing: -0.2px;
 }
 
+/* MODERNIZED COMPANY SUBTITLES */
 .metric-sub-company {
-    font-family: 'Segoe UI', sans-serif;
-    color: #64748b;
-    font-size: 11px; /* Cleaned up subtitle size */
-    font-weight: 600;
-    margin-top: 2px;
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    font-size: 11px;
+    margin-top: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+    text-transform: uppercase; /* Gives company names a cleaner, corporate profile */
 }
 </style>
 
