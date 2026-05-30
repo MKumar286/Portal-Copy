@@ -752,60 +752,39 @@ Academic Year
 </div>
 
 </div>
-
-<script>
+    <script>
 
 function toggleSubMenu(id){
-
-let submenu=document.getElementById(id);
-
-if(submenu.style.display==="block"){
-
-submenu.style.display="none";
-
-}else{
-
-submenu.style.display="block";
-
-}
-
+    let submenu=document.getElementById(id);
+    if(submenu.style.display==="block"){
+        submenu.style.display="none";
+    }else{
+        submenu.style.display="block";
+    }
 }
 
 function addAcademicYear(){
-
-let container=document.getElementById("yearContainer");
-
-let items=container.getElementsByClassName("nested-item");
-
-let lastYear=items[items.length-1].innerText;
-
-let years=lastYear.split("-");
-
-let start=parseInt(years[0])+1;
-
-let end=parseInt(years[1])+1;
-
-let newDiv=document.createElement("div");
-
-newDiv.classList.add("nested-item");
-
-newDiv.innerText=start+"-"+end;
-
-container.appendChild(newDiv);
-
+    let container=document.getElementById("yearContainer");
+    let items=container.getElementsByClassName("nested-item");
+    let lastYear=items[items.length-1].innerText;
+    let years=lastYear.split("-");
+    let start=parseInt(years[0])+1;
+    let end=parseInt(years[1])+1;
+    let newDiv=document.createElement("div");
+    newDiv.classList.add("nested-item");
+    newDiv.innerText=start+"-"+end;
+    container.appendChild(newDiv);
 }
 
 function logout(){
-
-alert("Logged Out Successfully");
-
-window.location.href="index.html";
-
+    alert("Logged Out Successfully");
+    window.location.href="index.html";
 }
 
 // =========================================================
 // LIVE SHEET ENGINE 1: METRIC COUNTER CARDS
 // =========================================================
+// FIXED: Ensured &output=csv is strictly appended
 const statsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFxqsJB3rQHXWjpl3ofrPYtZ8ljCKJRVwhzwD0aWDz19Waec_2gXp2YpHMa4g72MA7BIBvdVEAF_fg/pub?gid=1145740463&single=true&output=csv";
 
 function cleanNumericValue(val) {
@@ -871,16 +850,18 @@ async function loadStatsDashboard() {
         });
     } catch (error) {
         console.error("❌ Stats load failed:", error);
+        document.getElementById("totalStudents").innerText = "Error";
     }
 }
 
 // =========================================================
 // LIVE SHEET ENGINE 2: TWIN DOUGHNUT CHARTS COMPILER
 // =========================================================
-const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQOWjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=49232981"; 
+// FIXED: Added &output=csv to bypass Google's HTML block response
+const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQOWjFcZaI2eiKVtAqynVqs3H82MznXaV15n-qLjsDv6QL75g_7sQAhm0n6ZtiiDVKIB0MkuTNQ64/pub?gid=49232981&output=csv"; 
 
 async function loadDashboardCharts() {
-    if (!chartsSheetURL || chartsSheetURL === "" ||  {
+    if (!chartsSheetURL || chartsSheetURL === "") {
         console.warn("⚠️ Please configure your chartsSheetURL value to display the Charts.");
         return;
     }
@@ -899,7 +880,6 @@ async function loadDashboardCharts() {
                     return branch && String(branch).trim() !== "";
                 });
 
-                // Shared Vibrant RGB color palettes
                 const paletteColors = [
                     'rgba(37, 99, 235, 0.9)',   // Blue
                     'rgba(124, 58, 237, 0.9)',  // Purple
@@ -922,7 +902,6 @@ async function loadDashboardCharts() {
                 data.forEach(row => {
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
                     
-                    // Extract values dynamically
                     let rawSalary = getRowValueInsensitive(row, "Salary package");
                     let salary = cleanNumericValue(rawSalary);
 
@@ -951,7 +930,6 @@ async function loadDashboardCharts() {
 
                 let branches = Object.keys(branchAggregation);
                 
-                // Calculates average arrays
                 let standardSalaryAverages = branches.map(b => {
                     return branchAggregation[b].salaryCount > 0 
                         ? (branchAggregation[b].totalSalary / branchAggregation[b].salaryCount).toFixed(2)
@@ -965,14 +943,13 @@ async function loadDashboardCharts() {
                 });
 
                 if (branches.length > 0) {
-                    // Destroy legacy tracking references cleanly
                     let oldSalaryChart = Chart.getChart("salaryChart");
                     if (oldSalaryChart) oldSalaryChart.destroy();
                     
                     let oldStipendChart = Chart.getChart("stipendChart");
                     if (oldStipendChart) oldStipendChart.destroy();
 
-                    // 1. RENDERS DETAILED AVG SALARY DOUGHNUT CHART (LEFT SIDE)
+                    // Left Chart
                     new Chart(document.getElementById("salaryChart"), {
                         type: 'doughnut',
                         data: {
@@ -1007,7 +984,7 @@ async function loadDashboardCharts() {
                         }
                     });
 
-                    // 2. RENDERS DETAILED AVG STIPEND DOUGHNUT CHART (RIGHT SIDE)
+                    // Right Chart
                     new Chart(document.getElementById("stipendChart"), {
                         type: 'doughnut',
                         data: {
@@ -1035,7 +1012,6 @@ async function loadDashboardCharts() {
                                     offset: 14,
                                     formatter: (value, context) => {
                                         let branchName = context.chart.data.labels[context.dataIndex];
-                                        // Renders clean Indian Rupee localization format for the outside dynamic pointers
                                         return branchName + "\n➔ ₹" + Number(value).toLocaleString('en-IN') + "/pm";
                                     }
                                 }
