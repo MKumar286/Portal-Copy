@@ -449,7 +449,7 @@ grid-template-columns:1fr;
 .metrics-sub-row {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px; /* Slightly tighter gap to give cards more breathing room */
     width: 100%;
     margin-top: 24px;
     margin-bottom: 24px;
@@ -459,65 +459,65 @@ grid-template-columns:1fr;
 .split-metric-card {
     flex: 1;
     background: rgba(255, 255, 255, 0.96);
-    border-radius: 16px;
+    border-radius: 12px; /* Tighter radius fits small layouts better */
     display: flex;
     align-items: center;
-    padding: 14px 18px;
-    min-height: 90px;
+    padding: 12px 14px; /* Reduced padding to maximize internal canvas space */
+    min-height: 80px;  /* Optimized height */
     position: relative;
-    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12), 
+    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.08), 
                 inset 0 1px 1px rgba(255, 255, 255, 0.6);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    overflow: hidden; /* Prevents any internal text from clipping outside the border */
+    overflow: hidden;
 }
 
 .split-metric-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
 }
 
 /* Individual 3D Glowing Colored Border Effects */
-.highest-pkg-card { border: 2.5px solid #2563eb; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15), inset 0 1px 1px #fff; }
-.highest-stipend-card { border: 2.5px solid #7c3aed; box-shadow: 0 10px 20px rgba(124, 58, 237, 0.15), inset 0 1px 1px #fff; }
-.median-pkg-card { border: 2.5px solid #0d9488; box-shadow: 0 10px 20px rgba(13, 148, 136, 0.15), inset 0 1px 1px #fff; }
-.median-stipend-card { border: 2.5px solid #e11d48; box-shadow: 0 10px 20px rgba(225, 29, 72, 0.15), inset 0 1px 1px #fff; }
+.highest-pkg-card { border: 2px solid #2563eb; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12), inset 0 1px 1px #fff; }
+.highest-stipend-card { border: 2px solid #7c3aed; box-shadow: 0 8px 16px rgba(124, 58, 237, 0.12), inset 0 1px 1px #fff; }
+.median-pkg-card { border: 2px solid #0d9488; box-shadow: 0 8px 16px rgba(13, 148, 136, 0.12), inset 0 1px 1px #fff; }
+.median-stipend-card { border: 2px solid #e11d48; box-shadow: 0 8px 16px rgba(225, 29, 72, 0.12), inset 0 1px 1px #fff; }
 
-/* LEFT FRAME: TAKES ONLY THE AUTO-SPACE IT NEEDS */
+/* LEFT FRAME: TEXT LABEL (SCALED DOWN) */
 .card-left-half {
-    flex-shrink: 0; /* Prevents the label text from crushing down */
+    flex-shrink: 0;
     width: auto; 
     max-width: 45%;
     display: flex;
     align-items: center;
-    padding-right: 12px;
-    border-right: 1px solid rgba(148, 163, 184, 0.3);
+    padding-right: 10px;
+    border-right: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .metric-label-text {
     font-family: 'Segoe UI', sans-serif;
-    color: #1e293b;
-    font-size: 13px;
+    color: #334155;
+    font-size: 11px; /* Decreased from 13px/15px for a clean, professional micro-label */
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.3;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
 }
 
-/* RIGHT FRAME: AUTOMATICALLY EXPANDS TO CONSUME REMAINING CARD WIDTH */
+/* RIGHT FRAME: VALUES & STRINGS (SCALED DOWN) */
 .card-right-half {
     flex-grow: 1; 
     width: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 14px;
+    padding-left: 10px;
     text-align: left;
-    overflow: hidden; /* Fallback for exceptionally long content */
+    overflow: hidden;
 }
 
 .metric-peak-value {
     font-family: 'Segoe UI', sans-serif;
     color: #0f172a;
-    font-size: 21px; /* Slightly adjusted to dynamically fit values perfectly */
+    font-size: 16px; /* Decreased from 21px to guarantee numbers fit cleanly */
     font-weight: 800;
     line-height: 1.1;
     white-space: nowrap;
@@ -526,15 +526,14 @@ grid-template-columns:1fr;
 .metric-sub-company {
     font-family: 'Segoe UI', sans-serif;
     color: #64748b;
-    font-size: 12px;
+    font-size: 11px; /* Cleaned up subtitle size */
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: 2px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Safely dots (...) the name if a company name is massive */
+    text-overflow: ellipsis;
     width: 100%;
 }
-
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
