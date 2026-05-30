@@ -953,93 +953,31 @@ const chartsSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSlQ0WjF
 async function loadStatsDashboard() {
     try {
         const response = await fetch(statsSheetURL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const csvText = await response.text();
-        
         Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true,
+            header: true, skipEmptyLines: true,
             complete: function(results) {
-                let data = results.data.filter(row => {
-                    let keys = Object.keys(row);
-                    return keys.length > 0 && row[keys[0]] !== "";
-                });
-
-                // --- EXISTING COUNTER DATA CALCULATIONS ---
-                let totalStudents = data.length;
-                let registeredStudents = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
-                let eligibleStudents = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
-                let placedStudents = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
-                let totalOffers = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
-
-                document.getElementById("totalStudents").innerText = totalStudents;
-                document.getElementById("registeredStudents").innerText = registeredStudents;
-                document.getElementById("eligibleStudents").innerText = eligibleStudents;
-                document.getElementById("placedStudents").innerText = placedStudents;
-                document.getElementById("totalOffers").innerText = totalOffers;
-
-                // =========================================================
-                // NEW ADVANCED METRICS ENGINE (SAFE EXTRACTION)
-                // =========================================================
-                let peakSalary = 0;
-                let peakSalaryCompany = "—";
-                let peakStipend = 0;
-                let peakStipendCompany = "—";
+                let data = results.data.filter(row => Object.keys(row).length > 0 && row[Object.keys(row)[0]] !== "");
                 
-                let allSalaries = [];
-                let allStipends = [];
-
-                data.forEach(row => {
-                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
-                    
-                    let sal = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
-                    let stp = cleanNumericValue(getRowValueInsensitive(row, "Stipend(Per Month)") || getRowValueInsensitive(row, "Stipend (Per Month)"));
-
-                    if (sal > 0) {
-                        allSalaries.push(sal);
-                        if (sal > peakSalary) {
-                            peakSalary = sal;
-                            peakSalaryCompany = company;
-                        }
-                    }
-
-                    if (stp > 0) {
-                        allStipends.push(stp);
-                        if (stp > peakStipend) {
-                            peakStipend = stp;
-                            peakStipendCompany = company;
-                        }
-                    }
-                });
-
-                // Median Calculator Internal Function
-                function calculateMedian(arr) {
-                    if (arr.length === 0) return 0;
-                    let sorted = [...arr].sort((a, b) => a - b);
-                    let mid = Math.floor(sorted.length / 2);
-                    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-                }
-
-                let medianSalary = calculateMedian(allSalaries);
-                let medianStipend = calculateMedian(allStipends);
-
-                // Send Values Safely to HTML Cards
-                document.getElementById("peakSalary").innerText = peakSalary.toFixed(2) + " LPA";
-                document.getElementById("peakSalaryCompany").innerText = peakSalaryCompany;
-                
-                document.getElementById("peakStipend").innerText = "₹" + Math.floor(peakStipend).toLocaleString('en-IN') + "/pm";
-                document.getElementById("peakStipendCompany").innerText = peakStipendCompany;
-
-                document.getElementById("medianSalary").innerText = medianSalary.toFixed(2) + " LPA";
-                document.getElementById("medianStipend").innerText = "₹" + Math.floor(medianStipend).toLocaleString('en-IN') + "/pm";
+                document.getElementById("totalStudents").innerText = data.length;
+                document.getElementById("registeredStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
+                document.getElementById("eligibleStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
+                document.getElementById("placedStudents").innerText = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
+                document.getElementById("totalOffers").innerText = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
             }
         });
-    } catch (error) {
-        console.error("❌ Advanced metrics engine failed:", error);
-    }
+    } catch (e) { console.error("Stats Failed:", e); }
 }
+// Median Calculator Helper Function
+function calculateMedian(arr) {
+    if (arr.length === 0) return 0;
+    let sorted = [...arr].sort((a, b) => a - b);
+    let mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
 // =========================================================
-// ENGINE 2: SPACE-PROOF SALARY CHART
+// ENGINE 2: SPACE-PROOF SALARY CHART + PEAK CARDS
 // =========================================================
 async function loadSalaryChart() {
     try {
@@ -1048,27 +986,43 @@ async function loadSalaryChart() {
         Papa.parse(csvText, {
             header: true, skipEmptyLines: true,
             complete: function(results) {
-                // Trim branch spaces on the initial pass
                 let data = results.data.filter(row => getRowValueInsensitive(row, "Branch"));
                 let salaryMap = {};
+                
+                let peakSalary = 0;
+                let peakSalaryCompany = "—";
+                let allSalaries = [];
 
                 data.forEach(row => {
-                    // FIX: .trim() removes any accidental spaces at the start or end of the branch name
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
                     let salary = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
+                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && salary > 0) {
+                        // Chart Calculations
                         if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
                         salaryMap[branch].total += salary;
                         salaryMap[branch].count++;
+
+                        // New Card Calculations
+                        allSalaries.push(salary);
+                        if (salary > peakSalary) {
+                            peakSalary = salary;
+                            peakSalaryCompany = company;
+                        }
                     }
                 });
 
+                // Update the New Cards Instantly
+                let medianSalary = calculateMedian(allSalaries);
+                document.getElementById("peakSalary").innerText = peakSalary.toFixed(2) + " LPA";
+                document.getElementById("peakSalaryCompany").innerText = peakSalaryCompany;
+                document.getElementById("medianSalary").innerText = medianSalary.toFixed(2) + " LPA";
+
+                // Render Chart
                 let branches = Object.keys(salaryMap);
                 let averages = branches.map(b => (salaryMap[b].total / salaryMap[b].count).toFixed(2));
-
                 if (branches.length === 0) return;
-
                 let oldChart = Chart.getChart("salaryChart");
                 if (oldChart) oldChart.destroy();
 
@@ -1099,7 +1053,7 @@ async function loadSalaryChart() {
 }
 
 // =========================================================
-// ENGINE 3: SPACE-PROOF STIPEND CHART
+// ENGINE 3: SPACE-PROOF STIPEND CHART + PEAK CARDS
 // =========================================================
 async function loadStipendChart() {
     try {
@@ -1111,31 +1065,42 @@ async function loadStipendChart() {
                 let data = results.data.filter(row => getRowValueInsensitive(row, "Branch"));
                 let stipendMap = {};
 
+                let peakStipend = 0;
+                let peakStipendCompany = "—";
+                let allStipends = [];
+
                 data.forEach(row => {
-                    // FIX: Aggressive string trimming for branch matching
                     let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
-                    
-                    // FIX: Strips out ALL internal spaces from the column header keys before looking for a match
                     let stipendKey = Object.keys(row).find(k => k.replace(/\s+/g, '').toLowerCase().includes("stipend"));
                     let rawStipend = stipendKey ? row[stipendKey] : 0;
-                    
                     let stipend = cleanNumericValue(rawStipend);
+                    let company = String(getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && stipend > 0) {
+                        // Chart Calculations
                         if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
                         stipendMap[branch].total += stipend;
                         stipendMap[branch].count++;
+
+                        // New Card Calculations
+                        allStipends.push(stipend);
+                        if (stipend > peakStipend) {
+                            peakStipend = stipend;
+                            peakStipendCompany = company;
+                        }
                     }
                 });
 
+                // Update the New Cards Instantly
+                let medianStipend = calculateMedian(allStipends);
+                document.getElementById("peakStipend").innerText = "₹" + Math.floor(peakStipend).toLocaleString('en-IN') + "/pm";
+                document.getElementById("peakStipendCompany").innerText = peakStipendCompany;
+                document.getElementById("medianStipend").innerText = "₹" + Math.floor(medianStipend).toLocaleString('en-IN') + "/pm";
+
+                // Render Chart
                 let branches = Object.keys(stipendMap);
                 let averages = branches.map(b => (stipendMap[b].total / stipendMap[b].count).toFixed(0));
-
-                if (branches.length === 0) {
-                    console.warn("⚠️ No valid Stipend data found after clearing spaces.");
-                    return;
-                }
-
+                if (branches.length === 0) return;
                 let oldChart = Chart.getChart("stipendChart");
                 if (oldChart) oldChart.destroy();
 
