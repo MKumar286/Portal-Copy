@@ -561,6 +561,31 @@ grid-template-columns:1fr;
     width: 100%;
     text-transform: uppercase; /* Gives company names a cleaner, corporate profile */
 }
+
+    /* FIX: Align Placements and Reports dropdowns cleanly in a list */
+.academic-years {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.academic-year-btn {
+    display: block;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #dbeafe;
+    margin-bottom: 5px;
+    text-decoration: none; /* Removes underline from links */
+}
+
+.academic-year-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -679,90 +704,46 @@ Academic Year
 
 </div>
 
-<div class="menu-item"
-onclick="toggleSubMenu('placementSubMenu')">
 
-<i class="fa-solid fa-briefcase"></i>
-
-<span>Placements</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
+    
+    
+<div class="menu-item" onclick="toggleSubMenu('placementSubMenu')">
+    <i class="fa-solid fa-briefcase"></i>
+    <span>Placements</span>
+    <i class="fa-solid fa-angle-down"></i>
 </div>
 
 <div class="sub-menu" id="placementSubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('placementYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
+    <div class="academic-years">
+        <a href="2025-2026.html" class="academic-year-btn">2025-2026</a>
+        <a href="2026-2027.html" class="academic-year-btn">2026-2027</a>
+        <a href="#" class="academic-year-btn">2027-2028</a>
+        <a href="#" class="academic-year-btn">2028-2029</a>
+    </div>
 </div>
 
-<div class="academic-years">
 
-  <a href="2025-2026.html" class="academic-year-btn">
-    2025-2026
-  </a>
 
-  <a href="2026-2027.html" class="academic-year-btn">
-    2026-2027
-  </a>
+    
 
-  <a href="#" class="academic-year-btn">
-    2027-2028
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2028-2029
-  </a>
-
-</div>
-
-</div>
-
-<div class="menu-item"
-onclick="toggleSubMenu('reportSubMenu')">
-
-<i class="fa-solid fa-file"></i>
-
-<span>Reports</span>
-
-<i class="fa-solid fa-angle-down"></i>
-
+<div class="menu-item" onclick="toggleSubMenu('reportSubMenu')">
+    <i class="fa-solid fa-file"></i>
+    <span>Reports</span>
+    <i class="fa-solid fa-angle-down"></i>
 </div>
 
 <div class="sub-menu" id="reportSubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('reportYears')">
-
-Academic Year
-<i class="fa-solid fa-angle-down"></i>
-
+    <div class="academic-years">
+        <a href="2025-2026.html" class="academic-year-btn">2025-2026</a>
+        <a href="#" class="academic-year-btn">2026-2027</a>
+        <a href="#" class="academic-year-btn">2027-2028</a>
+        <a href="#" class="academic-year-btn">2028-2029</a>
+    </div>
 </div>
 
-<div class="academic-years">
 
-  <a href="2025-2026.html" class="academic-year-btn">
-    2025-2026
-  </a>
 
-  <a href="#" class="academic-year-btn">
-    2026-2027
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2027-2028
-  </a>
-
-  <a href="#" class="academic-year-btn">
-    2028-2029
-  </a>
-
-</div>
-</div>
+    
 
 <div class="menu-item">
 <i class="fa-solid fa-gear"></i>
