@@ -450,7 +450,7 @@ grid-template-columns:1fr;
     justify-content: space-between;
     gap: 14px;
     width: 100%;
-    margin-top: 26px;
+    margin-top: 10px;
     margin-bottom: 26px;
 }
 
@@ -461,7 +461,7 @@ grid-template-columns:1fr;
     border-radius: 14px;
     display: flex;
     align-items: center;
-    padding: 0; /* Cleared padding to let colored badges flush completely to edges */
+    padding: 0; 
     min-height: 84px;
     position: relative;
     box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06), 
@@ -481,32 +481,31 @@ grid-template-columns:1fr;
 /* 1. Highest Package: Deep Royal Blue Theme */
 .highest-pkg-card { border: 2px solid #2563eb; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12); }
 .highest-pkg-card .card-left-half { background: rgba(37, 99, 235, 0.06); border-right: 1.5px dashed rgba(37, 99, 235, 0.3); }
-.highest-pkg-card .metric-sub-company { color: #1d4ed8; font-weight: 700; } /* Vivid Blue Company */
+.highest-pkg-card .metric-sub-company { color: #1d4ed8; font-weight: 700; } 
 
 /* 2. Highest Stipend: Vivid Purple Theme */
 .highest-stipend-card { border: 2px solid #7c3aed; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12); }
 .highest-stipend-card .card-left-half { background: rgba(124, 58, 237, 0.06); border-right: 1.5px dashed rgba(124, 58, 237, 0.3); }
-.highest-stipend-card .metric-sub-company { color: #6d28d9; font-weight: 700; } /* Vivid Purple Company */
+.highest-stipend-card .metric-sub-company { color: #6d28d9; font-weight: 700; } 
 
 /* 3. Median Package: Sleek Teal Theme */
 .median-pkg-card { border: 2px solid #0d9488; box-shadow: 0 10px 25px rgba(13, 148, 136, 0.12); }
 .median-pkg-card .card-left-half { background: rgba(13, 148, 136, 0.06); border-right: 1.5px dashed rgba(13, 148, 136, 0.3); }
-.median-pkg-card .metric-sub-company { color: #0f766e; font-weight: 600; letter-spacing: 0.3px; } /* Clean Teal Drive Text */
+.median-pkg-card .metric-sub-company { color: #0f766e; font-weight: 600; letter-spacing: 0.3px; } 
 
 /* 4. Median Stipend: Energetic Crimson Theme */
 .median-stipend-card { border: 2px solid #e11d48; box-shadow: 0 10px 25px rgba(225, 29, 72, 0.12); }
 .median-stipend-card .card-left-half { background: rgba(225, 29, 72, 0.06); border-right: 1.5px dashed rgba(225, 29, 72, 0.3); }
-.median-stipend-card .metric-sub-company { color: #be123c; font-weight: 600; letter-spacing: 0.3px; } /* Clean Crimson Drive Text */
+.median-stipend-card .metric-sub-company { color: #be123c; font-weight: 600; letter-spacing: 0.3px; } 
 
 
 /* =========================================================
    INTERNAL LAYOUT & TYPOGRAPHY STYLE FIXES
    ========================================================= */
 
-/* LEFT HALF FRAME: ACCENTUATED TEXT LABEL BADGE */
 .card-left-half {
     flex-shrink: 0;
-    width: 38%; /* Precision balanced split */
+    width: 38%; 
     height: 100%;
     display: flex;
     align-items: center;
@@ -517,7 +516,7 @@ grid-template-columns:1fr;
 
 .metric-label-text {
     font-family: 'Segoe UI', -apple-system, sans-serif;
-    color: #1e293b; /* Crisp dark charcoal for modern readability */
+    color: #1e293b; 
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
@@ -525,7 +524,6 @@ grid-template-columns:1fr;
     line-height: 1.3;
 }
 
-/* RIGHT HALF FRAME: CORE METRIC BLOCK */
 .card-right-half {
     flex-grow: 1;
     width: 62%;
@@ -538,10 +536,9 @@ grid-template-columns:1fr;
     overflow: hidden;
 }
 
-/* HIGHLY PRONOUNCED VALUES */
 .metric-peak-value {
     font-family: 'Segoe UI', -apple-system, sans-serif;
-    color: #0f172a; /* Ultra dark slate */
+    color: #0f172a; 
     font-size: 17px;
     font-weight: 800;
     line-height: 1.1;
@@ -549,7 +546,6 @@ grid-template-columns:1fr;
     letter-spacing: -0.2px;
 }
 
-/* MODERNIZED COMPANY SUBTITLES */
 .metric-sub-company {
     font-family: 'Segoe UI', -apple-system, sans-serif;
     font-size: 11px;
@@ -558,7 +554,7 @@ grid-template-columns:1fr;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    text-transform: uppercase; /* Gives company names a cleaner, corporate profile */
+    text-transform: uppercase; 
 }
 
 /* FIX: Align Placements and Reports dropdowns cleanly in a list */
@@ -579,7 +575,7 @@ grid-template-columns:1fr;
     transition: 0.3s;
     color: #dbeafe;
     margin-bottom: 5px;
-    text-decoration: none; /* Removes underline from links */
+    text-decoration: none; 
 }
 
 .academic-year-btn:hover {
@@ -714,7 +710,7 @@ Academic Year
             <span class="metric-label-text">Highest Package</span>
         </div>
         <div class="card-right-half">
-            <div class="metric-peak-value" id="peakSalary">0.00 LPA</div>
+            <div class="metric-peak-value" id="peakSalary">Loading...</div>
             <div class="metric-sub-company" id="peakSalaryCompany">—</div>
         </div>
     </div>
@@ -724,7 +720,7 @@ Academic Year
             <span class="metric-label-text">Highest Stipend</span>
         </div>
         <div class="card-right-half">
-            <div class="metric-peak-value" id="peakStipend">₹0/pm</div>
+            <div class="metric-peak-value" id="peakStipend">Loading...</div>
             <div class="metric-sub-company" id="peakStipendCompany">—</div>
         </div>
     </div>
@@ -734,7 +730,7 @@ Academic Year
             <span class="metric-label-text">Median Package</span>
         </div>
         <div class="card-right-half">
-            <div class="metric-peak-value" id="medianSalary">0.00 LPA</div>
+            <div class="metric-peak-value" id="medianSalary">Loading...</div>
             <div class="metric-sub-company">Overall Drives</div>
         </div>
     </div>
@@ -744,7 +740,7 @@ Academic Year
             <span class="metric-label-text">Median Stipend</span>
         </div>
         <div class="card-right-half">
-            <div class="metric-peak-value" id="medianStipend">₹0/pm</div>
+            <div class="metric-peak-value" id="medianStipend">Loading...</div>
             <div class="metric-sub-company">Overall Drives</div>
         </div>
     </div>
@@ -907,4 +903,96 @@ async function loadStatsDashboard() {
                 
                 document.getElementById("totalStudents").innerText = data.length;
                 document.getElementById("registeredStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
-                document.getElementById("
+                document.getElementById("eligibleStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
+                document.getElementById("placedStudents").innerText = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
+                document.getElementById("totalOffers").innerText = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
+            }
+        });
+    } catch (e) { console.error("Stats Failed:", e); }
+}
+
+function calculateMedian(arr) {
+    if (arr.length === 0) return 0;
+    let sorted = [...arr].sort((a, b) => a - b);
+    let mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+// =========================================================
+// ENGINE 2: SPACE-PROOF SALARY CHART + PEAK CARDS
+// =========================================================
+async function loadSalaryChart() {
+    try {
+        const response = await fetch(chartsSheetURL);
+        const csvText = await response.text();
+        Papa.parse(csvText, {
+            header: true, skipEmptyLines: true,
+            complete: function(results) {
+                let data = results.data.filter(row => getRowValueInsensitive(row, "Branch"));
+                let salaryMap = {};
+                
+                let peakSalary = 0;
+                let peakSalaryCompany = "—";
+                let allSalaries = [];
+
+                data.forEach(row => {
+                    let branch = String(getRowValueInsensitive(row, "Branch") || "").trim();
+                    let salary = cleanNumericValue(getRowValueInsensitive(row, "Salary package"));
+                    let company = String(getRowValueInsensitive(row, "Company Placed") || getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
+                    
+                    if (branch && salary > 0) {
+                        if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
+                        salaryMap[branch].total += salary;
+                        salaryMap[branch].count++;
+
+                        allSalaries.push(salary);
+                        if (salary > peakSalary) {
+                            peakSalary = salary;
+                            peakSalaryCompany = company;
+                        }
+                    }
+                });
+
+                let medianSalary = calculateMedian(allSalaries);
+                document.getElementById("peakSalary").innerText = peakSalary.toFixed(2) + " LPA";
+                document.getElementById("peakSalaryCompany").innerText = peakSalaryCompany;
+                document.getElementById("medianSalary").innerText = medianSalary.toFixed(2) + " LPA";
+
+                let branches = Object.keys(salaryMap);
+                let averages = branches.map(b => (salaryMap[b].total / salaryMap[b].count).toFixed(2));
+                if (branches.length === 0) return;
+                let oldChart = Chart.getChart("salaryChart");
+                if (oldChart) oldChart.destroy();
+
+                new Chart(document.getElementById("salaryChart"), {
+                    type: 'doughnut',
+                    data: {
+                        labels: branches,
+                        datasets: [{ data: averages, backgroundColor: paletteColors, borderWidth: 2, borderColor: '#ffffff', cutout: '45%' }]
+                    },
+                    plugins: [ChartDataLabels],
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        layout: { padding: { top: 40, bottom: 40, left: 50, right: 50 } },
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                get color() { return (context) => textColors[context.dataIndex % textColors.length]; },
+                                font: { family: 'Segoe UI', weight: '700', size: 11 },
+                                anchor: 'end', align: 'end', offset: 14,
+                                formatter: (value, ctx) => ctx.chart.data.labels[ctx.dataIndex] + "\n➔ " + value + " LPA"
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    } catch (e) { console.error("Salary Chart Failed:", e); }
+}
+
+// =========================================================
+// ENGINE 3: SPACE-PROOF STIPEND CHART + PEAK CARDS
+// =========================================================
+async function loadStipendChart() {
+    try {
+        const response = await fetch(
