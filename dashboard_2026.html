@@ -332,7 +332,6 @@ color:#0f172a;
 line-height:1;
 }
 
-/* SIDE-BY-SIDE RESPONSIVE CHARTS LAYOUT */
 /* FIXED RESPONSIVE CHARTS LAYOUT */
 .charts-row {
     display: grid;
@@ -451,8 +450,8 @@ grid-template-columns:1fr;
     justify-content: space-between;
     gap: 14px;
     width: 100%;
-    margin-top: 26px;
-    margin-bottom: 26px;
+    margin-top: 15px;
+    margin-bottom: 22px;
 }
 
 /* PREMIUM 3D METRIC CARD LAYER WITH SMOOTH GLOWS */
@@ -462,7 +461,7 @@ grid-template-columns:1fr;
     border-radius: 14px;
     display: flex;
     align-items: center;
-    padding: 0; /* Cleared padding to let colored badges flush completely to edges */
+    padding: 0; 
     min-height: 84px;
     position: relative;
     box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06), 
@@ -482,32 +481,31 @@ grid-template-columns:1fr;
 /* 1. Highest Package: Deep Royal Blue Theme */
 .highest-pkg-card { border: 2px solid #2563eb; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12); }
 .highest-pkg-card .card-left-half { background: rgba(37, 99, 235, 0.06); border-right: 1.5px dashed rgba(37, 99, 235, 0.3); }
-.highest-pkg-card .metric-sub-company { color: #1d4ed8; font-weight: 700; } /* Vivid Blue Company */
+.highest-pkg-card .metric-sub-company { color: #1d4ed8; font-weight: 700; } 
 
 /* 2. Highest Stipend: Vivid Purple Theme */
 .highest-stipend-card { border: 2px solid #7c3aed; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.12); }
 .highest-stipend-card .card-left-half { background: rgba(124, 58, 237, 0.06); border-right: 1.5px dashed rgba(124, 58, 237, 0.3); }
-.highest-stipend-card .metric-sub-company { color: #6d28d9; font-weight: 700; } /* Vivid Purple Company */
+.highest-stipend-card .metric-sub-company { color: #6d28d9; font-weight: 700; } 
 
 /* 3. Median Package: Sleek Teal Theme */
 .median-pkg-card { border: 2px solid #0d9488; box-shadow: 0 10px 25px rgba(13, 148, 136, 0.12); }
 .median-pkg-card .card-left-half { background: rgba(13, 148, 136, 0.06); border-right: 1.5px dashed rgba(13, 148, 136, 0.3); }
-.median-pkg-card .metric-sub-company { color: #0f766e; font-weight: 600; letter-spacing: 0.3px; } /* Clean Teal Drive Text */
+.median-pkg-card .metric-sub-company { color: #0f766e; font-weight: 600; letter-spacing: 0.3px; } 
 
 /* 4. Median Stipend: Energetic Crimson Theme */
 .median-stipend-card { border: 2px solid #e11d48; box-shadow: 0 10px 25px rgba(225, 29, 72, 0.12); }
 .median-stipend-card .card-left-half { background: rgba(225, 29, 72, 0.06); border-right: 1.5px dashed rgba(225, 29, 72, 0.3); }
-.median-stipend-card .metric-sub-company { color: #be123c; font-weight: 600; letter-spacing: 0.3px; } /* Clean Crimson Drive Text */
+.median-stipend-card .metric-sub-company { color: #be123c; font-weight: 600; letter-spacing: 0.3px; } 
 
 
 /* =========================================================
    INTERNAL LAYOUT & TYPOGRAPHY STYLE FIXES
    ========================================================= */
 
-/* LEFT HALF FRAME: ACCENTUATED TEXT LABEL BADGE */
 .card-left-half {
     flex-shrink: 0;
-    width: 38%; /* Precision balanced split */
+    width: 38%; 
     height: 100%;
     display: flex;
     align-items: center;
@@ -518,7 +516,7 @@ grid-template-columns:1fr;
 
 .metric-label-text {
     font-family: 'Segoe UI', -apple-system, sans-serif;
-    color: #1e293b; /* Crisp dark charcoal for modern readability */
+    color: #1e293b; 
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
@@ -526,7 +524,6 @@ grid-template-columns:1fr;
     line-height: 1.3;
 }
 
-/* RIGHT HALF FRAME: CORE METRIC BLOCK */
 .card-right-half {
     flex-grow: 1;
     width: 62%;
@@ -539,10 +536,9 @@ grid-template-columns:1fr;
     overflow: hidden;
 }
 
-/* HIGHLY PRONOUNCED VALUES */
 .metric-peak-value {
     font-family: 'Segoe UI', -apple-system, sans-serif;
-    color: #0f172a; /* Ultra dark slate */
+    color: #0f172a; 
     font-size: 17px;
     font-weight: 800;
     line-height: 1.1;
@@ -550,7 +546,6 @@ grid-template-columns:1fr;
     letter-spacing: -0.2px;
 }
 
-/* MODERNIZED COMPANY SUBTITLES */
 .metric-sub-company {
     font-family: 'Segoe UI', -apple-system, sans-serif;
     font-size: 11px;
@@ -559,10 +554,10 @@ grid-template-columns:1fr;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    text-transform: uppercase; /* Gives company names a cleaner, corporate profile */
+    text-transform: uppercase; 
 }
 
-    /* FIX: Align Placements and Reports dropdowns cleanly in a list */
+/* FIX: Align Placements and Reports dropdowns cleanly in a list */
 .academic-years {
     display: flex;
     flex-direction: column;
@@ -580,7 +575,7 @@ grid-template-columns:1fr;
     transition: 0.3s;
     color: #dbeafe;
     margin-bottom: 5px;
-    text-decoration: none; /* Removes underline from links */
+    text-decoration: none; 
 }
 
 .academic-year-btn:hover {
@@ -613,104 +608,49 @@ grid-template-columns:1fr;
 </div>
 
 <div class="menu-item" onclick="toggleSubMenu('studentSubMenu')">
-
 <i class="fa-solid fa-users"></i>
-
 <span>Students</span>
-
 <i class="fa-solid fa-angle-down"></i>
-
 </div>
 
 <div class="sub-menu" id="studentSubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('academicYears')">
-
+<div class="sub-item" onclick="toggleSubMenu('academicYears')">
 Academic Year
 <i class="fa-solid fa-angle-down"></i>
-
 </div>
-
 <div class="nested-sub-menu" id="academicYears">
-
 <div id="yearContainer">
-
-<div class="nested-item">
-2025-2026
+<div class="nested-item">2025-2026</div>
+<div class="nested-item">2026-2027</div>
+<div class="nested-item">2027-2028</div>
+</div>
+<button class="add-year-btn" onclick="addAcademicYear()">+ Add Academic Year</button>
+</div>
 </div>
 
-<div class="nested-item">
-2026-2027
-</div>
-
-<div class="nested-item">
-2027-2028
-</div>
-
-</div>
-
-<button class="add-year-btn"
-onclick="addAcademicYear()">
-
-+ Add Academic Year
-
-</button>
-
-</div>
-
-</div>
-
-<div class="menu-item"
-onclick="toggleSubMenu('companySubMenu')">
-
+<div class="menu-item" onclick="toggleSubMenu('companySubMenu')">
 <i class="fa-solid fa-building"></i>
-
 <span>Companies</span>
-
 <i class="fa-solid fa-angle-down"></i>
-
 </div>
 
 <div class="sub-menu" id="companySubMenu">
-
-<div class="sub-item"
-onclick="toggleSubMenu('companyYears')">
-
+<div class="sub-item" onclick="toggleSubMenu('companyYears')">
 Academic Year
 <i class="fa-solid fa-angle-down"></i>
-
 </div>
-
 <div class="nested-sub-menu" id="companyYears">
-
-<div class="nested-item">
-2025-2026
+<div class="nested-item">2025-2026</div>
+<div class="nested-item">2026-2027</div>
+<div class="nested-item">2027-2028</div>
+<div class="nested-item">2028-2029</div>
+</div>
 </div>
 
-<div class="nested-item">
-2026-2027
-</div>
-
-<div class="nested-item">
-2027-2028
-</div>
-
-<div class="nested-item">
-2028-2029
-</div>
-
-</div>
-
-</div>
-
-
-    
-    
 <div class="menu-item" onclick="toggleSubMenu('placementSubMenu')">
-    <i class="fa-solid fa-briefcase"></i>
-    <span>Placements</span>
-    <i class="fa-solid fa-angle-down"></i>
+<i class="fa-solid fa-briefcase"></i>
+<span>Placements</span>
+<i class="fa-solid fa-angle-down"></i>
 </div>
 
 <div class="sub-menu" id="placementSubMenu">
@@ -722,14 +662,10 @@ Academic Year
     </div>
 </div>
 
-
-
-    
-
 <div class="menu-item" onclick="toggleSubMenu('reportSubMenu')">
-    <i class="fa-solid fa-file"></i>
-    <span>Reports</span>
-    <i class="fa-solid fa-angle-down"></i>
+<i class="fa-solid fa-file"></i>
+<span>Reports</span>
+<i class="fa-solid fa-angle-down"></i>
 </div>
 
 <div class="sub-menu" id="reportSubMenu">
@@ -740,10 +676,6 @@ Academic Year
         <a href="#" class="academic-year-btn">2028-2029</a>
     </div>
 </div>
-
-
-
-    
 
 <div class="menu-item">
 <i class="fa-solid fa-gear"></i>
@@ -764,13 +696,54 @@ Academic Year
 <div class="main-content">
 
 <div class="topbar">
-
 <h2>Dashboard Overview</h2>
-
 <div class="admin-profile">
 <i class="fa-solid fa-user-tie"></i>
 <span>TPO Admin</span>
 </div>
+</div>
+
+<div class="metrics-sub-row">
+    
+    <div class="split-metric-card highest-pkg-card">
+        <div class="card-left-half">
+            <span class="metric-label-text">Highest Package</span>
+        </div>
+        <div class="card-right-half">
+            <div class="metric-peak-value" id="peakSalary">Loading...</div>
+            <div class="metric-sub-company" id="peakSalaryCompany">—</div>
+        </div>
+    </div>
+
+    <div class="split-metric-card highest-stipend-card">
+        <div class="card-left-half">
+            <span class="metric-label-text">Highest Stipend</span>
+        </div>
+        <div class="card-right-half">
+            <div class="metric-peak-value" id="peakStipend">Loading...</div>
+            <div class="metric-sub-company" id="peakStipendCompany">—</div>
+        </div>
+    </div>
+
+    <div class="split-metric-card median-pkg-card">
+        <div class="card-left-half">
+            <span class="metric-label-text">Median Package</span>
+        </div>
+        <div class="card-right-half">
+            <div class="metric-peak-value" id="medianSalary">Loading...</div>
+            <div class="metric-sub-company">Overall Drives</div>
+        </div>
+    </div>
+
+    <div class="split-metric-card median-stipend-card">
+        <div class="card-left-half">
+            <span class="metric-label-text">Median Stipend</span>
+        </div>
+        <div class="card-right-half">
+            <div class="metric-peak-value" id="medianStipend">Loading...</div>
+            <div class="metric-sub-company">Overall Drives</div>
+        </div>
+    </div>
 
 </div>
 
@@ -856,50 +829,6 @@ Academic Year
     
 </div>
 
-    <div class="metrics-sub-row">
-    
-    <div class="split-metric-card highest-pkg-card">
-        <div class="card-left-half">
-            <span class="metric-label-text">Highest Package</span>
-        </div>
-        <div class="card-right-half">
-            <div class="metric-peak-value" id="peakSalary">0.00 LPA</div>
-            <div class="metric-sub-company" id="peakSalaryCompany">—</div>
-        </div>
-    </div>
-
-    <div class="split-metric-card highest-stipend-card">
-        <div class="card-left-half">
-            <span class="metric-label-text">Highest Stipend</span>
-        </div>
-        <div class="card-right-half">
-            <div class="metric-peak-value" id="peakStipend">₹0/pm</div>
-            <div class="metric-sub-company" id="peakStipendCompany">—</div>
-        </div>
-    </div>
-
-    <div class="split-metric-card median-pkg-card">
-        <div class="card-left-half">
-            <span class="metric-label-text">Median Package</span>
-        </div>
-        <div class="card-right-half">
-            <div class="metric-peak-value" id="medianSalary">0.00 LPA</div>
-            <div class="metric-sub-company">Overall Drives</div>
-        </div>
-    </div>
-
-    <div class="split-metric-card median-stipend-card">
-        <div class="card-left-half">
-            <span class="metric-label-text">Median Stipend</span>
-        </div>
-        <div class="card-right-half">
-            <div class="metric-peak-value" id="medianStipend">₹0/pm</div>
-            <div class="metric-sub-company">Overall Drives</div>
-        </div>
-    </div>
-
-</div>
-
 </div>
 <script>
 
@@ -941,8 +870,16 @@ function cleanNumericValue(val) {
 }
 
 function getRowValueInsensitive(row, keyName) {
+    if (!row) return null;
     let targetKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.trim().toLowerCase());
     return targetKey ? row[targetKey] : null;
+}
+
+function calculateMedian(arr) {
+    if (!arr || arr.length === 0) return 0;
+    let sorted = [...arr].sort((a, b) => a - b);
+    let mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
 // Global Chart Color Palette
@@ -972,21 +909,20 @@ async function loadStatsDashboard() {
             complete: function(results) {
                 let data = results.data.filter(row => Object.keys(row).length > 0 && row[Object.keys(row)[0]] !== "");
                 
-                document.getElementById("totalStudents").innerText = data.length;
-                document.getElementById("registeredStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
-                document.getElementById("eligibleStudents").innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
-                document.getElementById("placedStudents").innerText = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
-                document.getElementById("totalOffers").innerText = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
+                let totalS = document.getElementById("totalStudents");
+                let regS = document.getElementById("registeredStudents");
+                let eligS = document.getElementById("eligibleStudents");
+                let placS = document.getElementById("placedStudents");
+                let totO = document.getElementById("totalOffers");
+
+                if(totalS) totalS.innerText = data.length;
+                if(regS) regS.innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes").length;
+                if(eligS) eligS.innerText = data.filter(row => String(getRowValueInsensitive(row, "Registered for Placements")).trim().toLowerCase() === "yes" && (parseFloat(getRowValueInsensitive(row, "CGPA")) || 0) >= 6.5).length;
+                if(placS) placS.innerText = data.filter(row => cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers")) > 0).length;
+                if(totO) totO.innerText = data.reduce((sum, row) => sum + Math.floor(cleanNumericValue(getRowValueInsensitive(row, "No. of Offers") || getRowValueInsensitive(row, "Offers"))), 0);
             }
         });
     } catch (e) { console.error("Stats Failed:", e); }
-}
-// Median Calculator Helper Function
-function calculateMedian(arr) {
-    if (arr.length === 0) return 0;
-    let sorted = [...arr].sort((a, b) => a - b);
-    let mid = Math.floor(sorted.length / 2);
-    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
 // =========================================================
@@ -1012,12 +948,10 @@ async function loadSalaryChart() {
                     let company = String(getRowValueInsensitive(row, "Company Placed") || getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && salary > 0) {
-                        // Chart Calculations
                         if (!salaryMap[branch]) salaryMap[branch] = { total: 0, count: 0 };
                         salaryMap[branch].total += salary;
                         salaryMap[branch].count++;
 
-                        // New Card Calculations
                         allSalaries.push(salary);
                         if (salary > peakSalary) {
                             peakSalary = salary;
@@ -1026,13 +960,16 @@ async function loadSalaryChart() {
                     }
                 });
 
-                // Update the New Cards Instantly
                 let medianSalary = calculateMedian(allSalaries);
-                document.getElementById("peakSalary").innerText = peakSalary.toFixed(2) + " LPA";
-                document.getElementById("peakSalaryCompany").innerText = peakSalaryCompany;
-                document.getElementById("medianSalary").innerText = medianSalary.toFixed(2) + " LPA";
+                
+                let pSalEl = document.getElementById("peakSalary");
+                let pCompEl = document.getElementById("peakSalaryCompany");
+                let mSalEl = document.getElementById("medianSalary");
 
-                // Render Chart
+                if (pSalEl) pSalEl.innerText = peakSalary.toFixed(2) + " LPA";
+                if (pCompEl) pCompEl.innerText = peakSalaryCompany;
+                if (mSalEl) mSalEl.innerText = medianSalary.toFixed(2) + " LPA";
+
                 let branches = Object.keys(salaryMap);
                 let averages = branches.map(b => (salaryMap[b].total / salaryMap[b].count).toFixed(2));
                 if (branches.length === 0) return;
@@ -1090,12 +1027,10 @@ async function loadStipendChart() {
                     let company = String(getRowValueInsensitive(row, "Company Placed") || getRowValueInsensitive(row, "Company Name") || getRowValueInsensitive(row, "Company") || "Unknown").trim();
                     
                     if (branch && stipend > 0) {
-                        // Chart Calculations
                         if (!stipendMap[branch]) stipendMap[branch] = { total: 0, count: 0 };
                         stipendMap[branch].total += stipend;
                         stipendMap[branch].count++;
 
-                        // New Card Calculations
                         allStipends.push(stipend);
                         if (stipend > peakStipend) {
                             peakStipend = stipend;
@@ -1104,13 +1039,16 @@ async function loadStipendChart() {
                     }
                 });
 
-                // Update the New Cards Instantly
                 let medianStipend = calculateMedian(allStipends);
-                document.getElementById("peakStipend").innerText = "₹" + Math.floor(peakStipend).toLocaleString('en-IN') + "/pm";
-                document.getElementById("peakStipendCompany").innerText = peakStipendCompany;
-                document.getElementById("medianStipend").innerText = "₹" + Math.floor(medianStipend).toLocaleString('en-IN') + "/pm";
+                
+                let pStiEl = document.getElementById("peakStipend");
+                let pStiCompEl = document.getElementById("peakStipendCompany");
+                let mStiEl = document.getElementById("medianStipend");
 
-                // Render Chart
+                if (pStiEl) pStiEl.innerText = "₹" + Math.floor(peakStipend).toLocaleString('en-IN') + "/pm";
+                if (pStiCompEl) pStiCompEl.innerText = peakStipendCompany;
+                if (mStiEl) mStiEl.innerText = "₹" + Math.floor(medianStipend).toLocaleString('en-IN') + "/pm";
+
                 let branches = Object.keys(stipendMap);
                 let averages = branches.map(b => (stipendMap[b].total / stipendMap[b].count).toFixed(0));
                 if (branches.length === 0) return;
@@ -1142,7 +1080,8 @@ async function loadStipendChart() {
         });
     } catch (e) { console.error("Stipend Chart Failed:", e); }
 }
-// Master Initialization Launcher
+
+// Global master initialization setup
 window.addEventListener('DOMContentLoaded', () => {
     loadStatsDashboard();
     loadSalaryChart();
@@ -1151,5 +1090,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </script>
     
-  </body>
+</body>
 </html>
