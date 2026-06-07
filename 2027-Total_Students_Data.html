@@ -600,6 +600,8 @@ Loading Data...
 
 <script>
 
+<script>
+
 const csvURL = localStorage.getItem("csvURL");
 
 let originalData = [];
@@ -645,8 +647,14 @@ dsaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
 
-/* POPULATE FILTERS */
+/* HELPER TO FIND DSA COLUMN FLEXIBLY */
+function getDsaColumnName() {
+    // Looks for any header that contains "DSA" (case-insensitive)
+    const found = headers.find(h => h.toUpperCase().includes("DSA"));
+    return found || "DSA Training"; 
+}
 
+/* POPULATE FILTERS */
 function populateFilters(data){
 
     fillFilter(branchFilter,"Branch",data);
@@ -655,7 +663,8 @@ function populateFilters(data){
 
     fillFilter(genderFilter,"Gender",data);
 
-    fillFilter(dsaFilter,"DSA Training Column",data);
+    // Automatically finds your exact DSA column name
+    fillFilter(dsaFilter, getDsaColumnName(), data);
 
     fillFilter(registeredFilter,"Registered for Placements",data);
 
@@ -663,12 +672,11 @@ function populateFilters(data){
 }
 
 /* FILL FILTER */
-
 function fillFilter(filter,column,data){
 
     const index = headers.indexOf(column);
     
-    if(index === -1) return; // Guard clause if column header text doesn't match perfectly
+    if(index === -1) return; // Safeguard if column doesn't exist
 
     let values = [...new Set(
 
@@ -678,8 +686,10 @@ function fillFilter(filter,column,data){
 
     values = values.filter(v => v !== undefined && v !== null && v !== "");
 
-    filter.innerHTML =
-    `<option value="">${column === "DSA Training Column" ? "DSA Training" : column}</option>`;
+    // Clean up display text for dropdown default option if it contains "DSA"
+    const displayTitle = column.toUpperCase().includes("DSA") ? "DSA Training" : column;
+
+    filter.innerHTML = `<option value="">${displayTitle}</option>`;
 
     values.sort().forEach(value=>{
 
@@ -690,7 +700,6 @@ function fillFilter(filter,column,data){
 }
 
 /* APPLY FILTERS */
-
 function applyFilters(){
 
     const search = searchInput.value.toLowerCase();
@@ -710,10 +719,10 @@ function applyFilters(){
         branch: headers.indexOf("Branch"),
         backlog: headers.indexOf("No. of Backlogs"),
         gender: headers.indexOf("Gender"),
-        dsa: headers.indexOf("DSA Training Column"),
+        dsa: headers.indexOf(getDsaColumnName()), // Dynamically maps index
         registered: headers.indexOf("Registered for Placements"),
         offers: headers.indexOf("No. of Offers"),
-        cgpa: headers.indexOf("CGPA") // Retained internally for the card stats below
+        cgpa: headers.indexOf("CGPA")
     };
 
     let filtered = originalData.filter(row=>{
@@ -769,7 +778,6 @@ function applyFilters(){
 }
 
 /* CREATE TABLE */
-
 function createTable(headers,rows){
 
     let tableHTML = "<tr>";
@@ -800,7 +808,6 @@ function createTable(headers,rows){
 }
 
 /* UPDATE STATISTICS */
-
 function updateStatistics(data){
 
     const indexes = {
@@ -882,6 +889,7 @@ function goToCGPAAnalysis(){
 
 }
 
+</script>
 </script>
 
 </body>
