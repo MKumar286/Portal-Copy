@@ -391,16 +391,12 @@ tr:hover td{
     padding:0;
 
     overflow-x:auto;
-
-    border-radius:0;
-
-    box-sizing:border-box;
 }
 
 /* ===== GREEN SCROLLBAR ===== */
 
 .table-container::-webkit-scrollbar{
-    width:0px
+    width:0px;
     height:8px;
 }
 
@@ -519,8 +515,6 @@ body{
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
     <h1>Mahatma Gandhi Institute of Technology</h1>
@@ -534,8 +528,6 @@ body{
     <h3>Total Students Data for the Academic Year 2026 - 2027</h3>
 
 </div>
-
-<!-- CARDS -->
 
 <div class="cards-container">
 
@@ -566,8 +558,6 @@ body{
 
 </div>
 
-<!-- FILTERS -->
-
 <div class="filter-container">
 
     <input type="text" id="searchInput" placeholder="Search Any Data">
@@ -584,8 +574,8 @@ body{
         <option value="">Gender</option>
     </select>
 
-    <select id="cgpaFilter">
-        <option value="">CGPA</option>
+    <select id="dsaFilter">
+        <option value="">DSA Training</option>
     </select>
 
     <select id="registeredFilter">
@@ -598,13 +588,9 @@ body{
 
 </div>
 
-<!-- LOADING -->
-
 <div class="loading" id="loading">
 Loading Data...
 </div>
-
-<!-- TABLE -->
 
 <div class="table-container">
 
@@ -644,7 +630,7 @@ const searchInput = document.getElementById("searchInput");
 const branchFilter = document.getElementById("branchFilter");
 const backlogFilter = document.getElementById("backlogFilter");
 const genderFilter = document.getElementById("genderFilter");
-const cgpaFilter = document.getElementById("cgpaFilter");
+const dsaFilter = document.getElementById("dsaFilter");
 const registeredFilter = document.getElementById("registeredFilter");
 const offersFilter = document.getElementById("offersFilter");
 
@@ -655,7 +641,7 @@ searchInput.addEventListener("input",applyFilters);
 branchFilter.addEventListener("change",applyFilters);
 backlogFilter.addEventListener("change",applyFilters);
 genderFilter.addEventListener("change",applyFilters);
-cgpaFilter.addEventListener("change",applyFilters);
+dsaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
 
@@ -669,7 +655,7 @@ function populateFilters(data){
 
     fillFilter(genderFilter,"Gender",data);
 
-    fillFilter(cgpaFilter,"CGPA",data);
+    fillFilter(dsaFilter,"DSA Training Column",data);
 
     fillFilter(registeredFilter,"Registered for Placements",data);
 
@@ -681,6 +667,8 @@ function populateFilters(data){
 function fillFilter(filter,column,data){
 
     const index = headers.indexOf(column);
+    
+    if(index === -1) return; // Guard clause if column header text doesn't match perfectly
 
     let values = [...new Set(
 
@@ -688,10 +676,10 @@ function fillFilter(filter,column,data){
 
     )];
 
-    values = values.filter(v => v !== "");
+    values = values.filter(v => v !== undefined && v !== null && v !== "");
 
     filter.innerHTML =
-    `<option value="">${column}</option>`;
+    `<option value="">${column === "DSA Training Column" ? "DSA Training" : column}</option>`;
 
     values.sort().forEach(value=>{
 
@@ -712,7 +700,7 @@ function applyFilters(){
         branch: branchFilter.value,
         backlog: backlogFilter.value,
         gender: genderFilter.value,
-        cgpa: cgpaFilter.value,
+        dsa: dsaFilter.value,
         registered: registeredFilter.value,
         offers: offersFilter.value
     };
@@ -722,9 +710,10 @@ function applyFilters(){
         branch: headers.indexOf("Branch"),
         backlog: headers.indexOf("No. of Backlogs"),
         gender: headers.indexOf("Gender"),
-        cgpa: headers.indexOf("CGPA"),
+        dsa: headers.indexOf("DSA Training Column"),
         registered: headers.indexOf("Registered for Placements"),
-        offers: headers.indexOf("No. of Offers")
+        offers: headers.indexOf("No. of Offers"),
+        cgpa: headers.indexOf("CGPA") // Retained internally for the card stats below
     };
 
     let filtered = originalData.filter(row=>{
@@ -752,8 +741,8 @@ function applyFilters(){
 
             &&
 
-            (!filters.cgpa ||
-            row[indexes.cgpa] === filters.cgpa)
+            (!filters.dsa ||
+            row[indexes.dsa] === filters.dsa)
 
             &&
 
@@ -886,7 +875,8 @@ function updateStatistics(data){
     document.getElementById("eligibleStudents")
     .innerText = eligibleStudents;
 }
-    function goToCGPAAnalysis(){
+
+function goToCGPAAnalysis(){
 
     window.location.href = "cgpa.html";
 
