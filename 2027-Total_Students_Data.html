@@ -11,23 +11,35 @@
 
 <style>
 
-body {
+/* ===== FULL VIEWPORT FIXED FLEXBOX LAYOUT ===== */
+html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100vh; /* Lock height to screen size */
     font-family: 'Segoe UI', Arial, sans-serif;
     background: #f0f4f8;
-    align-items: stretch;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow: hidden; /* Prevent body itself from scrolling */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ===== TOP CONTROLS WRAPPER (STAYS FIXED) ===== */
+.top-controls {
+    flex-shrink: 0; /* Prevents this section from shrinking */
+    padding: 0 10px;
 }
 
 /* ===== 24K PREMIUM HEADER LAYER ===== */
 .header {
     width: 100%;
     box-sizing: border-box;
-    margin: 4px auto 0 auto; /* Reduced top/bottom margins */
-    padding: 12px 20px; /* Snug vertical padding */
+    margin: 4px auto 0 auto;
+    padding: 12px 20px;
     border-radius: 16px;
     text-align: center;
     position: relative;
@@ -43,7 +55,7 @@ body {
     position: absolute;
     right: 20px;
     top: 50%;
-    transform: translateY(-50%); /* Centered vertically to save height space */
+    transform: translateY(-50%);
     padding: 10px 16px;
     border: none;
     border-radius: 12px;
@@ -72,7 +84,7 @@ body {
 .header h1 {
     margin: 0;
     color: #ffffff;
-    font-size: 24px; /* Slightly tighter sizing */
+    font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 800;
@@ -95,22 +107,22 @@ body {
     font-weight: 500;
 }
 
-/* ===== 3D METALLIC CARDS (REDUCED GAP) ===== */
+/* ===== 3D METALLIC CARDS ===== */
 .cards-container {
     width: 100%;
-    margin-top: 4px; /* Eliminated large gap under header */
-    margin-bottom: 4px; /* Eliminated large gap above filters */
+    margin-top: 4px;
+    margin-bottom: 4px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 6px; /* Tighter column structure */
+    gap: 6px;
 }
 
 .card {
-    padding: 6px 10px; /* Compressed card vertical padding */
+    padding: 6px 10px;
     border-radius: 12px;
     text-align: center;
     color: white;
-    min-height: 55px; /* Restored tight height layout profile */
+    min-height: 55px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,7 +140,6 @@ body {
     pointer-events: none;
 }
 
-/* 3D Color Configurations */
 .card:nth-child(1) { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
 .card:nth-child(2) { background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); }
 .card:nth-child(3) { background: linear-gradient(135deg, #e65c00 0%, #f9d423 100%); }
@@ -158,10 +169,10 @@ body {
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-/* ===== GLASS FILTER GLASSMORPHISM CONTAINER ===== */
+/* ===== GLASS FILTER CONTAINER ===== */
 .filter-container {
     width: 100%;
-    margin: 2px 0; /* Snug layout spacing */
+    margin: 2px 0;
     padding: 6px;
     display: flex;
     gap: 6px;
@@ -193,15 +204,15 @@ body {
     box-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
 }
 
-/* ===== 3D ULTRA-HD DATA GRID ===== */
+/* ===== STRETCHED SCROLL CONTAINER ANCHORED AT BOTTOM ===== */
 .table-container {
+    flex-grow: 1; /* Automatically uses up remaining screen space down to the edge */
     width: 100%;
-    margin-top: 4px;
-    overflow-x: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    border: 1px solid #e2e8f0;
-    background: #ffffff;
+    overflow-x: auto !important; /* Force continuous horizontal visibility */
+    overflow-y: auto !important; /* Internal vertical scrolling */
+    margin: 0;
+    padding: 0 10px 10px 10px;
+    background: #f0f4f8;
 }
 
 table {
@@ -209,6 +220,11 @@ table {
     width: 100%;
     table-layout: auto;
     font-size: 13px;
+    background: #ffffff;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
 }
 
 th {
@@ -217,7 +233,7 @@ th {
     padding: 10px 14px;
     text-align: center;
     white-space: nowrap;
-    position: sticky;
+    position: sticky; /* Keep header tracking correctly during vertical scroll */
     top: 0;
     z-index: 2;
     font-size: 13px;
@@ -261,9 +277,10 @@ tr:hover td {
     color: #0b2564;
 }
 
+/* ===== SCROLLBAR VISUAL DESIGN STYLES ===== */
 .table-container::-webkit-scrollbar {
-    height: 8px;
-    width: 0px;
+    height: 10px; /* Visible thumb sizing footprint */
+    width: 10px;
 }
 
 .table-container::-webkit-scrollbar-track {
@@ -277,90 +294,53 @@ tr:hover td {
     border: 2px solid #e2e8f0;
 }
 
-::-webkit-scrollbar:vertical {
-    width: 0px;
-}
-
-* {
-    box-sizing: border-box;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
+<div class="top-controls">
 
-    <h1>Mahatma Gandhi Institute of Technology</h1>
-
-    <button class="cgpa-btn" onclick="goToCGPAAnalysis()">
-    Go for CGPA Analysis
-    </button>
-
-    <h2>Training & Placement Cell</h2>
-
-    <h3>Total Students Data for the Academic Year 2026 - 2027</h3>
-
-</div>
-
-<div class="cards-container">
-
-    <div class="card">
-        <h3>Total Students</h3>
-        <p id="totalStudents">0</p>
+    <div class="header">
+        <h1>Mahatma Gandhi Institute of Technology</h1>
+        <button class="cgpa-btn" onclick="goToCGPAAnalysis()">Go for CGPA Analysis</button>
+        <h2>Training & Placement Cell</h2>
+        <h3>Total Students Data for the Academic Year 2026 - 2027</h3>
     </div>
 
-    <div class="card">
-        <h3>Registered for Placements</h3>
-        <p id="registeredStudents">0</p>
+    <div class="cards-container">
+        <div class="card">
+            <h3>Total Students</h3>
+            <p id="totalStudents">0</p>
+        </div>
+        <div class="card">
+            <h3>Registered for Placements</h3>
+            <p id="registeredStudents">0</p>
+        </div>
+        <div class="card">
+            <h3>Eligible Students</h3>
+            <p id="eligibleStudents">0</p>
+        </div>
+        <div class="card">
+            <h3>Total Students Placed</h3>
+            <p id="placedStudents">0</p>
+        </div>
+        <div class="card">
+            <h3>Total Offers</h3>
+            <p id="totalOffers">0</p>
+        </div>
     </div>
 
-    <div class="card">
-        <h3>Eligible Students</h3>
-        <p id="eligibleStudents">0</p>
+    <div class="filter-container">
+        <input type="text" id="searchInput" placeholder="Search Any Data">
+        <select id="branchFilter"><option value="">Branch</option></select>
+        <select id="backlogFilter"><option value="">No. of Backlogs</option></select>
+        <select id="genderFilter"><option value="">Gender</option></select>
+        <select id="dsaFilter"><option value="">DSA Training</option></select>
+        <select id="registeredFilter"><option value="">Registered for Placements</option></select>
+        <select id="offersFilter"><option value="">No. of Offers</option></select>
     </div>
-
-    <div class="card">
-        <h3>Total Students Placed</h3>
-        <p id="placedStudents">0</p>
-    </div>
-
-    <div class="card">
-        <h3>Total Offers</h3>
-        <p id="totalOffers">0</p>
-    </div>
-
-</div>
-
-<div class="filter-container">
-
-    <input type="text" id="searchInput" placeholder="Search Any Data">
-
-    <select id="branchFilter">
-        <option value="">Branch</option>
-    </select>
-
-    <select id="backlogFilter">
-        <option value="">No. of Backlogs</option>
-    </select>
-
-    <select id="genderFilter">
-        <option value="">Gender</option>
-    </select>
-
-    <select id="dsaFilter">
-        <option value="">DSA Training</option>
-    </select>
-
-    <select id="registeredFilter">
-        <option value="">Registered for Placements</option>
-    </select>
-
-    <select id="offersFilter">
-        <option value="">No. of Offers</option>
-    </select>
 
 </div>
 
@@ -369,14 +349,10 @@ Loading Data...
 </div>
 
 <div class="table-container">
-
     <table id="dataTable"></table>
-
 </div>
 
 <script>
-
-
 
 const csvURL = localStorage.getItem("csvURL");
 
@@ -384,27 +360,30 @@ let originalData = [];
 let headers = [];
 
 Papa.parse(csvURL, {
-
     download:true,
     skipEmptyLines:true,
-
     complete:function(results){
+        if (!results.data || results.data.length === 0) {
+            document.getElementById("loading").innerText = "Error: No data found in CSV.";
+            return;
+        }
 
         headers = results.data[0];
         originalData = results.data.slice(1);
 
         populateFilters(originalData);
-
         applyFilters();
 
         document.getElementById("loading").style.display = "none";
+    },
+    error: function(err) {
+        document.getElementById("loading").innerText = "Error loading CSV file.";
+        console.error(err);
     }
 });
 
 /* FILTER IDS */
-
 const searchInput = document.getElementById("searchInput");
-
 const branchFilter = document.getElementById("branchFilter");
 const backlogFilter = document.getElementById("backlogFilter");
 const genderFilter = document.getElementById("genderFilter");
@@ -413,9 +392,7 @@ const registeredFilter = document.getElementById("registeredFilter");
 const offersFilter = document.getElementById("offersFilter");
 
 /* EVENTS */
-
 searchInput.addEventListener("input",applyFilters);
-
 branchFilter.addEventListener("change",applyFilters);
 backlogFilter.addEventListener("change",applyFilters);
 genderFilter.addEventListener("change",applyFilters);
@@ -423,65 +400,43 @@ dsaFilter.addEventListener("change",applyFilters);
 registeredFilter.addEventListener("change",applyFilters);
 offersFilter.addEventListener("change",applyFilters);
 
-/* HELPER TO FIND DSA COLUMN FLEXIBLY */
-function getDsaColumnName() {
-    // Looks for any header that contains "DSA" (case-insensitive)
-    const found = headers.find(h => h.toUpperCase().includes("DSA"));
-    return found || "DSA Training"; 
-}
-
 /* POPULATE FILTERS */
 function populateFilters(data){
-
     fillFilter(branchFilter,"Branch",data);
-
     fillFilter(backlogFilter,"No. of Backlogs",data);
-
     fillFilter(genderFilter,"Gender",data);
-
-    // Automatically finds your exact DSA column name
-    fillFilter(dsaFilter, getDsaColumnName(), data);
-
+    fillFilter(dsaFilter,"DSA",data);
     fillFilter(registeredFilter,"Registered for Placements",data);
-
     fillFilter(offersFilter,"No. of Offers",data);
 }
 
 /* FILL FILTER */
 function fillFilter(filter,column,data){
-
-    const index = headers.indexOf(column);
+    let index = headers.indexOf(column);
+    if (index === -1) {
+        index = headers.findIndex(h => h.toUpperCase().includes(column.toUpperCase()));
+    }
     
-    if(index === -1) return; // Safeguard if column doesn't exist
+    if(index === -1) {
+        filter.innerHTML = `<option value="">${column} (Not Found)</option>`;
+        return; 
+    }
 
-    let values = [...new Set(
+    let values = [...new Set(data.map(row => row[index]))];
+    values = values.filter(v => v !== undefined && v !== null && String(v).trim() !== "");
 
-        data.map(row => row[index])
-
-    )];
-
-    values = values.filter(v => v !== undefined && v !== null && v !== "");
-
-    // Clean up display text for dropdown default option if it contains "DSA"
-    const displayTitle = column.toUpperCase().includes("DSA") ? "DSA Training" : column;
-
+    const displayTitle = column === "DSA" ? "DSA Training" : column;
     filter.innerHTML = `<option value="">${displayTitle}</option>`;
 
     values.sort().forEach(value=>{
-
-        filter.innerHTML +=
-        `<option value="${value}">${value}</option>`;
-
+        filter.innerHTML += `<option value="${value}">${value}</option>`;
     });
 }
 
 /* APPLY FILTERS */
 function applyFilters(){
-
     const search = searchInput.value.toLowerCase();
-
     const filters = {
-
         branch: branchFilter.value,
         backlog: backlogFilter.value,
         gender: genderFilter.value,
@@ -490,183 +445,110 @@ function applyFilters(){
         offers: offersFilter.value
     };
 
-    const indexes = {
+    const getIdx = (text) => {
+        let idx = headers.indexOf(text);
+        if (idx === -1) idx = headers.findIndex(h => h.toUpperCase().includes(text.toUpperCase()));
+        return idx;
+    };
 
-        branch: headers.indexOf("Branch"),
-        backlog: headers.indexOf("No. of Backlogs"),
-        gender: headers.indexOf("Gender"),
-        dsa: headers.indexOf(getDsaColumnName()), // Dynamically maps index
-        registered: headers.indexOf("Registered for Placements"),
-        offers: headers.indexOf("No. of Offers"),
+    const indexes = {
+        branch: getIdx("Branch"),
+        backlog: getIdx("No. of Backlogs"),
+        gender: getIdx("Gender"),
+        dsa: getIdx("DSA"),
+        registered: getIdx("Registered for Placements"),
+        offers: getIdx("No. of Offers"),
         cgpa: headers.indexOf("CGPA")
     };
 
     let filtered = originalData.filter(row=>{
-
         const rowText = row.join(" ").toLowerCase();
-
         return (
-
             rowText.includes(search)
-
             &&
-
-            (!filters.branch ||
-            row[indexes.branch] === filters.branch)
-
+            (indexes.branch === -1 || !filters.branch || row[indexes.branch] === filters.branch)
             &&
-
-            (!filters.backlog ||
-            row[indexes.backlog] === filters.backlog)
-
+            (indexes.backlog === -1 || !filters.backlog || row[indexes.backlog] === filters.backlog)
             &&
-
-            (!filters.gender ||
-            row[indexes.gender] === filters.gender)
-
+            (indexes.gender === -1 || !filters.gender || row[indexes.gender] === filters.gender)
             &&
-
-            (!filters.dsa ||
-            row[indexes.dsa] === filters.dsa)
-
+            (indexes.dsa === -1 || !filters.dsa || row[indexes.dsa] === filters.dsa)
             &&
-
-            (!filters.registered ||
-            row[indexes.registered]
-            .toLowerCase()
-            .trim() ===
-            filters.registered
-            .toLowerCase()
-            .trim())
-
+            (indexes.registered === -1 || !filters.registered || 
+            String(row[indexes.registered]).toLowerCase().trim() === filters.registered.toLowerCase().trim())
             &&
-
-            (!filters.offers ||
-            row[indexes.offers] === filters.offers)
-
+            (indexes.offers === -1 || !filters.offers || row[indexes.offers] === filters.offers)
         );
-
     });
 
     createTable(headers,filtered);
-
     updateStatistics(filtered);
 }
 
 /* CREATE TABLE */
 function createTable(headers,rows){
-
     let tableHTML = "<tr>";
-
     headers.forEach(header=>{
-
         tableHTML += `<th>${header}</th>`;
-
     });
-
     tableHTML += "</tr>";
 
     rows.forEach(row=>{
-
         tableHTML += "<tr>";
-
         row.forEach(cell=>{
-
             tableHTML += `<td>${cell}</td>`;
-
         });
-
         tableHTML += "</tr>";
     });
 
     document.getElementById("dataTable").innerHTML = tableHTML;
-
 }
 
 /* UPDATE STATISTICS */
 function updateStatistics(data){
-
     const indexes = {
-
         cgpa: headers.indexOf("CGPA"),
-
-        registered:
-        headers.indexOf("Registered for Placements"),
-
-        offers:
-        headers.indexOf("No. of Offers")
+        registered: headers.indexOf("Registered for Placements"),
+        offers: headers.indexOf("No. of Offers")
     };
 
     const totalStudents = data.length;
 
     const placedStudents = data.filter(row=>{
-
+        if (indexes.offers === -1) return false;
         const offers = row[indexes.offers];
-
-        return offers !== "" &&
-               offers != null &&
-               Number(offers) > 0;
-
+        return offers !== "" && offers != null && Number(offers) > 0;
     }).length;
 
     const totalOffers = data.reduce((sum,row)=>{
-
-        return sum +
-        (Number(row[indexes.offers]) || 0);
-
+        if (indexes.offers === -1) return sum;
+        return sum + (Number(row[indexes.offers]) || 0);
     },0);
 
     const registeredStudents = data.filter(row=>{
-
-        return String(row[indexes.registered])
-
-        .toLowerCase()
-
-        .trim() === "yes";
-
+        if (indexes.registered === -1) return false;
+        return String(row[indexes.registered]).toLowerCase().trim() === "yes";
     }).length;
 
     const eligibleStudents = data.filter(row=>{
-
-        const cgpa =
-        parseFloat(row[indexes.cgpa]) || 0;
-
-        const registered =
-        String(row[indexes.registered])
-
-        .toLowerCase()
-
-        .trim();
-
-        return cgpa >= 6.5 &&
-               registered === "yes";
-
+        if (indexes.cgpa === -1 || indexes.registered === -1) return false;
+        const cgpa = parseFloat(row[indexes.cgpa]) || 0;
+        const registered = String(row[indexes.registered]).toLowerCase().trim();
+        return cgpa >= 6.5 && registered === "yes";
     }).length;
 
-    document.getElementById("totalStudents")
-    .innerText = totalStudents;
-
-    document.getElementById("placedStudents")
-    .innerText = placedStudents;
-
-    document.getElementById("totalOffers")
-    .innerText = totalOffers;
-
-    document.getElementById("registeredStudents")
-    .innerText = registeredStudents;
-
-    document.getElementById("eligibleStudents")
-    .innerText = eligibleStudents;
+    document.getElementById("totalStudents").innerText = totalStudents;
+    document.getElementById("placedStudents").innerText = placedStudents;
+    document.getElementById("totalOffers").innerText = totalOffers;
+    document.getElementById("registeredStudents").innerText = registeredStudents;
+    document.getElementById("eligibleStudents").innerText = eligibleStudents;
 }
 
 function goToCGPAAnalysis(){
-
     window.location.href = "cgpa.html";
-
 }
 
 </script>
-
 
 </body>
 </html>
