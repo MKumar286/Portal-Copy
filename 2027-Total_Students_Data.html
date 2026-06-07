@@ -26,104 +26,96 @@ body {
 .header {
     width: 100%;
     box-sizing: border-box;
-    margin: 10px auto;
-    padding: 20px;
-    border-radius: 24px;
+    margin: 4px auto 0 auto; /* Reduced top/bottom margins */
+    padding: 12px 20px; /* Snug vertical padding */
+    border-radius: 16px;
     text-align: center;
     position: relative;
     background: linear-gradient(135deg, #06163a 0%, #0b2564 50%, #113792 100%);
     box-shadow:
-        0 15px 35px rgba(6, 22, 58, 0.25),
-        0 5px 15px rgba(0, 0, 0, 0.2),
+        0 10px 25px rgba(6, 22, 58, 0.25),
+        0 4px 10px rgba(0, 0, 0, 0.2),
         inset 0 0 20px rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    transform: perspective(1000px) translateZ(0);
 }
 
 .cgpa-btn {
     position: absolute;
-    right: 25px;
-    top: 25px;
-    padding: 12px 18px;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* Centered vertically to save height space */
+    padding: 10px 16px;
     border: none;
-    border-radius: 14px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #ff8f00 0%, #ffca28 100%);
     color: #06163a;
     font-weight: 800;
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 
-        0 6px 15px rgba(255, 143, 0, 0.4),
-        0 2px 0px #c67100,
-        inset 0 1px 0px rgba(255,255,255,0.4);
+        0 4px 12px rgba(255, 143, 0, 0.3),
+        0 2px 0px #c67100;
     transition: all 0.2s ease;
 }
 
 .cgpa-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 8px 20px rgba(255, 143, 0, 0.5),
-        0 2px 0px #c67100;
+    transform: translateY(-55%);
+    box-shadow: 0 6px 15px rgba(255, 143, 0, 0.4);
 }
 
 .cgpa-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 5px rgba(255, 143, 0, 0.2);
+    transform: translateY(-45%);
 }
 
 .header h1 {
     margin: 0;
     color: #ffffff;
-    font-size: 28px;
+    font-size: 24px; /* Slightly tighter sizing */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     font-weight: 800;
-    text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .header h2 {
-    margin-top: 8px;
-    font-size: 22px;
+    margin-top: 4px;
+    font-size: 18px;
     color: #ffca28;
     font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-}
-
-.header h3 {
-    margin-top: 8px;
-    color: #dfe9ff;
-    font-size: 15px;
-    font-weight: 500;
     letter-spacing: 0.5px;
 }
 
-/* ===== 3D METALLIC CARDS ===== */
+.header h3 {
+    margin-top: 3px;
+    margin-bottom: 0;
+    color: #dfe9ff;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ===== 3D METALLIC CARDS (REDUCED GAP) ===== */
 .cards-container {
     width: 100%;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    margin-top: 4px; /* Eliminated large gap under header */
+    margin-bottom: 4px; /* Eliminated large gap above filters */
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    gap: 6px; /* Tighter column structure */
 }
 
 .card {
-    padding: 12px;
-    border-radius: 18px;
+    padding: 6px 10px; /* Compressed card vertical padding */
+    border-radius: 12px;
     text-align: center;
     color: white;
-    min-height: 80px;
+    min-height: 55px; /* Restored tight height layout profile */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow:
-        0 10px 20px rgba(0,0,0,0.12),
-        0 4px 6px rgba(0,0,0,0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     position: relative;
     overflow: hidden;
 }
@@ -132,7 +124,7 @@ body {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 50%;
-    background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0));
+    background: linear-gradient(rgba(255,255,255,0.12), rgba(255,255,255,0));
     pointer-events: none;
 }
 
@@ -144,81 +136,70 @@ body {
 .card:nth-child(5) { background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%); }
     
 .card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.22);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.18);
 }
 
 .card h3 {
     margin: 0;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 11px;
+    line-height: 13px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .card p {
-    margin-top: 6px;
+    margin-top: 2px;
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 800;
     color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* ===== GLASS FILTER GLASSMORPHISM CONTAINER ===== */
 .filter-container {
     width: 100%;
-    margin: 10px 0;
-    padding: 12px;
+    margin: 2px 0; /* Snug layout spacing */
+    padding: 6px;
     display: flex;
-    gap: 10px;
+    gap: 6px;
     flex-wrap: nowrap;
     overflow-x: auto;
     background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-    border-radius: 18px;
-    box-shadow:
-        0 12px 25px rgba(0,0,0,0.15),
-        inset 0 1px 1px rgba(255,255,255,0.2);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .filter-container input,
 .filter-container select {
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
     border: 1px solid rgba(0,0,0,0.15);
-    min-width: 180px;
+    min-width: 170px;
     background: #ffffff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #2c3e50;
-    box-shadow:
-        0 2px 4px rgba(0,0,0,0.05),
-        inset 0 1px 2px rgba(0,0,0,0.05);
     transition: all 0.2s ease;
 }
 
-/* ===== 24K HIGH VISIBILITY GLOW FOCUS ===== */
 .filter-container input:focus,
 .filter-container select:focus {
     outline: none;
     border: 2px solid #00b894;
-    box-shadow: 0 0 15px rgba(0, 184, 148, 0.6);
-    background: #ffffff;
-    transform: translateY(-1px);
+    box-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
 }
 
 /* ===== 3D ULTRA-HD DATA GRID ===== */
 .table-container {
     width: 100%;
-    margin-top: 5px;
+    margin-top: 4px;
     overflow-x: auto;
-    border-radius: 16px;
-    box-shadow: 
-        0 15px 35px rgba(0,0,0,0.08),
-        0 5px 15px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     border: 1px solid #e2e8f0;
     background: #ffffff;
 }
@@ -230,36 +211,33 @@ table {
     font-size: 13px;
 }
 
-/* ===== VIBRANT GRADIENT HEADERS ===== */
 th {
     background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
     color: #ffffff;
-    padding: 14px 16px;
+    padding: 10px 14px;
     text-align: center;
     white-space: nowrap;
     position: sticky;
     top: 0;
     z-index: 2;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    box-shadow: inset 0 -3px 0px rgba(0,0,0,0.3);
     border-bottom: 2px solid #102a72;
     text-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 
-/* Add custom aesthetic column highlights via CSS if desired */
 th:nth-child(even) {
     background: linear-gradient(135deg, #112233 0%, #223344 100%);
 }
 
 td {
-    padding: 12px 16px;
+    padding: 8px 14px;
     text-align: center;
     white-space: nowrap;
     border-bottom: 1px solid #eef2f7;
-    font-size: 13.5px;
+    font-size: 13px;
     color: #334e68;
     font-weight: 500;
     transition: all 0.15s ease;
@@ -269,28 +247,22 @@ tr:nth-child(even) td {
     background: #f8fafc;
 }
 
-/* ===== PERSPECTIVE ROW HOVER EFFECT ===== */
 tr:hover td {
     background: #e0f2fe;
     color: #0369a1;
     font-weight: 600;
-    transform: scale(1.002);
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.05), inset 0 -1px 0 rgba(0,0,0,0.05);
 }
 
-/* LOADING EXTRAS */
 .loading {
     text-align: center;
-    margin: 40px auto;
-    font-size: 22px;
+    margin: 20px auto;
+    font-size: 18px;
     font-weight: 700;
     color: #0b2564;
-    letter-spacing: 1px;
 }
 
-/* ===== PREMIUM GREEN PROGRESS LINES & SCROLLBAR ===== */
 .table-container::-webkit-scrollbar {
-    height: 10px;
+    height: 8px;
     width: 0px;
 }
 
