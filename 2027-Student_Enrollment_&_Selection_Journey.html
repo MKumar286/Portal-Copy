@@ -939,7 +939,7 @@ updateStats(currentFilteredData);
 
 }
 
-/* EXCEL DOWNLOAD CONTROLLER FUNCTION */
+/* UNIVERSAL EXCEL DOWNLOAD CONTROLLER */
 function downloadExcel() {
     if (currentFilteredData.length === 0) {
         alert("No visible records available to download!");
@@ -947,41 +947,28 @@ function downloadExcel() {
     }
 
     let headers = Object.keys(currentFilteredData[0]);
-    
-    // Building a structured, standard Excel XML workbook format string
-    let xml = '<?xml version="1.0" encoding="utf-8"?>' +
-              '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">' +
-              '<Worksheet ss:Name="Filtered Placement Data">' +
-              '<Table>';
+    let csvRows = [];
 
-    // Add Table Column Headers
-    xml += '<Row>';
-    headers.forEach(h => {
-        xml += `<Cell><Data ss:Type="String">${h.replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]))}</Data></Cell>`;
-    });
-    xml += '</Row>';
+    // Format headers into a standard clean row cell line
+    csvRows.push(headers.map(header => `"${header.replace(/"/g, '""')}"`).join(","));
 
-    // Add Live Filtered Data Rows
+    // Extract table row values and map them carefully escape-wrapping items
     currentFilteredData.forEach(row => {
-        xml += '<Row>';
-        headers.forEach(h => {
-            let val = row[h] ? row[h].toString().trim() : "";
-            // Clean specific characters to keep data output valid XML safe
-            val = val.replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
-            xml += `<Cell><Data ss:Type="String">${val}</Data></Cell>`;
+        let values = headers.map(header => {
+            let val = row[header] ? row[header].toString().trim() : "";
+            return `"${val.replace(/"/g, '""')}"`;
         });
-        xml += '</Row>';
+        csvRows.push(values.join(","));
     });
 
-    xml += '</Table></Worksheet></Workbook>';
-
-    // Convert data string structure safely into a continuous binary large object file stream
-    let blob = new Blob([xml], { type: "application/vnd.ms-excel;charset=utf-8;" });
+    // Create a raw file data sequence safely using UTF-8 standard string layout
+    let csvContent = "\uFEFF" + csvRows.join("\n");
+    let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     let url = URL.createObjectURL(blob);
     
     let a = document.createElement("a");
     a.href = url;
-    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".xls";
+    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
