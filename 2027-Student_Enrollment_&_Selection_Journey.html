@@ -17,7 +17,7 @@ box-sizing:border-box;
 body{
 font-family:Arial, sans-serif;
 padding:15px;
-padding-bottom: 80px; /* Space so the download button doesn't block the last table row */
+padding-bottom: 80px; 
 overflow-x:hidden;
 color:white;
 background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c1c3c);
@@ -26,15 +26,11 @@ animation:bgMove 15s ease infinite;
 min-height:100vh;
 }
 
-/* Animated Background */
-
 @keyframes bgMove{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
-
-/* Floating Glow */
 
 body::before{
 content:"";
@@ -74,8 +70,6 @@ from{transform:translateX(0px);}
 to{transform:translateX(-80px);}
 }
 
-/* HEADER */
-
 .header-box{
 background:linear-gradient(135deg,#000814,#001d3d,#003566);
 padding:15px 10px;
@@ -86,9 +80,6 @@ border:1px solid rgba(255,255,255,0.15);
 border-bottom:none;
 text-align:center;
 }
-
-
-/* HEADINGS */
 
 h1{
 font-size:34px;
@@ -109,7 +100,6 @@ background:linear-gradient(90deg,#b2ff59,#00e5ff);
 -webkit-text-fill-color:transparent;
 }
 
-/* STATS CONTAINER & CARDS */
 .stats-container {
 display: flex;
 flex-direction: column;
@@ -122,7 +112,6 @@ gap: 8px;
 
 .stats-row {
 display: grid;
-/* Adjusted card widths down dynamically so they easily form 2 rows on desktop/tab */
 grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
 gap: 8px;
 width: 100%;
@@ -131,7 +120,7 @@ width: 100%;
 .stats-card {
 background: rgba(255, 255, 255, 0.06);
 border-radius: 8px;
-padding: 6px 8px; /* Tighter internal padding */
+padding: 6px 8px;
 font-size: 11px;
 line-height: 1.2;
 color: #e0e6ed;
@@ -140,7 +129,7 @@ flex-direction: column;
 justify-content: center;
 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 transition: transform 0.2s;
-min-height: 52px; /* Uniform low-profile height */
+min-height: 52px;
 }
 
 .stats-card:hover {
@@ -153,29 +142,21 @@ font-size: 15px;
 margin-top: 2px;
 }
 
-/* Unique Vibrant Border and Text Color Mapping */
 .border-blue { border: 1px solid #00bcff; }
 .border-blue span { color: #00bcff; }
-
 .border-cyan { border: 1px solid #00f5d4; }
 .border-cyan span { color: #00f5d4; }
-
 .border-orange { border: 1px solid #ff9f1c; }
 .border-orange span { color: #ff9f1c; }
-
 .border-amber { border: 1px solid #ffd166; }
 .border-amber span { color: #ffd166; }
-
 .border-purple { border: 1px solid #b5179e; }
 .border-purple span { color: #f72585; }
-
 .border-pink { border: 1px solid #7209b7; }
 .border-pink span { color: #b5179e; }
-
 .border-green { border: 1px solid #38b000; background: rgba(56, 176, 0, 0.08); }
 .border-green span { color: #00ff66; text-shadow: 0 0 8px rgba(0,255,102,0.4); }
 
-/* FILTER CONTAINER */
 .filter-container {
 display: flex;
 flex-direction: column;
@@ -190,7 +171,6 @@ margin-bottom:15px;
 gap: 10px;
 }
 
-/* FILTER SECTION */
 .controls{
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -198,7 +178,6 @@ gap: 10px;
 width: 100%;
 }
 
-/* FILTERS */
 .controls input,
 .controls select{
 width: 100%;
@@ -213,12 +192,10 @@ transition: 0.3s;
 color: #222;
 }
 
-/* Make search bar span full width on grid layouts if desired */
 .controls input[type="text"] {
-grid-column: 1 / -1;
+grid-column: span 2;
 }
 
-/* FOCUS */
 .controls input:focus,
 .controls select:focus{
 transform:scale(1.01);
@@ -226,7 +203,6 @@ box-shadow:0 0 10px rgba(255,255,255,0.5);
 border:1px solid #00c6ff;
 }
 
-/* TABLE CONTAINER */
 .table-container{
 width:100%;
 overflow-x:auto;
@@ -238,7 +214,6 @@ background:rgba(255,255,255,0.05);
 padding-bottom:6px;
 }
 
-/* TABLE SCROLLBAR */
 .table-container::-webkit-scrollbar{
 height:10px;
 }
@@ -257,7 +232,6 @@ border-radius:10px;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 }
 
-/* TABLE */
 table{
 border-collapse:collapse;
 min-width:1600px;
@@ -268,7 +242,6 @@ border-radius:18px;
 overflow:hidden;
 }
 
-/* TABLE HEADER */
 th{
 padding:10px 12px;
 font-size:13px;
@@ -281,7 +254,6 @@ border:1px solid rgba(255,255,255,0.12);
 white-space:nowrap;
 }
 
-/* TABLE DATA */
 td{
 padding:8px 12px;
 font-size:12px;
@@ -291,7 +263,6 @@ white-space:nowrap;
 border:1px solid rgba(16,37,66,0.12);
 }
 
-/* ROW COLORS */
 tr:nth-child(even){
 background:#eef5ff;
 }
@@ -300,13 +271,11 @@ tr:nth-child(odd){
 background:#ffffff;
 }
 
-/* HOVER */
 tbody tr:hover{
 background:#ffd180;
 transition:0.3s;
 }
 
-/* BUTTON */
 .link-btn{
 background:linear-gradient(135deg,#667eea,#764ba2);
 color:white;
@@ -326,7 +295,6 @@ transform:scale(1.06);
 background:linear-gradient(135deg,#43cea2,#185a9d);
 }
 
-/* FIXED BOTTOM EXCEL BUTTON */
 .download-wrapper {
 position: fixed;
 bottom: 20px;
@@ -367,81 +335,26 @@ border-color: #00f5d4;
 transform: scale(0.98);
 }
 
-/* RESPONSIVE BREAKPOINT FOR MOBILE DEVICES */
 @media(max-width:768px){
-
 body{
 padding:10px;
 padding-bottom: 75px;
 }
-
-h1{
-font-size:24px;
+h1{ font-size:24px; }
+h3{ font-size:14px; }
+.stats-container{ padding: 6px; gap: 5px; }
+.stats-row { grid-template-columns: repeat(2, 1fr); gap: 5px; }
+.stats-card{ padding: 6px 8px; font-size: 10px; min-height: 48px; }
+.stats-card span { font-size: 13px; }
+.filter-container{ padding: 8px; gap: 6px; }
+.controls { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.controls input[type="text"] { grid-column: span 2; }
+.controls input, .controls select{ height:34px; font-size:12px; padding: 4px 6px; }
+th{ font-size:11px; padding:6px 8px; }
+td{ font-size:11px; padding:6px 8px; }
+table{ min-width:1400px; }
+.excel-btn { padding: 10px 18px; font-size: 12px; bottom: 15px; }
 }
-
-h3{
-font-size:14px;
-}
-
-.stats-container{
-padding: 6px;
-gap: 5px;
-}
-
-.stats-row {
-grid-template-columns: repeat(2, 1fr); /* 2 grid items layout across tiny displays */
-gap: 5px;
-}
-
-.stats-card{
-padding: 6px 8px;
-font-size: 10px;
-min-height: 48px;
-}
-
-.stats-card span {
-font-size: 13px;
-}
-
-.filter-container{
-padding: 8px;
-gap: 6px;
-}
-
-.controls {
-grid-template-columns: repeat(2, 1fr); 
-gap: 6px;
-}
-
-.controls input,
-.controls select{
-height:34px;
-font-size:12px;
-padding: 4px 6px;
-}
-
-th{
-font-size:11px;
-padding:6px 8px;
-}
-
-td{
-font-size:11px;
-padding:6px 8px;
-}
-
-table{
-min-width:1400px;
-}
-
-.excel-btn {
-padding: 10px 18px;
-font-size: 12px;
-bottom: 15px;
-}
-
-}
-
 </style>
 
 </head>
@@ -449,11 +362,8 @@ bottom: 15px;
 <body>
 
 <div class="header-box">
-
-<h1>MGIT Placement Records</h1>
-
-<h3>Academic Year 2025 - 2026</h3>
-
+    <h1>MGIT Placement Records</h1>
+    <h3>Academic Year 2025 - 2026</h3>
 </div>
 
 <div class="stats-container">
@@ -477,446 +387,262 @@ bottom: 15px;
 </div>
 
 <div class="filter-container">
-    <div class="controls">
+    <div class="controls" style="margin-bottom: 4px;">
         <input type="text" id="search" placeholder="Search student / roll / company">
-        
-        <select id="branchFilter">
-            <option value="">All Branches</option>
-        </select>
-        <select id="appliedCompanyFilter">
-            <option value="">Applied Company</option>
-        </select>
-        <select id="roleFilter">
-            <option value="">Role Applied</option>
-        </select>
-        <select id="tpoFilter">
-            <option value="">Shortlisted by TPO</option>
-        </select>
-        <select id="companyShortlistFilter">
-            <option value="">Shortlisted by Company</option>
-        </select>
-        <select id="paperTest1Filter">
-            <option value="">Pen & Paper Test Status</option>
-        </select>
-        <select id="paperTest2Filter">
-            <option value="">Pen & Paper Test Status</option>
-        </select>
-        <select id="gdFilter">
-            <option value="">GD Cleared?</option>
-        </select>
-        <select id="oa1Filter">
-            <option value="">OA-1 Cleared?</option>
-        </select>
-        <select id="oa2Filter">
-            <option value="">OA-2 Cleared?</option>
-        </select>
-        <select id="oa3Filter">
-            <option value="">OA-3 Cleared?</option>
-        </select>
-        <select id="tech1Filter">
-            <option value="">Tech Round-1 Cleared?</option>
-        </select>
-        <select id="tech2Filter">
-            <option value="">Tech Round-2 Cleared?</option>
-        </select>
-        <select id="hrFilter">
-            <option value="">HR Interview Cleared?</option>
-        </select>
-        <select id="managerialFilter">
-            <option value="">Managerial Round Cleared?</option>
-        </select>
-        <select id="finalStatusFilter">
-            <option value="">Final Status of Student</option>
-        </select>
+        <select id="branchFilter"><option value="">All Branches</option></select>
+        <select id="appliedCompanyFilter"><option value="">Applied Company</option></select>
+        <select id="roleFilter"><option value="">Role Applied</option></select>
+        <select id="tpoFilter"><option value="">Shortlisted by TPO</option></select>
+        <select id="companyShortlistFilter"><option value="">Shortlisted by Company</option></select>
+    </div>
+    
+    <div class="controls">
+        <select id="paperTest1Filter"><option value="">Pen & Paper Test Status</option></select>
+        <select id="paperTest2Filter"><option value="">Pen & Paper Test Status</option></select>
+        <select id="gdFilter"><option value="">GD Cleared?</option></select>
+        <select id="oa1Filter"><option value="">OA-1 Cleared?</option></select>
+        <select id="oa2Filter"><option value="">OA-2 Cleared?</option></select>
+        <select id="oa3Filter"><option value="">OA-3 Cleared?</option></select>
+        <select id="tech1Filter"><option value="">Tech Round-1 Cleared?</option></select>
+        <select id="tech2Filter"><option value="">Tech Round-2 Cleared?</option></select>
+        <select id="hrFilter"><option value="">HR Interview Cleared?</option></select>
+        <select id="managerialFilter"><option value="">Managerial Round Cleared?</option></select>
+        <select id="finalStatusFilter"><option value="">Final Status of Student</option></select>
     </div>
 </div>
 
 <div class="table-container">
-
-<table id="placementTable">
-
-<thead></thead>
-
-<tbody></tbody>
-
-</table>
-
+    <table id="placementTable">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <div class="download-wrapper">
-    <button class="excel-btn" onclick="downloadExcel()">
-        📊 Download Filtered Data (Excel)
-    </button>
+    <button class="excel-btn" onclick="downloadExcel()">📊 Download Filtered Data (Excel)</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 
 <script>
-
-/* CSV URL */
 const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRiETxVy0sYxBeApgtsDzUGSTzlrH5IjVjYh83cqlq0XLsAeOK9w7KYRzBVc8V9ah4jEPRzdZkEq9i5/pub?gid=1926306429&single=true&output=csv";
 
 let allData=[];
-let currentFilteredData=[]; // Variable to track live rows on screen
+let currentFilteredData=[]; 
 
-// Dynamic Header Keys Row 1
-let branchKey = "";
-let appliedCompanyKey = "";
-let roleKey = "";
-let tpoKey = "";
-let companyShortlistKey = "";
-let paperTest1Key = "";
-let paperTest2Key = "";
-let rollKey = "";
+let branchKey = "", appliedCompanyKey = "", roleKey = "", tpoKey = "", companyShortlistKey = "";
+let paperTest1Key = "", paperTest2Key = "", rollKey = "", gdKey = "", oa1Key = "", oa2Key = "", oa3Key = "";
+let tech1Key = "", tech2Key = "", hrKey = "", managerialKey = "", finalStatusKey = "";
 
-// Dynamic Header Keys Row 2
-let gdKey = "";
-let oa1Key = "";
-let oa2Key = "";
-let oa3Key = "";
-let tech1Key = "";
-let tech2Key = "";
-let hrKey = "";
-let managerialKey = "";
-let finalStatusKey = "";
-
-/* LOAD CSV WITH PAPAPARSE */
 Papa.parse(csvURL,{
-download:true,
-header:true,
-skipEmptyLines:true,
-complete:function(results){
-allData = results.data.filter(
-row => Object.values(row).join("").trim() !== ""
-);
+    download:true,
+    header:true,
+    skipEmptyLines:true,
+    complete:function(results){
+        allData = results.data.filter(row => Object.values(row).join("").trim() !== "");
+        if(allData.length===0){
+            alert("No Data Found inside your Google Sheet!");
+            return;
+        }
 
-if(allData.length===0){
-alert("No Data Found inside your Google Sheet!");
-return;
-}
+        let headers = Object.keys(allData[0]);
 
-let headers = Object.keys(allData[0]);
+        // Exact column matcher adapted directly for your new tab configuration
+        branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "";
+        appliedCompanyKey = headers.find(h => h.toLowerCase().trim().includes("company name")) || headers.find(h => h.toLowerCase().trim().includes("company")) || "";
+        roleKey = headers.find(h => h.toLowerCase().trim().includes("profile") || h.toLowerCase().trim().includes("role")) || "";
+        tpoKey = headers.find(h => h.toLowerCase().trim().includes("tpo")) || "";
+        companyShortlistKey = headers.find(h => h.toLowerCase().trim().includes("shortlist")) || "";
+        rollKey = headers.find(h => h.toLowerCase().trim().includes("roll") || h.toLowerCase().trim().includes("htno")) || "";
+        paperTest1Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("1")) || "";
+        paperTest2Key = headers.find(h => h.toLowerCase().trim().includes("pen") && h.toLowerCase().trim().includes("2")) || "";
+        gdKey = headers.find(h => h.toLowerCase().trim().includes("gd") || h.toLowerCase().trim().includes("group discussion")) || "";
+        oa1Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("1")) || "";
+        oa2Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("2")) || "";
+        oa3Key = headers.find(h => h.toLowerCase().trim().includes("oa") && h.toLowerCase().trim().includes("3")) || "";
+        tech1Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("1")) || "";
+        tech2Key = headers.find(h => h.toLowerCase().trim().includes("tech") && h.toLowerCase().trim().includes("2")) || "";
+        hrKey = headers.find(h => h.toLowerCase().trim().includes("hr")) || "";
+        managerialKey = headers.find(h => h.toLowerCase().trim().includes("managerial")) || "";
+        finalStatusKey = headers.find(h => h.toLowerCase().trim() === "status" || h.toLowerCase().trim().includes("final status")) || "";
 
-// Dynamic scanning logic mapping variables safely to column variations
-branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "Branch";
-appliedCompanyKey = headers.find(h => h.toLowerCase().trim().replace(/\s+/g, '').includes("appliedcompany")) || "Applied Company";
-roleKey = headers.find(h => h.toLowerCase().trim() === "role" || h.toLowerCase().trim().includes("role applied")) || "Role";
-tpoKey = headers.find(h => h.toLowerCase().trim().includes("tpo")) || "Shortlisted by TPO";
-companyShortlistKey = headers.find(h => h.toLowerCase().trim().includes("shortlisted by company")) || "Shortlisted by Company";
-rollKey = headers.find(h => h.toLowerCase().trim().includes("roll")) || "Roll Number";
-
-paperTest1Key = headers.find(h => {
-    let clean = h.toLowerCase().trim().replace(/\s+/g, '');
-    return (clean.includes("pen") || clean.includes("paper")) && (clean.includes("test-1") || clean.includes("test1"));
-}) || "";
-
-paperTest2Key = headers.find(h => {
-    let clean = h.toLowerCase().trim().replace(/\s+/g, '');
-    return (clean.includes("pen") || clean.includes("paper")) && (clean.includes("test-2") || clean.includes("test2"));
-}) || "";
-
-// Finding Row 2 Columns dynamically
-gdKey = headers.find(h => h.toLowerCase().trim().includes("group discussion")) || "Group Discussion Cleared?";
-oa1Key = headers.find(h => h.toLowerCase().trim().includes("online assessment-1") || (h.toLowerCase().includes("assessment-1") && h.toLowerCase().includes("online"))) || "Online Assessment-1 Cleared?";
-oa2Key = headers.find(h => h.toLowerCase().trim().includes("online assessment-2") || (h.toLowerCase().includes("assessment-2") && h.toLowerCase().includes("online"))) || "Online Assessment-2 Cleared?";
-oa3Key = headers.find(h => h.toLowerCase().trim().includes("online assessment-3") || (h.toLowerCase().includes("assessment-3") && h.toLowerCase().includes("online"))) || "Online Assessment-3 Cleared?";
-tech1Key = headers.find(h => h.toLowerCase().trim().includes("technical interview round-1") || (h.toLowerCase().includes("technical") && h.toLowerCase().includes("round-1"))) || "Technical Interview Round-1 Cleared?";
-tech2Key = headers.find(h => h.toLowerCase().trim().includes("technical interview round-2") || (h.toLowerCase().includes("technical") && h.toLowerCase().includes("round-2"))) || "Technical Interview Round-2 Cleared?";
-hrKey = headers.find(h => h.toLowerCase().trim().includes("hr interview")) || "HR Interview Cleared";
-managerialKey = headers.find(h => h.toLowerCase().trim().includes("managerial round")) || "Managerial Round Cleared?";
-finalStatusKey = headers.find(h => h.toLowerCase().trim().includes("final status")) || "Final Status";
-
-currentFilteredData = [...allData];
-buildTable(allData);
-populateFilters(allData);
-updateStats(allData);
-},
-error:function(err){
-console.error("PapaParse Fetch Error Details:", err);
-alert("CSV Loading Failed! Check if link is published publicly via File -> Share -> Publish to web.");
-}
+        currentFilteredData = [...allData];
+        buildTable(allData);
+        populateFilters(allData);
+        updateStats(allData);
+    },
+    error:function(err){
+        console.error(err);
+    }
 });
 
-/* BUILD TABLE */
 function buildTable(data){
-let thead=document.querySelector("#placementTable thead");
-let tbody=document.querySelector("#placementTable tbody");
-thead.innerHTML="";
-tbody.innerHTML="";
+    let thead=document.querySelector("#placementTable thead");
+    let tbody=document.querySelector("#placementTable tbody");
+    thead.innerHTML=""; tbody.innerHTML="";
 
-if(data.length===0){
-tbody.innerHTML="<tr><td colspan='30'>No Records Found Match Your Selections</td></tr>";
-return;
+    if(data.length===0){
+        tbody.innerHTML="<tr><td colspan='30'>No Records Found Match Your Selections</td></tr>";
+        return;
+    }
+
+    let headers=Object.keys(data[0]);
+    let tr=document.createElement("tr");
+    headers.forEach(h=>{
+        let th=document.createElement("th"); th.innerText=h; tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+
+    data.forEach(row=>{
+        let tr=document.createElement("tr");
+        headers.forEach(h=>{
+            let td=document.createElement("td");
+            let value = row[h] ? row[h].toString().trim() : "";
+            if(value.includes("http")){
+                let a=document.createElement("a"); a.href=value; a.target="_blank"; a.className="link-btn";
+                if(h.toLowerCase().includes("intern")){ a.innerText="📄 Internship Letter"; }
+                else if(h.toLowerCase().includes("offer")){ a.innerText="📄 Offer Letter"; }
+                else { a.innerText="📄 View"; }
+                td.appendChild(a);
+            } else { td.innerText=value; }
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
 }
 
-let headers=Object.keys(data[0]);
-let tr=document.createElement("tr");
-
-headers.forEach(h=>{
-let th=document.createElement("th");
-th.innerText=h;
-tr.appendChild(th);
-});
-thead.appendChild(tr);
-
-data.forEach(row=>{
-let tr=document.createElement("tr");
-headers.forEach(h=>{
-let td=document.createElement("td");
-let value = row[h] ? row[h].toString().trim() : "";
-
-if(value.includes("http")){
-let a=document.createElement("a");
-a.href=value;
-a.target="_blank";
-a.className="link-btn";
-if(h.toLowerCase().includes("intern")){ a.innerText="📄 Internship Letter"; }
-else if(h.toLowerCase().includes("offer")){ a.innerText="📄 Offer Letter"; }
-else{ a.innerText="📄 View"; }
-td.appendChild(a);
-} else {
-td.innerText=value;
-}
-tr.appendChild(td);
-});
-tbody.appendChild(tr);
-});
-}
-
-/* POPULATE FILTERS */
 function populateFilters(data){
-let branches=[...new Set(data.map(d=>(d[branchKey] || "").trim()).filter(Boolean))];
-let appliedCompanies=[...new Set(data.map(d=>(d[appliedCompanyKey] || "").trim()).filter(Boolean))];
-let roles=[...new Set(data.map(d=>(d[roleKey] || "").trim()).filter(Boolean))];
-let tpoList=[...new Set(data.map(d=>(d[tpoKey] || "").trim()).filter(Boolean))];
-let companyShortlist=[...new Set(data.map(d=>(d[companyShortlistKey] || "").trim()).filter(Boolean))];
-let paperTests1= paperTest1Key ? [...new Set(data.map(d=>(d[paperTest1Key] || "").trim()).filter(Boolean))] : [];
-let paperTests2= paperTest2Key ? [...new Set(data.map(d=>(d[paperTest2Key] || "").trim()).filter(Boolean))] : [];
+    let getOpts = (key) => key ? [...new Set(data.map(d=>(d[key] || "").trim()).filter(Boolean))].sort() : [];
 
-let gdOptions = [...new Set(data.map(d=>(d[gdKey] || "").trim()).filter(Boolean))];
-let oa1Options = [...new Set(data.map(d=>(d[oa1Key] || "").trim()).filter(Boolean))];
-let oa2Options = [...new Set(data.map(d=>(d[oa2Key] || "").trim()).filter(Boolean))];
-let oa3Options = [...new Set(data.map(d=>(d[oa3Key] || "").trim()).filter(Boolean))];
-let tech1Options = [...new Set(data.map(d=>(d[tech1Key] || "").trim()).filter(Boolean))];
-let tech2Options = [...new Set(data.map(d=>(d[tech2Key] || "").trim()).filter(Boolean))];
-let hrOptions = [...new Set(data.map(d=>(d[hrKey] || "").trim()).filter(Boolean))];
-let managerialOptions = [...new Set(data.map(d=>(d[managerialKey] || "").trim()).filter(Boolean))];
-let finalStatuses = [...new Set(data.map(d=>(d[finalStatusKey] || "").trim()).filter(Boolean))];
+    let fillSel = (id, opts, def) => {
+        let el = document.getElementById(id);
+        el.innerHTML = `<option value="">${def}</option>`;
+        opts.forEach(v => el.add(new Option(v,v)));
+    };
 
-let branchSelect=document.getElementById("branchFilter");
-let appliedCompanySelect=document.getElementById("appliedCompanyFilter");
-let roleSelect=document.getElementById("roleFilter");
-let tpoSelect=document.getElementById("tpoFilter");
-let companyShortlistSelect=document.getElementById("companyShortlistFilter");
-let paperTest1Select=document.getElementById("paperTest1Filter");
-let paperTest2Select=document.getElementById("paperTest2Filter");
-
-let gdSelect=document.getElementById("gdFilter");
-let oa1Select=document.getElementById("oa1Filter");
-let oa2Select=document.getElementById("oa2Filter");
-let oa3Select=document.getElementById("oa3Filter");
-let tech1Select=document.getElementById("tech1Filter");
-let tech2Select=document.getElementById("tech2Filter");
-let hrSelect=document.getElementById("hrFilter");
-let managerialSelect=document.getElementById("managerialFilter");
-let finalStatusSelect=document.getElementById("finalStatusFilter");
-
-branchSelect.innerHTML='<option value="">All Branches</option>';
-appliedCompanySelect.innerHTML='<option value="">Applied Company</option>';
-roleSelect.innerHTML='<option value="">Role Applied</option>';
-tpoSelect.innerHTML='<option value="">Shortlisted by TPO</option>';
-companyShortlistSelect.innerHTML='<option value="">Shortlisted by Company</option>';
-paperTest1Select.innerHTML='<option value="">Pen & Paper Test Status</option>';
-paperTest2Select.innerHTML='<option value="">Pen & Paper Test Status</option>';
-
-gdSelect.innerHTML='<option value="">GD Cleared?</option>';
-oa1Select.innerHTML='<option value="">OA-1 Cleared?</option>';
-oa2Select.innerHTML='<option value="">OA-2 Cleared?</option>';
-oa3Select.innerHTML='<option value="">OA-3 Cleared?</option>';
-tech1Select.innerHTML='<option value="">Tech Round-1 Cleared?</option>';
-tech2Select.innerHTML='<option value="">Tech Round-2 Cleared?</option>';
-hrSelect.innerHTML='<option value="">HR Interview Cleared?</option>';
-managerialSelect.innerHTML='<option value="">Managerial Round Cleared?</option>';
-finalStatusSelect.innerHTML='<option value="">Final Status of Student</option>';
-
-branches.sort().forEach(v=> branchSelect.add(new Option(v,v)));
-appliedCompanies.sort().forEach(v=> appliedCompanySelect.add(new Option(v,v)));
-roles.sort().forEach(v=> roleSelect.add(new Option(v,v)));
-tpoList.sort().forEach(v=> tpoSelect.add(new Option(v,v)));
-companyShortlist.sort().forEach(v=> companyShortlistSelect.add(new Option(v,v)));
-paperTests1.sort().forEach(v=> paperTest1Select.add(new Option(v,v)));
-paperTests2.sort().forEach(v=> paperTest2Select.add(new Option(v,v)));
-
-gdOptions.sort().forEach(v=> gdSelect.add(new Option(v,v)));
-oa1Options.sort().forEach(v=> oa1Select.add(new Option(v,v)));
-oa2Options.sort().forEach(v=> oa2Select.add(new Option(v,v)));
-oa3Options.sort().forEach(v=> oa3Select.add(new Option(v,v)));
-tech1Options.sort().forEach(v=> tech1Select.add(new Option(v,v)));
-tech2Options.sort().forEach(v=> tech2Select.add(new Option(v,v)));
-hrOptions.sort().forEach(v=> hrSelect.add(new Option(v,v)));
-managerialOptions.sort().forEach(v=> managerialSelect.add(new Option(v,v)));
-finalStatuses.sort().forEach(v=> finalStatusSelect.add(new Option(v,v)));
+    fillSel("branchFilter", getOpts(branchKey), "All Branches");
+    fillSel("appliedCompanyFilter", getOpts(appliedCompanyKey), "Applied Company");
+    fillSel("roleFilter", getOpts(roleKey), "Role Applied");
+    fillSel("tpoFilter", getOpts(tpoKey), "Shortlisted by TPO");
+    fillSel("companyShortlistFilter", getOpts(companyShortlistKey), "Shortlisted by Company");
+    fillSel("paperTest1Filter", getOpts(paperTest1Key), "Pen & Paper Test 1 Status");
+    fillSel("paperTest2Filter", getOpts(paperTest2Key), "Pen & Paper Test 2 Status");
+    fillSel("gdFilter", getOpts(gdKey), "GD Cleared?");
+    fillSel("oa1Filter", getOpts(oa1Key), "OA-1 Cleared?");
+    fillSel("oa2Filter", getOpts(oa2Key), "OA-2 Cleared?");
+    fillSel("oa3Filter", getOpts(oa3Key), "OA-3 Cleared?");
+    fillSel("tech1Filter", getOpts(tech1Key), "Tech Round-1 Cleared?");
+    fillSel("tech2Filter", getOpts(tech2Key), "Tech Round-2 Cleared?");
+    fillSel("hrFilter", getOpts(hrKey), "HR Interview Cleared?");
+    fillSel("managerialFilter", getOpts(managerialKey), "Managerial Round Cleared?");
+    fillSel("finalStatusFilter", getOpts(finalStatusKey), "Final Status of Student");
 }
 
-/* UPDATE STATS DASHBOARD */
 function updateStats(data){
-document.getElementById("statRegistrations").innerText = data.length;
-let uniqueComps = new Set();
-let tpoCount = 0, compShortCount = 0, paper1Count = 0, paper2Count = 0;
-let gdCount = 0, oa1Count = 0, oa2Count = 0, oa3Count = 0;
-let tech1Count = 0, tech2Count = 0, hrCount = 0, managerialCount = 0, selectedCount = 0;
+    document.getElementById("statRegistrations").innerText = data.length;
+    let uniqueComps = new Set();
+    let tpoCount = 0, compShortCount = 0, paper1Count = 0, paper2Count = 0;
+    let gdCount = 0, oa1Count = 0, oa2Count = 0, oa3Count = 0;
+    let tech1Count = 0, tech2Count = 0, hrCount = 0, managerialCount = 0, selectedCount = 0;
 
-data.forEach(row => {
-if (row[appliedCompanyKey]) uniqueComps.add(row[appliedCompanyKey].toString().trim());
-if ((row[tpoKey] || "").toString().toLowerCase().trim() === "yes") tpoCount++;
-if ((row[companyShortlistKey] || "").toString().toLowerCase().trim() === "yes") compShortCount++;
-if (paperTest1Key && (row[paperTest1Key] || "").toString().toLowerCase().trim() === "yes") paper1Count++;
-if (paperTest2Key && (row[paperTest2Key] || "").toString().toLowerCase().trim() === "yes") paper2Count++;
-if ((row[gdKey] || "").toString().toLowerCase().trim() === "yes") gdCount++;
-if ((row[oa1Key] || "").toString().toLowerCase().trim() === "yes") oa1Count++;
-if ((row[oa2Key] || "").toString().toLowerCase().trim() === "yes") oa2Count++;
-if ((row[oa3Key] || "").toString().toLowerCase().trim() === "yes") oa3Count++;
-if ((row[tech1Key] || "").toString().toLowerCase().trim() === "yes") tech1Count++;
-if ((row[tech2Key] || "").toString().toLowerCase().trim() === "yes") tech2Count++;
-if ((row[hrKey] || "").toString().toLowerCase().trim() === "yes") hrCount++;
-if ((row[managerialKey] || "").toString().toLowerCase().trim() === "yes") managerialCount++;
-if (finalStatusKey && (row[finalStatusKey] || "").toString().toLowerCase().trim().includes("selected")) selectedCount++;
-});
+    let checkYes = (val) => String(val).toLowerCase().trim() === "yes";
 
-document.getElementById("statCompanies").innerText = uniqueComps.size;
-document.getElementById("statTpo").innerText = tpoCount;
-document.getElementById("statCompanyShort").innerText = compShortCount;
-document.getElementById("statPaper1").innerText = paper1Count;
-document.getElementById("statPaper2").innerText = paper2Count;
-document.getElementById("statGd").innerText = gdCount;
-document.getElementById("statOa1").innerText = oa1Count;
-document.getElementById("statOa2").innerText = oa2Count;
-document.getElementById("statOa3").innerText = oa3Count;
-document.getElementById("statTech1").innerText = tech1Count;
-document.getElementById("statTech2").innerText = tech2Count;
-document.getElementById("statHr").innerText = hrCount;
-document.getElementById("statManagerial").innerText = managerialCount;
-document.getElementById("statSelected").innerText = selectedCount;
+    data.forEach(row => {
+        if (appliedCompanyKey && row[appliedCompanyKey]) uniqueComps.add(row[appliedCompanyKey].toString().trim());
+        if (tpoKey && checkYes(row[tpoKey])) tpoCount++;
+        if (companyShortlistKey && checkYes(row[companyShortlistKey])) compShortCount++;
+        if (paperTest1Key && checkYes(row[paperTest1Key])) paper1Count++;
+        if (paperTest2Key && checkYes(row[paperTest2Key])) paper2Count++;
+        if (gdKey && checkYes(row[gdKey])) gdCount++;
+        if (oa1Key && checkYes(row[oa1Key])) oa1Count++;
+        if (oa2Key && checkYes(row[oa2Key])) oa2Count++;
+        if (oa3Key && checkYes(row[oa3Key])) oa3Count++;
+        if (tech1Key && checkYes(row[tech1Key])) tech1Count++;
+        if (tech2Key && checkYes(row[tech2Key])) tech2Count++;
+        if (hrKey && checkYes(row[hrKey])) hrCount++;
+        if (managerialKey && checkYes(row[managerialKey])) managerialCount++;
+        if (finalStatusKey && String(row[finalStatusKey]).toLowerCase().includes("selected")) selectedCount++;
+    });
+
+    document.getElementById("statCompanies").innerText = uniqueComps.size;
+    document.getElementById("statTpo").innerText = tpoCount;
+    document.getElementById("statCompanyShort").innerText = compShortCount;
+    document.getElementById("statPaper1").innerText = paper1Count;
+    document.getElementById("statPaper2").innerText = paper2Count;
+    document.getElementById("statGd").innerText = gdCount;
+    document.getElementById("statOa1").innerText = oa1Count;
+    document.getElementById("statOa2").innerText = oa2Count;
+    document.getElementById("statOa3").innerText = oa3Count;
+    document.getElementById("statTech1").innerText = tech1Count;
+    document.getElementById("statTech2").innerText = tech2Count;
+    document.getElementById("statHr").innerText = hrCount;
+    document.getElementById("statManagerial").innerText = managerialCount;
+    document.getElementById("statSelected").innerText = selectedCount;
 }
 
-/* APPLY FILTERS */
 function applyFilters(){
-let search=document.getElementById("search").value.toLowerCase();
-let branch=document.getElementById("branchFilter").value;
-let appliedComp=document.getElementById("appliedCompanyFilter").value;
-let roleValue=document.getElementById("roleFilter").value;
-let tpo=document.getElementById("tpoFilter").value;
-let companyShort=document.getElementById("companyShortlistFilter").value;
-let paperTest1=document.getElementById("paperTest1Filter").value;
-let paperTest2=document.getElementById("paperTest2Filter").value;
+    let search=document.getElementById("search").value.toLowerCase();
+    let branch=document.getElementById("branchFilter").value;
+    let appliedComp=document.getElementById("appliedCompanyFilter").value;
+    let roleValue=document.getElementById("roleFilter").value;
+    let tpo=document.getElementById("tpoFilter").value;
+    let companyShort=document.getElementById("companyShortlistFilter").value;
+    let paperTest1=document.getElementById("paperTest1Filter").value;
+    let paperTest2=document.getElementById("paperTest2Filter").value;
+    let gdValue=document.getElementById("gdFilter").value;
+    let oa1Value=document.getElementById("oa1Filter").value;
+    let oa2Value=document.getElementById("oa2Filter").value;
+    let oa3Value=document.getElementById("oa3Filter").value;
+    let tech1Value=document.getElementById("tech1Filter").value;
+    let tech2Value=document.getElementById("tech2Filter").value;
+    let hrValue=document.getElementById("hrFilter").value;
+    let managerialValue=document.getElementById("managerialFilter").value;
+    let finalStatusValue=document.getElementById("finalStatusFilter").value;
 
-let gdValue=document.getElementById("gdFilter").value;
-let oa1Value=document.getElementById("oa1Filter").value;
-let oa2Value=document.getElementById("oa2Filter").value;
-let oa3Value=document.getElementById("oa3Filter").value;
-let tech1Value=document.getElementById("tech1Filter").value;
-let tech2Value=document.getElementById("tech2Filter").value;
-let hrValue=document.getElementById("hrFilter").value;
-let managerialValue=document.getElementById("managerialFilter").value;
-let finalStatusValue=document.getElementById("finalStatusFilter").value;
+    currentFilteredData=allData.filter(row=>{
+        let text=JSON.stringify(row).toLowerCase();
 
-currentFilteredData=allData.filter(row=>{
-let text=JSON.stringify(row).toLowerCase();
+        let matchVal = (key, filterVal) => !filterVal || (row[key] && String(row[key]).trim() === filterVal);
 
-let rowBranch = (row[branchKey] || "").toString().trim();
-let rowAppliedComp = (row[appliedCompanyKey] || "").toString().trim();
-let rowRole = (row[roleKey] || "").toString().trim();
-let rowTpo = (row[tpoKey] || "").toString().trim();
-let rowCompanyShort = (row[companyShortlistKey] || "").toString().trim();
-let rowPaperTest1 = paperTest1Key ? (row[paperTest1Key] || "").toString().trim() : "";
-let rowPaperTest2 = paperTest2Key ? (row[paperTest2Key] || "").toString().trim() : "";
+        return text.includes(search)
+        && matchVal(branchKey, branch)
+        && matchVal(appliedCompanyKey, appliedComp)
+        && matchVal(roleKey, roleValue)
+        && matchVal(tpoKey, tpo)
+        && matchVal(companyShortlistKey, companyShort)
+        && matchVal(paperTest1Key, paperTest1)
+        && matchVal(paperTest2Key, paperTest2)
+        && matchVal(gdKey, gdValue)
+        && matchVal(oa1Key, oa1Value)
+        && matchVal(oa2Key, oa2Value)
+        && matchVal(oa3Key, oa3Value)
+        && matchVal(tech1Key, tech1Value)
+        && matchVal(tech2Key, tech2Value)
+        && matchVal(hrKey, hrValue)
+        && matchVal(managerialKey, managerialValue)
+        && matchVal(finalStatusKey, finalStatusValue);
+    });
 
-let rowGd = (row[gdKey] || "").toString().trim();
-let rowOa1 = (row[oa1Key] || "").toString().trim();
-let rowOa2 = (row[oa2Key] || "").toString().trim();
-let rowOa3 = (row[oa3Key] || "").toString().trim();
-let rowTech1 = (row[tech1Key] || "").toString().trim();
-let rowTech2 = (row[tech2Key] || "").toString().trim();
-let rowHr = (row[hrKey] || "").toString().trim();
-let rowManagerial = (row[managerialKey] || "").toString().trim();
-let rowFinalStatus = (row[finalStatusKey] || "").toString().trim();
-
-return text.includes(search)
-&& (branch==="" || rowBranch===branch)
-&& (appliedComp==="" || rowAppliedComp===appliedComp)
-&& (roleValue==="" || rowRole===roleValue)
-&& (tpo==="" || rowTpo===tpo)
-&& (companyShort==="" || rowCompanyShort===companyShort)
-&& (paperTest1==="" || rowPaperTest1===paperTest1)
-&& (paperTest2==="" || rowPaperTest2===paperTest2)
-&& (gdValue==="" || rowGd===gdValue)
-&& (oa1Value==="" || rowOa1===oa1Value)
-&& (oa2Value==="" || rowOa2===oa2Value)
-&& (oa3Value==="" || rowOa3===oa3Value)
-&& (tech1Value==="" || rowTech1===tech1Value)
-&& (tech2Value==="" || rowTech2===tech2Value)
-&& (hrValue==="" || rowHr===hrValue)
-&& (managerialValue==="" || rowManagerial===managerialValue)
-&& (finalStatusValue==="" || rowFinalStatus===finalStatusValue);
-});
-
-buildTable(currentFilteredData);
-updateStats(currentFilteredData);
+    buildTable(currentFilteredData);
+    updateStats(currentFilteredData);
 }
 
-/* UNIVERSAL EXCEL DATA EXPORTER */
 function downloadExcel() {
-if (currentFilteredData.length === 0) {
-alert("No data on screen to download!");
-return;
+    if (currentFilteredData.length === 0) { alert("No data to download!"); return; }
+    let headers = Object.keys(currentFilteredData[0]);
+    let csvRows = [headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",")];
+    currentFilteredData.forEach(row => {
+        csvRows.push(headers.map(h => `"${(row[h] || "").toString().trim().replace(/"/g, '""')}"`).join(","));
+    });
+    let blob = new Blob(["\uFEFF" + csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a"); a.href = url;
+    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
-let headers = Object.keys(currentFilteredData[0]);
-let csvRows = [];
-
-csvRows.push(headers.map(h => `"${h.replace(/"/g, '""')}"`).join(","));
-
-currentFilteredData.forEach(row => {
-let values = headers.map(h => {
-let val = row[h] ? row[h].toString().trim() : "";
-return `"${val.replace(/"/g, '""')}"`;
-});
-csvRows.push(values.join(","));
-});
-
-let csvContent = "\uFEFF" + csvRows.join("\n");
-let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-let url = URL.createObjectURL(blob);
-
-let a = document.createElement("a");
-a.href = url;
-a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
-}
-
-/* BIND INTERACTION EVENTS */
-document.getElementById("search").addEventListener("keyup",applyFilters);
-document.getElementById("branchFilter").addEventListener("change",applyFilters);
-document.getElementById("appliedCompanyFilter").addEventListener("change",applyFilters);
-document.getElementById("roleFilter").addEventListener("change",applyFilters);
-document.getElementById("tpoFilter").addEventListener("change",applyFilters);
-document.getElementById("companyShortlistFilter").addEventListener("change",applyFilters);
-document.getElementById("paperTest1Filter").addEventListener("change",applyFilters);
-document.getElementById("paperTest2Filter").addEventListener("change",applyFilters);
-
-document.getElementById("gdFilter").addEventListener("change",applyFilters);
-document.getElementById("oa1Filter").addEventListener("change",applyFilters);
-document.getElementById("oa2Filter").addEventListener("change",applyFilters);
-document.getElementById("oa3Filter").addEventListener("change",applyFilters);
-document.getElementById("tech1Filter").addEventListener("change",applyFilters);
-document.getElementById("tech2Filter").addEventListener("change",applyFilters);
-document.getElementById("hrFilter").addEventListener("change",applyFilters);
-document.getElementById("managerialFilter").addEventListener("change",applyFilters);
-document.getElementById("finalStatusFilter").addEventListener("change",applyFilters);
-
+document.querySelectorAll(".filter-container select").forEach(el => el.addEventListener("change", applyFilters));
+document.getElementById("search").addEventListener("keyup", applyFilters);
 </script>
 
 </body>
