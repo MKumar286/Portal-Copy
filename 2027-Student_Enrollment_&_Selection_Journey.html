@@ -1,362 +1,394 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>MGIT Placement Portal - 3D Ultra HD Console</title>
+<meta charset="UTF-8">
+<title>MGIT Placement Portal - Ultra 3D Console 24K HD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-font-family: 'Segoe UI', Arial, sans-serif;
-padding:20px;
-padding-bottom: 90px; 
-overflow-x:hidden;
-color:#e2e8f0;
-background: radial-gradient(circle at 50% 10%, #0d1527 0%, #070a12 100%);
-min-height:100vh;
+body {
+    font-family: 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+    padding: 30px 40px;
+    padding-bottom: 120px;
+    background: radial-gradient(circle at 50% 15%, #101932 0%, #060913 60%, #03050a 100%);
+    color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    letter-spacing: 0.3px;
 }
 
-/* 3D FLOATING GLOW BACKGROUNDS */
-body::before{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle, rgba(0,188,255,0.12) 0%, rgba(0,0,0,0) 70%);
-top:-150px;
-left:-100px;
-z-index:-1;
+/* DEEP NEON BACKDROP BLURS FOR IMAGE 3D CLARITY */
+body::before {
+    content: "";
+    position: fixed;
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 188, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    top: -200px;
+    left: 10%;
+    z-index: -1;
+    pointer-events: none;
 }
 
-body::after{
-content:"";
-position:fixed;
-width:500px;
-height:500px;
-background:radial-gradient(circle, rgba(247,37,133,0.1) 0%, rgba(0,0,0,0) 70%);
-bottom:-150px;
-right:-100px;
-z-index:-1;
+body::after {
+    content: "";
+    position: fixed;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(247, 37, 133, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+    bottom: -200px;
+    right: 5%;
+    z-index: -1;
+    pointer-events: none;
 }
 
-/* PREMIUM CONSOLE HEADER */
-.header-box{
-background: linear-gradient(180deg, rgba(16,24,48,0.85) 0%, rgba(10,15,30,0.95) 100%);
-padding: 25px;
-border-radius: 16px 16px 0 0;
-box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
-border: 1px solid rgba(255,255,255,0.08);
-border-bottom: none;
-text-align: center;
-position: relative;
+/* 100% IMAGE MATCH TITLES WITH GRADIENT REFLECTIONS */
+.header-box {
+    background: linear-gradient(180deg, rgba(19, 30, 61, 0.8) 0%, rgba(11, 17, 36, 0.95) 100%);
+    padding: 35px 20px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+    text-align: center;
 }
 
-h1{
-font-size:42px;
-font-weight:900;
-letter-spacing:2px;
-background: linear-gradient(135deg, #fff 30%, #ffd166 60%, #00bcff 100%);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-text-shadow: 0 0 30px rgba(255,255,255,0.2);
-margin-bottom:6px;
+h1 {
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #fff275 0%, #ffb703 30%, #ffffff 50%, #00bcff 75%, #f72585 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 15px rgba(0, 188, 255, 0.4));
 }
 
-h3{
-font-size:16px;
-font-weight:600;
-letter-spacing:4px;
-color: #00f5d4;
-text-shadow: 0 0 15px rgba(0,245,212,0.4);
-text-transform: uppercase;
+h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #00f5d4;
+    text-shadow: 0 0 15px rgba(0, 245, 212, 0.6);
+    text-transform: uppercase;
 }
 
+/* CONSOLE SUB PANELS DESIGN */
 .panel-title {
-font-size: 14px;
-font-weight: 700;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #ffffff;
-text-align: center;
-margin-bottom: 12px;
-opacity: 0.9;
-text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
-/* 3D LIVE STATS CONTAINER */
+.panel-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #00f5d4;
+    margin: 8px auto 0 auto;
+    box-shadow: 0 0 8px #00f5d4;
+}
+
+/* 3D ILLUMINATED MAIN INTERFACE GRID MODULES */
 .stats-container {
-display: flex;
-flex-direction: column;
-background: rgba(8,12,24,0.9);
-padding: 20px;
-border-left: 1px solid rgba(255,255,255,0.08);
-border-right: 1px solid rgba(255,255,255,0.08);
-gap: 15px;
-box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    background: linear-gradient(180deg, rgba(10, 16, 31, 0.95) 0%, rgba(6, 10, 20, 0.98) 100%);
+    padding: 30px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
 }
 
 .stats-row {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-gap: 14px;
-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 16px;
+    width: 100%;
 }
 
-/* 24K ULTRA HD 3D NEON GLASS CARDS */
+/* CHROME-GLOW ULTRA DETAILED 3D DASHBOARD BLOCKS */
 .stats-card {
-background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-border-radius: 12px;
-padding: 14px;
-font-size: 11px;
-font-weight: 600;
-letter-spacing: 0.5px;
-line-height: 1.3;
-color: #94a3b8;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-position: relative;
-overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border-radius: 14px;
+    padding: 18px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    min-height: 95px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+}
+
+.stats-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 14px;
+    padding: 1.5px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 .stats-card span {
-font-family: 'Consolas', monospace;
-font-weight: 800;
-font-size: 24px;
-margin-top: 6px;
-display: block;
+    font-family: 'Consolas', monospace;
+    font-weight: 900;
+    font-size: 30px;
+    margin-top: 8px;
+    line-height: 1;
 }
 
-/* VIBRANT GLOW MATRIX BRACKETS */
-.border-blue { 
-border: 1px solid #00bcff; 
-box-shadow: 0 6px 20px rgba(0,188,255,0.15), inset 0 0 12px rgba(0,188,255,0.1);
-}
-.border-blue span { color: #00bcff; text-shadow: 0 0 12px rgba(0,188,255,0.5); }
+/* 24K NEON CHROME BRACKETS MATCHING LOGIC */
+.border-blue { box-shadow: 0 10px 25px rgba(0,188,255,0.2), inset 0 0 15px rgba(0,188,255,0.15); }
+.border-blue::before { background: linear-gradient(135deg, #00bcff, rgba(0,188,255,0.1)); }
+.border-blue span { color: #00bcff; text-shadow: 0 0 15px rgba(0,188,255,0.8), 0 0 30px rgba(0,188,255,0.4); }
 
-.border-cyan { 
-border: 1px solid #00f5d4; 
-box-shadow: 0 6px 20px rgba(0,245,212,0.15), inset 0 0 12px rgba(0,245,212,0.1);
-}
-.border-cyan span { color: #00f5d4; text-shadow: 0 0 12px rgba(0,245,212,0.5); }
+.border-cyan { box-shadow: 0 10px 25px rgba(0,245,212,0.2), inset 0 0 15px rgba(0,245,212,0.15); }
+.border-cyan::before { background: linear-gradient(135deg, #00f5d4, rgba(0,245,212,0.1)); }
+.border-cyan span { color: #00f5d4; text-shadow: 0 0 15px rgba(0,245,212,0.8), 0 0 30px rgba(0,245,212,0.4); }
 
-.border-orange { 
-border: 1px solid #ff9f1c; 
-box-shadow: 0 6px 20px rgba(255,159,28,0.15), inset 0 0 12px rgba(255,159,28,0.1);
-}
-.border-orange span { color: #ff9f1c; text-shadow: 0 0 12px rgba(255,159,28,0.5); }
+.border-orange { box-shadow: 0 10px 25px rgba(255,159,28,0.2), inset 0 0 15px rgba(255,159,28,0.15); }
+.border-orange::before { background: linear-gradient(135deg, #ff9f1c, rgba(255,159,28,0.1)); }
+.border-orange span { color: #ff9f1c; text-shadow: 0 0 15px rgba(255,159,28,0.8), 0 0 30px rgba(255,159,28,0.4); }
 
-.border-amber { 
-border: 1px solid #ffd166; 
-box-shadow: 0 6px 20px rgba(255,209,102,0.15), inset 0 0 12px rgba(255,209,102,0.1);
-}
-.border-amber span { color: #ffd166; text-shadow: 0 0 12px rgba(255,209,102,0.5); }
+.border-amber { box-shadow: 0 10px 25px rgba(255,209,102,0.2), inset 0 0 15px rgba(255,209,102,0.15); }
+.border-amber::before { background: linear-gradient(135deg, #ffd166, rgba(255,209,102,0.1)); }
+.border-amber span { color: #ffd166; text-shadow: 0 0 15px rgba(255,209,102,0.8), 0 0 30px rgba(255,209,102,0.4); }
 
-.border-purple { 
-border: 1px solid #b5179e; 
-box-shadow: 0 6px 20px rgba(181,23,158,0.15), inset 0 0 12px rgba(181,23,158,0.1);
-}
-.border-purple span { color: #f72585; text-shadow: 0 0 12px rgba(247,37,133,0.5); }
+.border-purple { box-shadow: 0 10px 25px rgba(181,23,158,0.2), inset 0 0 15px rgba(181,23,158,0.15); }
+.border-purple::before { background: linear-gradient(135deg, #b5179e, rgba(181,23,158,0.1)); }
+.border-purple span { color: #f72585; text-shadow: 0 0 15px rgba(247,37,133,0.8), 0 0 30px rgba(247,37,133,0.4); }
 
-.border-pink { 
-border: 1px solid #7209b7; 
-box-shadow: 0 6px 20px rgba(114,9,183,0.15), inset 0 0 12px rgba(114,9,183,0.1);
-}
-.border-pink span { color: #b5179e; text-shadow: 0 0 12px rgba(181,23,158,0.5); }
+.border-pink { box-shadow: 0 10px 25px rgba(114,9,183,0.2), inset 0 0 15px rgba(114,9,183,0.15); }
+.border-pink::before { background: linear-gradient(135deg, #7209b7, rgba(114,9,183,0.1)); }
+.border-pink span { color: #b5179e; text-shadow: 0 0 15px rgba(181,23,158,0.8), 0 0 30px rgba(181,23,158,0.4); }
 
 .border-green { 
-border: 1px solid #38b000; 
-background: linear-gradient(135deg, rgba(56,176,0,0.08) 0%, rgba(0,0,0,0) 100%);
-box-shadow: 0 8px 25px rgba(56,176,0,0.25), inset 0 0 16px rgba(56,176,0,0.2);
+    background: linear-gradient(135deg, rgba(56,176,0,0.12) 0%, rgba(0,0,0,0) 100%);
+    box-shadow: 0 12px 35px rgba(56,176,0,0.35), inset 0 0 20px rgba(56,176,0,0.25); 
 }
-.border-green span { color: #00ff66; text-shadow: 0 0 15px rgba(0,255,102,0.6); }
+.border-green::before { background: linear-gradient(135deg, #38b000, rgba(56,176,0,0.1)); }
+.border-green span { color: #00ff66; text-shadow: 0 0 20px rgba(0,255,102,0.9), 0 0 40px rgba(0,255,102,0.5); }
 
 .stats-card:hover {
-transform: translateY(-4px) scale(1.02);
-background: rgba(255,255,255,0.06);
-box-shadow: 0 12px 30px rgba(255,255,255,0.05);
+    transform: translateY(-6px) scale(1.03);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* FILTER & CONSOLE CONTROLS MAP */
+/* PREMIUM FILTER AND CONSOLE LAYOUT MAP */
 .filter-container {
-display: flex;
-flex-direction: column;
-background: linear-gradient(180deg, rgba(12,18,36,0.95) 0%, rgba(6,10,20,0.98) 100%);
-padding: 20px;
-border-radius: 0 0 16px 16px;
-box-shadow: 0 20px 45px rgba(0,0,0,0.7);
-border: 1px solid rgba(255,255,255,0.08);
-border-top: none;
-margin-bottom: 25px;
-gap: 15px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(14, 22, 44, 0.96) 0%, rgba(7, 11, 22, 0.99) 100%);
+    padding: 30px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    margin-bottom: 35px;
+    gap: 16px;
 }
 
 .controls {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-gap: 12px;
-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    width: 100%;
 }
 
 .controls input,
 .controls select {
-width: 100%;
-height: 38px;
-padding: 6px 12px;
-font-size: 12.5px;
-font-weight: 500;
-border-radius: 8px;
-border: 1px solid rgba(255,255,255,0.1);
-outline: none;
-background: rgba(20,28,52,0.7);
-transition: all 0.25s ease;
-color: #ffffff;
-box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+    width: 100%;
+    height: 42px;
+    padding: 6px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    outline: none;
+    background: rgba(18, 27, 53, 0.85);
+    color: #ffffff;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .controls select option {
-background-color: #0d1527;
-color: #fff;
+    background-color: #0c1426;
+    color: #fff;
 }
 
 .controls input[type="text"] {
-grid-column: span 2;
-border-color: rgba(0,188,255,0.3);
+    grid-column: span 2;
+    border-color: rgba(0, 188, 255, 0.4);
 }
 
 .controls input:focus,
 .controls select:focus {
-border-color: #00c6ff;
-box-shadow: 0 0 12px rgba(0,198,255,0.4), inset 0 1px 2px rgba(0,0,0,0.2);
-background: rgba(28,38,70,0.9);
+    border-color: #00e5ff;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.45), inset 0 1px 2px rgba(0,0,0,0.3);
+    background: rgba(26, 38, 73, 0.95);
+    transform: scale(1.01);
 }
 
-/* PREMIUM HUD DATA TABLE VIEW */
+/* 24K TRUE HD GLASS SCROLL DATA TABLE MODULE */
 .table-container {
-width: 100%;
-overflow-x: auto;
-border-radius: 16px;
-box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-background: rgba(10,15,30,0.7);
-border: 1px solid rgba(255,255,255,0.08);
-padding-bottom: 6px;
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 20px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+    background: rgba(8, 13, 26, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 8px;
+    backdrop-filter: blur(10px);
 }
 
 table {
-border-collapse: collapse;
-min-width: 1600px;
-width: 100%;
-background: transparent;
-color: #cbd5e1;
-overflow: hidden;
+    border-collapse: collapse;
+    min-width: 1650px;
+    width: 100%;
+    background: transparent;
+    color: #cbd5e1;
 }
 
 th {
-padding: 14px 16px;
-font-size: 12.5px;
-font-weight: 700;
-letter-spacing: 1px;
-text-transform: uppercase;
-text-align: center;
-background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-color: #f8fafc;
-border: 1px solid rgba(255,255,255,0.05);
-white-space: nowrap;
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
 }
 
 td {
-padding: 11px 16px;
-font-size: 13px;
-text-align: center;
-white-space: nowrap;
-border: 1px solid rgba(255,255,255,0.03);
-background: rgba(15,23,42,0.4);
+    padding: 13px 18px;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    background: rgba(13, 20, 38, 0.5);
 }
 
 tr:nth-child(even) td {
-background: rgba(30,41,59,0.2);
+    background: rgba(22, 33, 62, 0.35);
 }
 
 tbody tr:hover td {
-background: rgba(51,65,85,0.45) !important;
-color: #00f5d4;
-transition: background 0.2s ease;
+    background: rgba(38, 52, 85, 0.6) !important;
+    color: #00f5d4;
+    font-weight: 600;
 }
 
-/* METALLIC LINK BUTTONS */
+/* TABLE SCROLLBAR */
+.table-container::-webkit-scrollbar {
+    height: 12px;
+}
+.table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    border-radius: 10px;
+    border: 2px solid rgba(8, 13, 26, 1);
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+}
+
+/* PREMIUM METALLIC ACTION BUTTON LINKS */
 .link-btn {
-background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-color: white;
-padding: 5px 12px;
-border-radius: 6px;
-text-decoration: none;
-font-size: 11px;
-font-weight: 700;
-display: inline-block;
-transition: all 0.2s ease;
-box-shadow: 0 4px 10px rgba(29,78,216,0.3);
-border: 1px solid rgba(255,255,255,0.15);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 700;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.2s ease;
 }
 
 .link-btn:hover {
-transform: translateY(-1px);
-background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.45);
 }
 
-/* FLOATING GLOW DOWNLAOD MODULE */
+/* FLOATING GLOW DOWNLAOD MODULE BUTTON */
 .download-wrapper {
-position: fixed;
-bottom: 22px;
-left: 50%;
-transform: translateX(-50%);
-z-index: 1000;
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
 
 .excel-btn {
-background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-color: #ffffff;
-padding: 14px 32px;
-border-radius: 50px;
-font-size: 14px;
-font-weight: 700;
-letter-spacing: 1px;
-border: 1px solid rgba(255,255,255,0.2);
-cursor: pointer;
-box-shadow: 0 10px 35px rgba(16,185,129,0.4);
-display: flex;
-align-items: center;
-gap: 10px;
-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+    color: #ffffff;
+    padding: 15px 36px;
+    border-radius: 50px;
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .excel-btn:hover {
-transform: translateX(-50%) translateY(-3px) scale(1.03);
-box-shadow: 0 15px 40px rgba(0,245,212,0.4);
-border-color: #00f5d4;
+    transform: scale(1.05);
+    box-shadow: 0 15px 45px rgba(0, 245, 212, 0.5);
+    border-color: #00f5d4;
 }
 
-/* SMARTPHONE HUD REDUCTION */
-@media(max-width:768px){
-body { padding: 10px; padding-bottom: 80px; }
-h1 { font-size: 26px; }
-h3 { font-size: 12px; letter-spacing: 2px; }
-.stats-container { padding: 12px; gap: 10px; }
-.stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.stats-card { padding: 8px 10px; min-height: 50px; }
-.stats-card span { font-size: 18px; }
-.filter-container { padding: 12px; gap: 8px; }
-.controls { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.controls input[type="text"] { grid-column: span 2; }
-.controls input, .controls select { height: 34px; font-size: 12px; }
-.excel-btn { padding: 12px 22px; font-size: 12px; bottom: 15px; }
+.excel-btn:active {
+    transform: scale(0.97);
+}
+
+/* SMARTPHONE SCALE DOWN COMPRESSION MAP */
+@media (max-width: 768px) {
+    body { padding: 15px 10px; padding-bottom: 90px; }
+    h1 { font-size: 30px; letter-spacing: 0.5px; }
+    h3 { font-size: 13px; letter-spacing: 3px; }
+    .stats-container { padding: 15px; gap: 12px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stats-card { padding: 12px 10px; min-height: 70px; }
+    .stats-card span { font-size: 20px; }
+    .filter-container { padding: 15px; gap: 10px; }
+    .controls { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .controls input[type="text"] { grid-column: span 2; }
+    .controls input, .controls select { height: 36px; font-size: 12.5px; }
+    .excel-btn { padding: 12px 24px; font-size: 13px; bottom: 18px; }
 }
 </style>
 </head>
@@ -390,7 +422,7 @@ h3 { font-size: 12px; letter-spacing: 2px; }
 
 <div class="filter-container">
     <div class="panel-title">Filter & Analytics Console</div>
-    <div class="controls" style="margin-bottom: 6px;">
+    <div class="controls" style="margin-bottom: 8px;">
         <input type="text" id="search" placeholder="Search student / roll / company">
         <select id="branchFilter"><option value="">All Branches</option></select>
         <select id="appliedCompanyFilter"><option value="">Applied Company</option></select>
@@ -399,8 +431,8 @@ h3 { font-size: 12px; letter-spacing: 2px; }
         <select id="companyShortlistFilter"><option value="">Shortlisted by Company</option></select>
     </div>
     <div class="controls">
-        <select id="paperTest1Filter"><option value="">Pen & Paper Test Status</option></select>
-        <select id="paperTest2Filter"><option value="">Pen & Paper Test Status</option></select>
+        <select id="paperTest1Filter"><option value="">Pen & Paper Test 1 Status</option></select>
+        <select id="paperTest2Filter"><option value="">Pen & Paper Test 2 Status</option></select>
         <select id="gdFilter"><option value="">GD Cleared?</option></select>
         <select id="oa1Filter"><option value="">OA-1 Cleared?</option></select>
         <select id="oa2Filter"><option value="">OA-2 Cleared?</option></select>
@@ -428,20 +460,20 @@ h3 { font-size: 12px; letter-spacing: 2px; }
 <script>
 const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRiETxVy0sYxBeApgtsDzUGSTzlrH5IjVjYh83cqlq0XLsAeOK9w7KYRzBVc8V9ah4jEPRzdZkEq9i5/pub?gid=1926306429&single=true&output=csv";
 
-let allData=[];
-let currentFilteredData=[]; 
+let allData = [];
+let currentFilteredData = []; 
 
 let branchKey = "", appliedCompanyKey = "", roleKey = "", tpoKey = "", companyShortlistKey = "";
 let paperTest1Key = "", paperTest2Key = "", rollKey = "", gdKey = "", oa1Key = "", oa2Key = "", oa3Key = "";
 let tech1Key = "", tech2Key = "", hrKey = "", managerialKey = "", finalStatusKey = "";
 
-Papa.parse(csvURL,{
-    download:true,
-    header:true,
-    skipEmptyLines:true,
-    complete:function(results){
+Papa.parse(csvURL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
         allData = results.data.filter(row => Object.values(row).join("").trim() !== "");
-        if(allData.length===0){
+        if (allData.length === 0) {
             alert("No Data Found inside your Google Sheet!");
             return;
         }
@@ -471,53 +503,53 @@ Papa.parse(csvURL,{
         populateFilters(allData);
         updateStats(allData);
     },
-    error:function(err){
+    error: function(err) {
         console.error(err);
     }
 });
 
-function buildTable(data){
-    let thead=document.querySelector("#placementTable thead");
-    let tbody=document.querySelector("#placementTable tbody");
-    thead.innerHTML=""; tbody.innerHTML="";
+function buildTable(data) {
+    let thead = document.querySelector("#placementTable thead");
+    let tbody = document.querySelector("#placementTable tbody");
+    thead.innerHTML = ""; tbody.innerHTML = "";
 
-    if(data.length===0){
-        tbody.innerHTML="<tr><td colspan='30'>No Records Found Match Your Selections</td></tr>";
+    if (data.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='30'>No Records Found Match Your Selections</td></tr>";
         return;
     }
 
-    let headers=Object.keys(data[0]);
-    let tr=document.createElement("tr");
-    headers.forEach(h=>{
-        let th=document.createElement("th"); th.innerText=h; tr.appendChild(th);
+    let headers = Object.keys(data[0]);
+    let tr = document.createElement("tr");
+    headers.forEach(h => {
+        let th = document.createElement("th"); th.innerText = h; tr.appendChild(th);
     });
     thead.appendChild(tr);
 
-    data.forEach(row=>{
-        let tr=document.createElement("tr");
-        headers.forEach(h=>{
-            let td=document.createElement("td");
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+        headers.forEach(h => {
+            let td = document.createElement("td");
             let value = row[h] ? row[h].toString().trim() : "";
-            if(value.includes("http")){
-                let a=document.createElement("a"); a.href=value; a.target="_blank"; a.className="link-btn";
-                if(h.toLowerCase().includes("intern")){ a.innerText="📄 Internship Letter"; }
-                else if(h.toLowerCase().includes("offer")){ a.innerText="📄 Offer Letter"; }
-                else { a.innerText="📄 View"; }
+            if (value.includes("http")) {
+                let a = document.createElement("a"); a.href = value; a.target = "_blank"; a.className = "link-btn";
+                if (h.toLowerCase().includes("intern")) { a.innerText = "📄 Internship Letter"; }
+                else if (h.toLowerCase().includes("offer")) { a.innerText = "📄 Offer Letter"; }
+                else { a.innerText = "📄 View"; }
                 td.appendChild(a);
-            } else { td.innerText=value; }
+            } else { td.innerText = value; }
             tr.appendChild(td);
         });
         tbody.appendChild(tr);
     });
 }
 
-function populateFilters(data){
-    let getOpts = (key) => key ? [...new Set(data.map(d=>(d[key] || "").trim()).filter(Boolean))].sort() : [];
+function populateFilters(data) {
+    let getOpts = (key) => key ? [...new Set(data.map(d => (d[key] || "").trim()).filter(Boolean))].sort() : [];
 
     let fillSel = (id, opts, def) => {
         let el = document.getElementById(id);
         el.innerHTML = `<option value="">${def}</option>`;
-        opts.forEach(v => el.add(new Option(v,v)));
+        opts.forEach(v => el.add(new Option(v, v)));
     };
 
     fillSel("branchFilter", getOpts(branchKey), "All Branches");
@@ -538,7 +570,7 @@ function populateFilters(data){
     fillSel("finalStatusFilter", getOpts(finalStatusKey), "Final Status of Student");
 }
 
-function updateStats(data){
+function updateStats(data) {
     document.getElementById("statRegistrations").innerText = data.length;
     let uniqueComps = new Set();
     let tpoCount = 0, compShortCount = 0, paper1Count = 0, paper2Count = 0;
@@ -580,27 +612,27 @@ function updateStats(data){
     document.getElementById("statSelected").innerText = selectedCount;
 }
 
-function applyFilters(){
-    let search=document.getElementById("search").value.toLowerCase();
-    let branch=document.getElementById("branchFilter").value;
-    let appliedComp=document.getElementById("appliedCompanyFilter").value;
-    let roleValue=document.getElementById("roleFilter").value;
-    let tpo=document.getElementById("tpoFilter").value;
-    let companyShort=document.getElementById("companyShortlistFilter").value;
-    let paperTest1=document.getElementById("paperTest1Filter").value;
-    let paperTest2=document.getElementById("paperTest2Filter").value;
-    let gdValue=document.getElementById("gdFilter").value;
-    let oa1Value=document.getElementById("oa1Filter").value;
-    let oa2Value=document.getElementById("oa2Filter").value;
-    let oa3Value=document.getElementById("oa3Filter").value;
-    let tech1Value=document.getElementById("tech1Filter").value;
-    let tech2Value=document.getElementById("tech2Filter").value;
-    let hrValue=document.getElementById("hrFilter").value;
-    let managerialValue=document.getElementById("managerialFilter").value;
-    let finalStatusValue=document.getElementById("finalStatusFilter").value;
+function applyFilters() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let branch = document.getElementById("branchFilter").value;
+    let appliedComp = document.getElementById("appliedCompanyFilter").value;
+    let roleValue = document.getElementById("roleFilter").value;
+    let tpo = document.getElementById("tpoFilter").value;
+    let companyShort = document.getElementById("companyShortlistFilter").value;
+    let paperTest1 = document.getElementById("paperTest1Filter").value;
+    let paperTest2 = document.getElementById("paperTest2Filter").value;
+    let gdValue = document.getElementById("gdFilter").value;
+    let oa1Value = document.getElementById("oa1Filter").value;
+    let oa2Value = document.getElementById("oa2Filter").value;
+    let oa3Value = document.getElementById("oa3Filter").value;
+    let tech1Value = document.getElementById("tech1Filter").value;
+    let tech2Value = document.getElementById("tech2Filter").value;
+    let hrValue = document.getElementById("hrFilter").value;
+    let managerialValue = document.getElementById("managerialFilter").value;
+    let finalStatusValue = document.getElementById("finalStatusFilter").value;
 
-    currentFilteredData=allData.filter(row=>{
-        let text=JSON.stringify(row).toLowerCase();
+    currentFilteredData = allData.filter(row => {
+        let text = JSON.stringify(row).toLowerCase();
         let matchVal = (key, filterVal) => !filterVal || (row[key] && String(row[key]).trim() === filterVal);
 
         return text.includes(search)
@@ -624,6 +656,20 @@ function applyFilters(){
 
     buildTable(currentFilteredData);
     updateStats(currentFilteredData);
+}
+
+function downloadExcel() {
+    if (currentFilteredData.length === 0) { alert("No data to download!"); return; }
+    let headers = Object.keys(currentFilteredData[0]);
+    let csvRows = [headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",")];
+    currentFilteredData.forEach(row => {
+        csvRows.push(headers.map(h => `"${(row[h] || "").toString().trim().replace(/"/g, '""')}"`).join(","));
+    });
+    let blob = new Blob(["\uFEFF" + csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a"); a.href = url;
+    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 document.querySelectorAll(".filter-container select").forEach(el => el.addEventListener("change", applyFilters));
