@@ -17,6 +17,7 @@ box-sizing:border-box;
 body{
 font-family:Arial, sans-serif;
 padding:15px;
+padding-bottom: 80px; /* Space so the download button doesn't block the last table row */
 overflow-x:hidden;
 color:white;
 background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1c1c3c);
@@ -76,56 +77,36 @@ to{transform:translateX(-80px);}
 /* HEADER */
 
 .header-box{
-
 background:linear-gradient(135deg,#000814,#001d3d,#003566);
-
-padding:6px 10px;
-
+padding:15px 10px;
 border-radius:18px 18px 0 0;
-
 margin-bottom:0;
-
 box-shadow:0 6px 20px rgba(0,0,0,0.35);
-
 border:1px solid rgba(255,255,255,0.15);
-
 border-bottom:none;
-
 text-align:center;
-
 }
 
 
 /* HEADINGS */
 
 h1{
-
 font-size:34px;
-
 font-weight:bold;
-
 background:linear-gradient(90deg,#ffffff,#ffe082,#ffffff);
-
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
 margin-bottom:8px;
-
 letter-spacing:1px;
-
 }
 
 h3{
-
 font-size:18px;
 margin-top:2px;
 font-weight:500;
-
 background:linear-gradient(90deg,#b2ff59,#00e5ff);
-
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-
 }
 
 /* STATS CONTAINER & CARDS */
@@ -133,31 +114,24 @@ background:linear-gradient(90deg,#b2ff59,#00e5ff);
 display: flex;
 flex-direction: column;
 background: linear-gradient(135deg, #051329, #0a2246);
-padding: 8px;
+padding: 12px;
 border-left: 1px solid rgba(255,255,255,0.15);
 border-right: 1px solid rgba(255,255,255,0.15);
-gap: 6px;
+gap: 10px;
 }
 
 .stats-row {
-display: flex;
-flex-wrap: nowrap;
-gap: 6px;
-overflow-x: auto;
-overflow-y: hidden;
-scroll-behavior: smooth;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+gap: 10px;
 width: 100%;
-padding-bottom: 2px;
 }
 
 .stats-card {
-flex: 0 0 auto;
-width: 170px;
-min-width: 170px;
 background: rgba(255, 255, 255, 0.06);
 border-radius: 8px;
-padding: 6px 10px;
-font-size: 11px;
+padding: 10px 12px;
+font-size: 12px;
 line-height: 1.3;
 color: #e0e6ed;
 display: flex;
@@ -173,8 +147,8 @@ transform: translateY(-2px);
 
 .stats-card span {
 font-weight: bold;
-font-size: 16px;
-margin-top: 2px;
+font-size: 18px;
+margin-top: 4px;
 }
 
 /* Unique Vibrant Border and Text Color Mapping */
@@ -199,352 +173,268 @@ margin-top: 2px;
 .border-green { border: 1px solid #38b000; background: rgba(56, 176, 0, 0.08); }
 .border-green span { color: #00ff66; text-shadow: 0 0 8px rgba(0,255,102,0.4); }
 
-
-.stats-row::-webkit-scrollbar {
-height: 5px;
-}
-.stats-row::-webkit-scrollbar-track {
-background: rgba(255,255,255,0.05);
-}
-.stats-row::-webkit-scrollbar-thumb {
-background: rgba(255,255,255,0.2);
-border-radius: 4px;
-}
-
 /* FILTER CONTAINER */
 .filter-container {
 display: flex;
 flex-direction: column;
 background:rgba(255,255,255,0.12);
-padding:6px 8px;
+padding: 12px;
 border-radius:0 0 14px 14px;
 backdrop-filter:blur(10px);
 box-shadow:0 6px 20px rgba(0,0,0,0.25);
 border:1px solid rgba(255,255,255,0.15);
 border-top:none;
-margin-bottom:6px;
-gap: 6px;
+margin-bottom:15px;
+gap: 10px;
 }
 
 /* FILTER SECTION */
-
 .controls{
-
-display:flex;
-
-flex-wrap:nowrap;
-
-gap:6px;
-
-overflow-x:auto;
-
-overflow-y:hidden;
-
-scroll-behavior:smooth;
-
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+gap: 10px;
 width: 100%;
-
 }
-/* FILTERS */
 
+/* FILTERS */
 .controls input,
 .controls select{
-
-flex:0 0 auto;
-
-width:170px;
-min-width:170px;
-
-height:30px;
-
-padding:4px 8px;
-
-font-size:12px;
-
-border-radius:8px;
-
-border:1px solid rgba(255,255,255,0.2);
-
-outline:none;
-
-background:rgba(255,255,255,0.92);
-
-transition:0.3s;
-
+width: 100%;
+height: 36px;
+padding: 6px 10px;
+font-size: 13px;
+border-radius: 8px;
+border: 1px solid rgba(255,255,255,0.2);
+outline: none;
+background: rgba(255,255,255,0.92);
+transition: 0.3s;
 color: #222;
+}
 
+/* Make search bar span full width on grid layouts if desired */
+.controls input[type="text"] {
+grid-column: 1 / -1;
 }
 
 /* FOCUS */
-
 .controls input:focus,
 .controls select:focus{
-
-transform:scale(1.02);
-
+transform:scale(1.01);
 box-shadow:0 0 10px rgba(255,255,255,0.5);
-
 border:1px solid #00c6ff;
-
-}
-
-/* FILTER SCROLLBAR */
-
-.controls::-webkit-scrollbar{
-height:7px;
-}
-
-.controls::-webkit-scrollbar-track{
-background:rgba(255,255,255,0.08);
-border-radius:10px;
-}
-
-.controls::-webkit-scrollbar-thumb{
-background:linear-gradient(90deg,#00c6ff,#0072ff);
-border-radius:10px;
 }
 
 /* TABLE CONTAINER */
-
 .table-container{
-
 width:100%;
-
 overflow-x:auto;
-
 overflow-y:hidden;
-
 border-radius:18px;
-
 box-shadow:0 8px 25px rgba(0,0,0,0.35);
-
 scroll-behavior:smooth;
-
 background:rgba(255,255,255,0.05);
-
 padding-bottom:6px;
-
 }
 
 /* TABLE SCROLLBAR */
-
 .table-container::-webkit-scrollbar{
-
 height:10px;
-
 }
 
 .table-container::-webkit-scrollbar-track{
-
 background:rgba(255,255,255,0.08);
-
 border-radius:10px;
-
 }
 
 .table-container::-webkit-scrollbar-thumb{
-
 background:linear-gradient(90deg,#ff512f,#dd2476);
-
 border-radius:10px;
-
 }
 
 .table-container::-webkit-scrollbar-thumb:hover{
-
 background:linear-gradient(90deg,#00c6ff,#0072ff);
-
 }
 
 /* TABLE */
-
 table{
-
 border-collapse:collapse;
-
 min-width:1600px;
-
 width:max-content;
-
 background:#ffffff;
-
 color:#222;
-
 border-radius:18px;
-
 overflow:hidden;
-
 }
 
 /* TABLE HEADER */
-
 th{
-
-padding:8px 9px;
-
+padding:10px 12px;
 font-size:13px;
-
 font-weight:bold;
-
 text-align:center;
-
 background:linear-gradient(135deg,#141e30,#243b55);
-
 color:#ffffff;
 line-height:1.3;
 border:1px solid rgba(255,255,255,0.12);
-
 white-space:nowrap;
-
 }
 
 /* TABLE DATA */
-
 td{
-
-padding:5px 9px;
-
+padding:8px 12px;
 font-size:12px;
-
 font-weight:500;
-
 text-align:center;
-
 white-space:nowrap;
-
 border:1px solid rgba(16,37,66,0.12);
-
 }
 
 /* ROW COLORS */
-
 tr:nth-child(even){
-
 background:#eef5ff;
-
 }
 
 tr:nth-child(odd){
-
 background:#ffffff;
-
 }
 
 /* HOVER */
-
 tbody tr:hover{
-
 background:#ffd180;
-
 transition:0.3s;
-
 }
 
 /* BUTTON */
-
 .link-btn{
-
 background:linear-gradient(135deg,#667eea,#764ba2);
-
 color:white;
-
-padding:3px 8px;
-
+padding:4px 10px;
 border-radius:6px;
-
 text-decoration:none;
-
-font-size:10px;
-
+font-size:11px;
 font-weight:bold;
-
 line-height:1.2;
-
 display:inline-block;
-
 transition:0.3s;
-
 box-shadow:0 3px 10px rgba(0,0,0,0.2);
-
 }
 
 .link-btn:hover{
-
 transform:scale(1.06);
-
 background:linear-gradient(135deg,#43cea2,#185a9d);
-
 }
 
-/* MOBILE */
+/* FIXED BOTTOM EXCEL BUTTON */
+.download-wrapper {
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 1000;
+display: flex;
+justify-content: center;
+width: auto;
+}
 
+.excel-btn {
+background: linear-gradient(135deg, #1d6f42, #105230);
+color: #ffffff;
+padding: 12px 24px;
+border-radius: 30px;
+font-size: 14px;
+font-weight: bold;
+border: 2px solid rgba(255,255,255,0.2);
+cursor: pointer;
+box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+display: flex;
+align-items: center;
+gap: 8px;
+transition: all 0.3s ease;
+white-space: nowrap;
+backdrop-filter: blur(5px);
+}
+
+.excel-btn:hover {
+transform: scale(1.05);
+background: linear-gradient(135deg, #248a52, #13633a);
+box-shadow: 0 10px 35px rgba(0, 245, 212, 0.3);
+border-color: #00f5d4;
+}
+
+.excel-btn:active {
+transform: scale(0.98);
+}
+
+/* RESPONSIVE BREAKPOINT FOR MOBILE DEVICES */
 @media(max-width:768px){
 
 body{
 padding:10px;
+padding-bottom: 75px;
 }
 
 h1{
-font-size:22px;
+font-size:24px;
 }
 
 h3{
-font-size:15px;
+font-size:14px;
 }
 
 .stats-container{
-padding: 5px;
-gap: 5px;
+padding: 8px;
+gap: 6px;
+}
+
+.stats-row {
+grid-template-columns: repeat(2, 1fr); 
+gap: 6px;
 }
 
 .stats-card{
-width: 145px;
-min-width: 145px;
-font-size: 10px;
-padding: 4px 6px;
+padding: 8px 10px;
+font-size: 11px;
 }
 
 .stats-card span {
-font-size: 13px;
+font-size: 15px;
 }
 
 .filter-container{
-padding:5px;
-gap:5px;
+padding: 8px;
+gap: 6px;
+}
+
+.controls {
+grid-template-columns: repeat(2, 1fr); 
+gap: 6px;
 }
 
 .controls input,
 .controls select{
-
-width:145px;
-min-width:145px;
-
-height:28px;
-padding:3px 6px;
+height:34px;
 font-size:12px;
-
+padding: 4px 6px;
 }
 
 th{
-
 font-size:11px;
-
-padding:5px 6px;
-
+padding:6px 8px;
 }
 
 td{
-
 font-size:11px;
-
-padding:4px 6px;
-
+padding:6px 8px;
 }
 
 table{
-
 min-width:1400px;
+}
 
+.excel-btn {
+padding: 10px 18px;
+font-size: 12px;
+bottom: 15px;
 }
 
 }
@@ -557,9 +447,9 @@ min-width:1400px;
 
 <div class="header-box">
 
-<h1>Student Enrollment & Selection journey</h1>
+<h1>MGIT Placement Records</h1>
 
-<h3>Academic Year 2026 - 2027</h3>
+<h3>Academic Year 2025 - 2026</h3>
 
 </div>
 
@@ -573,8 +463,6 @@ min-width:1400px;
         <div class="stats-card border-orange">Paper Test-2 Cleared <span id="statPaper2">0</span></div>
         <div class="stats-card border-amber">GD Cleared <span id="statGd">0</span></div>
         <div class="stats-card border-amber">OA-1 Cleared <span id="statOa1">0</span></div>
-    </div>
-    <div class="stats-row">
         <div class="stats-card border-amber">OA-2 Cleared <span id="statOa2">0</span></div>
         <div class="stats-card border-amber">OA-3 Cleared <span id="statOa3">0</span></div>
         <div class="stats-card border-purple">Tech Round-1 Cleared <span id="statTech1">0</span></div>
@@ -586,69 +474,52 @@ min-width:1400px;
 </div>
 
 <div class="filter-container">
-<div class="controls">
-
-<input type="text" id="search" placeholder="Search student / roll / company">
-
-<select id="branchFilter">
-<option value="">All Branches</option>
-</select>
-
-<select id="appliedCompanyFilter">
-<option value="">Applied Company</option>
-</select>
-
-<select id="tpoFilter">
-<option value="">Shortlisted by TPO</option>
-</select>
-
-<select id="companyShortlistFilter">
-<option value="">Shortlisted by Company</option>
-</select>
-
-<select id="paperTest1Filter">
-<option value="">Pen & Paper Test -1 Status</option>
-</select>
-
-<select id="paperTest2Filter">
-<option value="">Pen & Paper Test -2 Status</option>
-</select>
-
-</div>
-
-<div class="controls">
-<select id="gdFilter">
-<option value="">GD Cleared?</option>
-</select>
-
-<select id="oa1Filter">
-<option value="">Online Assessment-1 Cleared?</option>
-</select>
-
-<select id="oa2Filter">
-<option value="">Online Assessment-2 Cleared?</option>
-</select>
-
-<select id="oa3Filter">
-<option value="">Online Assessment-3 Cleared?</option>
-</select>
-
-<select id="tech1Filter">
-<option value="">Technical Round-1 Cleared?</option>
-</select>
-
-<select id="tech2Filter">
-<option value="">Technical Round-2 Cleared?</option>
-</select>
-
-<select id="hrFilter">
-<option value="">HR Interview Cleared?</option>
-</select>
-
-<select id="managerialFilter">
-<option value="">Managerial Round Cleared?</option>
-</select>
-</div>
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search student / roll / company">
+        
+        <select id="branchFilter">
+            <option value="">All Branches</option>
+        </select>
+        <select id="appliedCompanyFilter">
+            <option value="">Applied Company</option>
+        </select>
+        <select id="tpoFilter">
+            <option value="">Shortlisted by TPO</option>
+        </select>
+        <select id="companyShortlistFilter">
+            <option value="">Shortlisted by Company</option>
+        </select>
+        <select id="paperTest1Filter">
+            <option value="">Pen & Paper Test Status</option>
+        </select>
+        <select id="paperTest2Filter">
+            <option value="">Pen & Paper Test Status</option>
+        </select>
+        <select id="gdFilter">
+            <option value="">GD Cleared?</option>
+        </select>
+        <select id="oa1Filter">
+            <option value="">OA-1 Cleared?</option>
+        </select>
+        <select id="oa2Filter">
+            <option value="">OA-2 Cleared?</option>
+        </select>
+        <select id="oa3Filter">
+            <option value="">OA-3 Cleared?</option>
+        </select>
+        <select id="tech1Filter">
+            <option value="">Tech Round-1 Cleared?</option>
+        </select>
+        <select id="tech2Filter">
+            <option value="">Tech Round-2 Cleared?</option>
+        </select>
+        <select id="hrFilter">
+            <option value="">HR Interview Cleared?</option>
+        </select>
+        <select id="managerialFilter">
+            <option value="">Managerial Round Cleared?</option>
+        </select>
+    </div>
 </div>
 
 <div class="table-container">
@@ -663,6 +534,12 @@ min-width:1400px;
 
 </div>
 
+<div class="download-wrapper">
+    <button class="excel-btn" onclick="downloadExcel()">
+        📊 Download Filtered Data (Excel)
+    </button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 
 <script>
@@ -672,6 +549,7 @@ min-width:1400px;
 const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSwSxs2JtEUGewXFCvir7vQJMjsIdS-ODqzBeAQTi_4Wmp73pDTPh27f7qTedZpu_CTmMiBLMLf5lzm/pub?gid=837128863&single=true&output=csv";
 
 let allData=[];
+let currentFilteredData=[]; // Variable to track live rows on screen
 
 // Dynamic Header Keys Row 1
 let branchKey = "";
@@ -747,6 +625,7 @@ hrKey = headers.find(h => h.toLowerCase().trim().includes("hr interview")) || "H
 managerialKey = headers.find(h => h.toLowerCase().trim().includes("managerial round")) || "Managerial Round Cleared?";
 finalStatusKey = headers.find(h => h.toLowerCase().trim().includes("final status")) || "Final Status";
 
+currentFilteredData = [...allData];
 buildTable(allData);
 
 populateFilters(allData);
@@ -909,15 +788,15 @@ branchSelect.innerHTML='<option value="">All Branches</option>';
 appliedCompanySelect.innerHTML='<option value="">Applied Company</option>';
 tpoSelect.innerHTML='<option value="">Shortlisted by TPO</option>';
 companyShortlistSelect.innerHTML='<option value="">Shortlisted by Company</option>';
-paperTest1Select.innerHTML='<option value="">Pen & Paper Test -1 Status</option>';
-paperTest2Select.innerHTML='<option value="">Pen & Paper Test -2 Status</option>';
+paperTest1Select.innerHTML='<option value="">Pen & Paper Test Status</option>';
+paperTest2Select.innerHTML='<option value="">Pen & Paper Test Status</option>';
 
 gdSelect.innerHTML='<option value="">GD Cleared?</option>';
-oa1Select.innerHTML='<option value="">Online Assessment-1 Cleared?</option>';
-oa2Select.innerHTML='<option value="">Online Assessment-2 Cleared?</option>';
-oa3Select.innerHTML='<option value="">Online Assessment-3 Cleared?</option>';
-tech1Select.innerHTML='<option value="">Technical Round-1 Cleared?</option>';
-tech2Select.innerHTML='<option value="">Technical Round-2 Cleared?</option>';
+oa1Select.innerHTML='<option value="">OA-1 Cleared?</option>';
+oa2Select.innerHTML='<option value="">OA-2 Cleared?</option>';
+oa3Select.innerHTML='<option value="">OA-3 Cleared?</option>';
+tech1Select.innerHTML='<option value="">Tech Round-1 Cleared?</option>';
+tech2Select.innerHTML='<option value="">Tech Round-2 Cleared?</option>';
 hrSelect.innerHTML='<option value="">HR Interview Cleared?</option>';
 managerialSelect.innerHTML='<option value="">Managerial Round Cleared?</option>';
 
@@ -988,7 +867,6 @@ function updateStats(data){
 }
 
 /* APPLY FILTERS */
-
 function applyFilters(){
 
 let search=document.getElementById("search").value.toLowerCase();
@@ -1010,8 +888,7 @@ let hrValue=document.getElementById("hrFilter").value;
 let managerialValue=document.getElementById("managerialFilter").value;
 
 /* FILTER */
-
-let filtered=allData.filter(row=>{
+currentFilteredData=allData.filter(row=>{
 
 let text=JSON.stringify(row).toLowerCase();
 
@@ -1056,14 +933,62 @@ return text.includes(search)
 
 });
 
-buildTable(filtered);
+buildTable(currentFilteredData);
 
-updateStats(filtered);
+updateStats(currentFilteredData);
 
 }
 
-/* EVENTS */
+/* EXCEL DOWNLOAD CONTROLLER FUNCTION */
+function downloadExcel() {
+    if (currentFilteredData.length === 0) {
+        alert("No visible records available to download!");
+        return;
+    }
 
+    let headers = Object.keys(currentFilteredData[0]);
+    
+    // Building a structured, standard Excel XML workbook format string
+    let xml = '<?xml version="1.0" encoding="utf-8"?>' +
+              '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">' +
+              '<Worksheet ss:Name="Filtered Placement Data">' +
+              '<Table>';
+
+    // Add Table Column Headers
+    xml += '<Row>';
+    headers.forEach(h => {
+        xml += `<Cell><Data ss:Type="String">${h.replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]))}</Data></Cell>`;
+    });
+    xml += '</Row>';
+
+    // Add Live Filtered Data Rows
+    currentFilteredData.forEach(row => {
+        xml += '<Row>';
+        headers.forEach(h => {
+            let val = row[h] ? row[h].toString().trim() : "";
+            // Clean specific characters to keep data output valid XML safe
+            val = val.replace(/[<>&'"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
+            xml += `<Cell><Data ss:Type="String">${val}</Data></Cell>`;
+        });
+        xml += '</Row>';
+    });
+
+    xml += '</Table></Worksheet></Workbook>';
+
+    // Convert data string structure safely into a continuous binary large object file stream
+    let blob = new Blob([xml], { type: "application/vnd.ms-excel;charset=utf-8;" });
+    let url = URL.createObjectURL(blob);
+    
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".xls";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/* EVENTS */
 document.getElementById("search").addEventListener("keyup",applyFilters);
 document.getElementById("branchFilter").addEventListener("change",applyFilters);
 document.getElementById("appliedCompanyFilter").addEventListener("change",applyFilters);
