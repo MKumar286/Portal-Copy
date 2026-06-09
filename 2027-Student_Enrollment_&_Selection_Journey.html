@@ -114,31 +114,33 @@ background:linear-gradient(90deg,#b2ff59,#00e5ff);
 display: flex;
 flex-direction: column;
 background: linear-gradient(135deg, #051329, #0a2246);
-padding: 12px;
+padding: 10px;
 border-left: 1px solid rgba(255,255,255,0.15);
 border-right: 1px solid rgba(255,255,255,0.15);
-gap: 10px;
+gap: 8px;
 }
 
 .stats-row {
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-gap: 10px;
+/* Adjusted card widths down dynamically so they easily form 2 rows on desktop/tab */
+grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+gap: 8px;
 width: 100%;
 }
 
 .stats-card {
 background: rgba(255, 255, 255, 0.06);
 border-radius: 8px;
-padding: 10px 12px;
-font-size: 12px;
-line-height: 1.3;
+padding: 6px 8px; /* Tighter internal padding */
+font-size: 11px;
+line-height: 1.2;
 color: #e0e6ed;
 display: flex;
 flex-direction: column;
 justify-content: center;
 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 transition: transform 0.2s;
+min-height: 52px; /* Uniform low-profile height */
 }
 
 .stats-card:hover {
@@ -147,8 +149,8 @@ transform: translateY(-2px);
 
 .stats-card span {
 font-weight: bold;
-font-size: 18px;
-margin-top: 4px;
+font-size: 15px;
+margin-top: 2px;
 }
 
 /* Unique Vibrant Border and Text Color Mapping */
@@ -382,22 +384,23 @@ font-size:14px;
 }
 
 .stats-container{
-padding: 8px;
-gap: 6px;
+padding: 6px;
+gap: 5px;
 }
 
 .stats-row {
-grid-template-columns: repeat(2, 1fr); 
-gap: 6px;
+grid-template-columns: repeat(2, 1fr); /* 2 grid items layout across tiny displays */
+gap: 5px;
 }
 
 .stats-card{
-padding: 8px 10px;
-font-size: 11px;
+padding: 6px 8px;
+font-size: 10px;
+min-height: 48px;
 }
 
 .stats-card span {
-font-size: 15px;
+font-size: 13px;
 }
 
 .filter-container{
@@ -550,8 +553,8 @@ bottom: 15px;
 
 <script>
 
-/* CSV URL - !! MAKE SURE TO REPLACE THIS LINK WITH YOUR GENERATED LINK !! */
-const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRiETxVy0sYxBeApgtsDzUGSTzlrH5IjVjYh83cqlq0XLsAeOK9w7KYRzBVc8V9ah4jEPRzdZkEq9i5/pub?gid=1926306429&single=true&output=csv";
+/* CSV URL */
+const csvURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSwSxs2JtEUGewXFCvir7vQJMjsIdS-ODqzBeAQTi_4Wmp73pDTPh27f7qTedZpu_CTmMiBLMLf5lzm/pub?gid=837128863&single=true&output=csv";
 
 let allData=[];
 let currentFilteredData=[]; // Variable to track live rows on screen
