@@ -161,30 +161,31 @@ margin-top: 2px;
 display: flex;
 flex-direction: column;
 background:rgba(255,255,255,0.12);
-padding: 12px;
+padding: 10px;
 border-radius:0 0 14px 14px;
 backdrop-filter:blur(10px);
 box-shadow:0 6px 20px rgba(0,0,0,0.25);
 border:1px solid rgba(255,255,255,0.15);
 border-top:none;
 margin-bottom:15px;
-gap: 10px;
+gap: 8px;
 }
 
 .controls{
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-gap: 10px;
+/* Decreased the min-width to 145px to allow filters to compress nicely onto two rows */
+grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+gap: 8px;
 width: 100%;
 }
 
 .controls input,
 .controls select{
 width: 100%;
-height: 36px;
-padding: 6px 10px;
-font-size: 13px;
-border-radius: 8px;
+height: 32px; /* Decreased container element heights slightly */
+padding: 4px 6px; /* Optimized layout spacing dimensions */
+font-size: 11.5px; /* Scaled font proportions for micro fitment compatibility */
+border-radius: 6px;
 border: 1px solid rgba(255,255,255,0.2);
 outline: none;
 background: rgba(255,255,255,0.92);
@@ -349,7 +350,7 @@ h3{ font-size:14px; }
 .filter-container{ padding: 8px; gap: 6px; }
 .controls { grid-template-columns: repeat(2, 1fr); gap: 6px; }
 .controls input[type="text"] { grid-column: span 2; }
-.controls input, .controls select{ height:34px; font-size:12px; padding: 4px 6px; }
+.controls input, .controls select{ height:32px; font-size:12px; padding: 4px 6px; }
 th{ font-size:11px; padding:6px 8px; }
 td{ font-size:11px; padding:6px 8px; }
 table{ min-width:1400px; }
@@ -387,7 +388,7 @@ table{ min-width:1400px; }
 </div>
 
 <div class="filter-container">
-    <div class="controls" style="margin-bottom: 4px;">
+    <div class="controls" style="margin-bottom: 6px;">
         <input type="text" id="search" placeholder="Search student / roll / company">
         <select id="branchFilter"><option value="">All Branches</option></select>
         <select id="appliedCompanyFilter"><option value="">Applied Company</option></select>
@@ -447,7 +448,6 @@ Papa.parse(csvURL,{
 
         let headers = Object.keys(allData[0]);
 
-        // Exact column matcher adapted directly for your new tab configuration
         branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "";
         appliedCompanyKey = headers.find(h => h.toLowerCase().trim().includes("company name")) || headers.find(h => h.toLowerCase().trim().includes("company")) || "";
         roleKey = headers.find(h => h.toLowerCase().trim().includes("profile") || h.toLowerCase().trim().includes("role")) || "";
@@ -619,26 +619,12 @@ function applyFilters(){
         && matchVal(tech1Key, tech1Value)
         && matchVal(tech2Key, tech2Value)
         && matchVal(hrKey, hrValue)
-        && matchVal(managerialKey, managerialValue)
+        && matchVal(managerialValue, managerialValue)
         && matchVal(finalStatusKey, finalStatusValue);
     });
 
     buildTable(currentFilteredData);
     updateStats(currentFilteredData);
-}
-
-function downloadExcel() {
-    if (currentFilteredData.length === 0) { alert("No data to download!"); return; }
-    let headers = Object.keys(currentFilteredData[0]);
-    let csvRows = [headers.map(h => `"${h.replace(/"/g, '""')}"`).join(",")];
-    currentFilteredData.forEach(row => {
-        csvRows.push(headers.map(h => `"${(row[h] || "").toString().trim().replace(/"/g, '""')}"`).join(","));
-    });
-    let blob = new Blob(["\uFEFF" + csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a"); a.href = url;
-    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
 document.querySelectorAll(".filter-container select").forEach(el => el.addEventListener("change", applyFilters));
