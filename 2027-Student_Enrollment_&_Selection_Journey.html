@@ -483,6 +483,9 @@ bottom: 15px;
         <select id="appliedCompanyFilter">
             <option value="">Applied Company</option>
         </select>
+        <select id="roleFilter">
+            <option value="">Role Applied</option>
+        </select>
         <select id="tpoFilter">
             <option value="">Shortlisted by TPO</option>
         </select>
@@ -519,6 +522,9 @@ bottom: 15px;
         <select id="managerialFilter">
             <option value="">Managerial Round Cleared?</option>
         </select>
+        <select id="finalStatusFilter">
+            <option value="">Final Status of Student</option>
+        </select>
     </div>
 </div>
 
@@ -554,6 +560,7 @@ let currentFilteredData=[]; // Variable to track live rows on screen
 // Dynamic Header Keys Row 1
 let branchKey = "";
 let appliedCompanyKey = "";
+let roleKey = "";
 let tpoKey = "";
 let companyShortlistKey = "";
 let paperTest1Key = "";
@@ -600,6 +607,7 @@ let headers = Object.keys(allData[0]);
 // Dynamic scanning logic mapping variables safely to column variations
 branchKey = headers.find(h => h.toLowerCase().trim().includes("branch")) || "Branch";
 appliedCompanyKey = headers.find(h => h.toLowerCase().trim().replace(/\s+/g, '').includes("appliedcompany")) || "Applied Company";
+roleKey = headers.find(h => h.toLowerCase().trim() === "role" || h.toLowerCase().trim().includes("role applied")) || "Role";
 tpoKey = headers.find(h => h.toLowerCase().trim().includes("tpo")) || "Shortlisted by TPO";
 companyShortlistKey = headers.find(h => h.toLowerCase().trim().includes("shortlisted by company")) || "Shortlisted by Company";
 rollKey = headers.find(h => h.toLowerCase().trim().includes("roll")) || "Roll Number";
@@ -749,6 +757,7 @@ function populateFilters(data){
 
 let branches=[...new Set(data.map(d=>(d[branchKey] || "").trim()).filter(Boolean))];
 let appliedCompanies=[...new Set(data.map(d=>(d[appliedCompanyKey] || "").trim()).filter(Boolean))];
+let roles=[...new Set(data.map(d=>(d[roleKey] || "").trim()).filter(Boolean))];
 let tpoList=[...new Set(data.map(d=>(d[tpoKey] || "").trim()).filter(Boolean))];
 let companyShortlist=[...new Set(data.map(d=>(d[companyShortlistKey] || "").trim()).filter(Boolean))];
 let paperTests1= paperTest1Key ? [...new Set(data.map(d=>(d[paperTest1Key] || "").trim()).filter(Boolean))] : [];
@@ -763,11 +772,13 @@ let tech1Options = [...new Set(data.map(d=>(d[tech1Key] || "").trim()).filter(Bo
 let tech2Options = [...new Set(data.map(d=>(d[tech2Key] || "").trim()).filter(Boolean))];
 let hrOptions = [...new Set(data.map(d=>(d[hrKey] || "").trim()).filter(Boolean))];
 let managerialOptions = [...new Set(data.map(d=>(d[managerialKey] || "").trim()).filter(Boolean))];
+let finalStatuses = [...new Set(data.map(d=>(d[finalStatusKey] || "").trim()).filter(Boolean))];
 
 /* SELECTS */
 
 let branchSelect=document.getElementById("branchFilter");
 let appliedCompanySelect=document.getElementById("appliedCompanyFilter");
+let roleSelect=document.getElementById("roleFilter");
 let tpoSelect=document.getElementById("tpoFilter");
 let companyShortlistSelect=document.getElementById("companyShortlistFilter");
 let paperTest1Select=document.getElementById("paperTest1Filter");
@@ -781,11 +792,13 @@ let tech1Select=document.getElementById("tech1Filter");
 let tech2Select=document.getElementById("tech2Filter");
 let hrSelect=document.getElementById("hrFilter");
 let managerialSelect=document.getElementById("managerialFilter");
+let finalStatusSelect=document.getElementById("finalStatusFilter");
 
 /* RESET */
 
 branchSelect.innerHTML='<option value="">All Branches</option>';
 appliedCompanySelect.innerHTML='<option value="">Applied Company</option>';
+roleSelect.innerHTML='<option value="">Role Applied</option>';
 tpoSelect.innerHTML='<option value="">Shortlisted by TPO</option>';
 companyShortlistSelect.innerHTML='<option value="">Shortlisted by Company</option>';
 paperTest1Select.innerHTML='<option value="">Pen & Paper Test Status</option>';
@@ -799,11 +812,13 @@ tech1Select.innerHTML='<option value="">Tech Round-1 Cleared?</option>';
 tech2Select.innerHTML='<option value="">Tech Round-2 Cleared?</option>';
 hrSelect.innerHTML='<option value="">HR Interview Cleared?</option>';
 managerialSelect.innerHTML='<option value="">Managerial Round Cleared?</option>';
+finalStatusSelect.innerHTML='<option value="">Final Status of Student</option>';
 
 /* ADD OPTIONS */
 
 branches.sort().forEach(v=> branchSelect.add(new Option(v,v)));
 appliedCompanies.sort().forEach(v=> appliedCompanySelect.add(new Option(v,v)));
+roles.sort().forEach(v=> roleSelect.add(new Option(v,v)));
 tpoList.sort().forEach(v=> tpoSelect.add(new Option(v,v)));
 companyShortlist.sort().forEach(v=> companyShortlistSelect.add(new Option(v,v)));
 paperTests1.sort().forEach(v=> paperTest1Select.add(new Option(v,v)));
@@ -817,6 +832,7 @@ tech1Options.sort().forEach(v=> tech1Select.add(new Option(v,v)));
 tech2Options.sort().forEach(v=> tech2Select.add(new Option(v,v)));
 hrOptions.sort().forEach(v=> hrSelect.add(new Option(v,v)));
 managerialOptions.sort().forEach(v=> managerialSelect.add(new Option(v,v)));
+finalStatuses.sort().forEach(v=> finalStatusSelect.add(new Option(v,v)));
 
 }
 
@@ -828,172 +844,4 @@ function updateStats(data){
     // 2. Unique Registered Companies
     let uniqueComps = new Set();
     // 3 - 15 Counters
-    let tpoCount = 0, compShortCount = 0, paper1Count = 0, paper2Count = 0;
-    let gdCount = 0, oa1Count = 0, oa2Count = 0, oa3Count = 0;
-    let tech1Count = 0, tech2Count = 0, hrCount = 0, managerialCount = 0, selectedCount = 0;
-
-    data.forEach(row => {
-        if (row[appliedCompanyKey]) uniqueComps.add(row[appliedCompanyKey].toString().trim());
-        
-        if ((row[tpoKey] || "").toString().toLowerCase().trim() === "yes") tpoCount++;
-        if ((row[companyShortlistKey] || "").toString().toLowerCase().trim() === "yes") compShortCount++;
-        if (paperTest1Key && (row[paperTest1Key] || "").toString().toLowerCase().trim() === "yes") paper1Count++;
-        if (paperTest2Key && (row[paperTest2Key] || "").toString().toLowerCase().trim() === "yes") paper2Count++;
-        if ((row[gdKey] || "").toString().toLowerCase().trim() === "yes") gdCount++;
-        if ((row[oa1Key] || "").toString().toLowerCase().trim() === "yes") oa1Count++;
-        if ((row[oa2Key] || "").toString().toLowerCase().trim() === "yes") oa2Count++;
-        if ((row[oa3Key] || "").toString().toLowerCase().trim() === "yes") oa3Count++;
-        if ((row[tech1Key] || "").toString().toLowerCase().trim() === "yes") tech1Count++;
-        if ((row[tech2Key] || "").toString().toLowerCase().trim() === "yes") tech2Count++;
-        if ((row[hrKey] || "").toString().toLowerCase().trim() === "yes") hrCount++;
-        if ((row[managerialKey] || "").toString().toLowerCase().trim() === "yes") managerialCount++;
-        if (finalStatusKey && (row[finalStatusKey] || "").toString().toLowerCase().trim().includes("selected")) selectedCount++;
-    });
-
-    document.getElementById("statCompanies").innerText = uniqueComps.size;
-    document.getElementById("statTpo").innerText = tpoCount;
-    document.getElementById("statCompanyShort").innerText = compShortCount;
-    document.getElementById("statPaper1").innerText = paper1Count;
-    document.getElementById("statPaper2").innerText = paper2Count;
-    document.getElementById("statGd").innerText = gdCount;
-    document.getElementById("statOa1").innerText = oa1Count;
-    document.getElementById("statOa2").innerText = oa2Count;
-    document.getElementById("statOa3").innerText = oa3Count;
-    document.getElementById("statTech1").innerText = tech1Count;
-    document.getElementById("statTech2").innerText = tech2Count;
-    document.getElementById("statHr").innerText = hrCount;
-    document.getElementById("statManagerial").innerText = managerialCount;
-    document.getElementById("statSelected").innerText = selectedCount;
-}
-
-/* APPLY FILTERS */
-function applyFilters(){
-
-let search=document.getElementById("search").value.toLowerCase();
-
-let branch=document.getElementById("branchFilter").value;
-let appliedComp=document.getElementById("appliedCompanyFilter").value;
-let tpo=document.getElementById("tpoFilter").value;
-let companyShort=document.getElementById("companyShortlistFilter").value;
-let paperTest1=document.getElementById("paperTest1Filter").value;
-let paperTest2=document.getElementById("paperTest2Filter").value;
-
-let gdValue=document.getElementById("gdFilter").value;
-let oa1Value=document.getElementById("oa1Filter").value;
-let oa2Value=document.getElementById("oa2Filter").value;
-let oa3Value=document.getElementById("oa3Filter").value;
-let tech1Value=document.getElementById("tech1Filter").value;
-let tech2Value=document.getElementById("tech2Filter").value;
-let hrValue=document.getElementById("hrFilter").value;
-let managerialValue=document.getElementById("managerialFilter").value;
-
-/* FILTER */
-currentFilteredData=allData.filter(row=>{
-
-let text=JSON.stringify(row).toLowerCase();
-
-let rowBranch = (row[branchKey] || "").toString().trim();
-let rowAppliedComp = (row[appliedCompanyKey] || "").toString().trim();
-let rowTpo = (row[tpoKey] || "").toString().trim();
-let rowCompanyShort = (row[companyShortlistKey] || "").toString().trim();
-let rowPaperTest1 = paperTest1Key ? (row[paperTest1Key] || "").toString().trim() : "";
-let rowPaperTest2 = paperTest2Key ? (row[paperTest2Key] || "").toString().trim() : "";
-
-let rowGd = (row[gdKey] || "").toString().trim();
-let rowOa1 = (row[oa1Key] || "").toString().trim();
-let rowOa2 = (row[oa2Key] || "").toString().trim();
-let rowOa3 = (row[oa3Key] || "").toString().trim();
-let rowTech1 = (row[tech1Key] || "").toString().trim();
-let rowTech2 = (row[tech2Key] || "").toString().trim();
-let rowHr = (row[hrKey] || "").toString().trim();
-let rowManagerial = (row[managerialKey] || "").toString().trim();
-
-return text.includes(search)
-
-&& (branch==="" || rowBranch===branch)
-
-&& (appliedComp==="" || rowAppliedComp===appliedComp)
-
-&& (tpo==="" || rowTpo===tpo)
-
-&& (companyShort==="" || rowCompanyShort===companyShort)
-
-&& (paperTest1==="" || rowPaperTest1===paperTest1)
-
-&& (paperTest2==="" || rowPaperTest2===paperTest2)
-
-&& (gdValue==="" || rowGd===gdValue)
-&& (oa1Value==="" || rowOa1===oa1Value)
-&& (oa2Value==="" || rowOa2===oa2Value)
-&& (oa3Value==="" || rowOa3===oa3Value)
-&& (tech1Value==="" || rowTech1===tech1Value)
-&& (tech2Value==="" || rowTech2===tech2Value)
-&& (hrValue==="" || rowHr===hrValue)
-&& (managerialValue==="" || rowManagerial===managerialValue);
-
-});
-
-buildTable(currentFilteredData);
-
-updateStats(currentFilteredData);
-
-}
-
-/* UNIVERSAL EXCEL DOWNLOAD CONTROLLER */
-function downloadExcel() {
-    if (currentFilteredData.length === 0) {
-        alert("No visible records available to download!");
-        return;
-    }
-
-    let headers = Object.keys(currentFilteredData[0]);
-    let csvRows = [];
-
-    // Format headers into a standard clean row cell line
-    csvRows.push(headers.map(header => `"${header.replace(/"/g, '""')}"`).join(","));
-
-    // Extract table row values and map them carefully escape-wrapping items
-    currentFilteredData.forEach(row => {
-        let values = headers.map(header => {
-            let val = row[header] ? row[header].toString().trim() : "";
-            return `"${val.replace(/"/g, '""')}"`;
-        });
-        csvRows.push(values.join(","));
-    });
-
-    // Create a raw file data sequence safely using UTF-8 standard string layout
-    let csvContent = "\uFEFF" + csvRows.join("\n");
-    let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    let url = URL.createObjectURL(blob);
-    
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "MGIT_Filtered_Placements_" + new Date().toISOString().slice(0,10) + ".csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-/* EVENTS */
-document.getElementById("search").addEventListener("keyup",applyFilters);
-document.getElementById("branchFilter").addEventListener("change",applyFilters);
-document.getElementById("appliedCompanyFilter").addEventListener("change",applyFilters);
-document.getElementById("tpoFilter").addEventListener("change",applyFilters);
-document.getElementById("companyShortlistFilter").addEventListener("change",applyFilters);
-document.getElementById("paperTest1Filter").addEventListener("change",applyFilters);
-document.getElementById("paperTest2Filter").addEventListener("change",applyFilters);
-
-document.getElementById("gdFilter").addEventListener("change",applyFilters);
-document.getElementById("oa1Filter").addEventListener("change",applyFilters);
-document.getElementById("oa2Filter").addEventListener("change",applyFilters);
-document.getElementById("oa3Filter").addEventListener("change",applyFilters);
-document.getElementById("tech1Filter").addEventListener("change",applyFilters);
-document.getElementById("tech2Filter").addEventListener("change",applyFilters);
-document.getElementById("hrFilter").addEventListener("change",applyFilters);
-document.getElementById("managerialFilter").addEventListener("change",applyFilters);
-
-</script>
-
-</body>
-</html>
+    let tpoCount = 0, compShortCount =
