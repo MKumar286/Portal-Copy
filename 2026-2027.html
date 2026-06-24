@@ -5,141 +5,173 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026-2027</title>
 
+<!-- Font Awesome for sleek corporate icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
 body {
     margin: 0;
-    padding: 40px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f7fc;
-    color: #333;
+    padding: 20px;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Clean solid white background */
+    background: #ffffff;
+    color: #000000;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
-h1 {
+/* FLOATING HEADER PANEL - DARK BLUE BACKGROUND WITH GOLD HEADINGS */
+.header-container {
+    background: #0d2558; /* Premium Solid Dark Blue */
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 14px 20px;
+    border-radius: 20px;
     text-align: center;
-    color: #0b3d91;
-    font-size: 2.2rem;
-    margin-bottom: 5px;
-    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(13, 37, 88, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #ffd700; /* Subtle Gold accent border line */
 }
 
-h2 {
-    text-align: center;
-    color: #555;
-    font-size: 1.4rem;
-    margin-top: 0;
-    font-weight: 400;
+.header-container h1 {
+    margin: 0 0 2px 0;
+    color: #ffd700; /* Brilliant Gold */
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
-h3 {
-    text-align: center;
-    color: #777;
+.header-container h2 {
+    margin: 0 0 2px 0;
+    color: #fcd34d; /* Muted Soft Gold */
     font-size: 1.1rem;
-    margin-bottom: 40px;
+    font-weight: 600;
 }
 
+.header-container h3 {
+    margin: 0;
+    color: #fde68a; /* Warm Cream Gold */
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* BULLETPROOF 3x6 LAYOUT SYSTEM */
 .cards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(3, max-content); 
+    grid-template-rows: repeat(6, max-content);
+    grid-auto-flow: column;
+    gap: 12px 30px; 
     max-width: 1200px;
     margin: 0 auto;
+    justify-content: center; 
 }
 
+/* FLOATING CARDS WITH NO BACKGROUND COLOR */
 .card {
-    min-height: 110px;
-    border-radius: 16px;
+    height: 48px; 
+    width: max-content; 
+    background: transparent; /* Removed background color entirely */
+    border: 1px solid rgba(13, 37, 88, 0.3); /* Subtle border to define shape on white bg */
+    border-radius: 24px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 0 18px 0 6px; 
+    box-sizing: border-box;
+    white-space: nowrap; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* White and Pink Gradient Card Text */
+.card span {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    background: linear-gradient(to right, #0d2558 30%, #db2777 100%); /* Adjusted starting tone to dark blue for legibility on white background */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Circular Blue Icon Badge */
+.card .icon-badge {
+    width: 36px;
+    height: 36px;
+    background: #0062ff; 
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
+    margin-right: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 98, 255, 0.2);
+    transition: all 0.2s ease;
 }
 
-/* Elegant vector icon style inside card */
-.card i {
-    font-size: 28px;
-    margin-bottom: 12px;
-    opacity: 0.9;
-    transition: transform 0.3s ease;
+.card .icon-badge i {
+    font-size: 15px;
+    color: #ffffff;
 }
 
-/* Subtle background accent flare */
-.card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: rotate(45deg);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
+/* HIGHLIGHTED/HOVERED CARD STATE: Shifting to a vibrant mixed color gradient */
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%); /* Mixed Blue, Purple, & Pink */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    border-color: transparent;
 }
 
-.card:hover i {
-    transform: scale(1.15);
+/* Tweak the icon badge and text contrast on hover over the mixed gradient */
+.card:hover .icon-badge {
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+}
+.card:hover .icon-badge i {
+    color: #7c3aed; 
+}
+.card:hover span {
+    background: #ffffff; /* Becomes solid white for clean visibility over mixed gradient background */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-table {
-    width: 100%;
-    max-width: 1200px;
-    margin: 40px auto 0 auto;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+.card:active {
+    transform: translateY(0);
 }
 
-th, td {
-    border: 1px solid #eef2f7;
-    padding: 14px;
-    text-align: center;
+/* Fluid responsive layout logic for standard devices */
+@media (max-width: 950px) {
+    .cards-container {
+        grid-template-columns: repeat(2, max-content);
+        grid-template-rows: repeat(9, max-content);
+    }
+    .header-container {
+        max-width: 100%;
+    }
 }
-
-th {
-    background: #0b3d91;
-    color: white;
-    font-weight: 600;
-}
-
-.loading {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 20px;
-    color: #0b3d91;
+@media (max-width: 650px) {
+    .cards-container {
+        grid-template-columns: max-content;
+        grid-template-rows: auto;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1>Mahatma Gandhi Institute of Technology</h1>
-<h2>Training and Placement Cell</h2>
-<h3>Academic Year 2026-2027</h3>
+<div class="header-container">
+    <h1>Mahatma Gandhi Institute of Technology</h1>
+    <h2>Training and Placement Cell</h2>
+    <h3>Academic Year 2026-2027</h3>
+</div>
 
 <div class="cards-container" id="cardsContainer"></div>
-<div class="loading" id="loading"></div>
-<table id="dataTable"></table>
 
 <script>
 const csvLinks = {
@@ -147,80 +179,55 @@ const csvLinks = {
     B:"", C:"", D:"", E:"", F:"", G:"", H:"", I:"", J:"", K:"", L:"", M:"", N:"", O:"", P:"", Q:"", R:""
 };
 
-// Modern, corporate gradient palettes matching executive dashboards
-const gradients = [
-    "linear-gradient(135deg, #1e3a8a, #3b82f6)", // A - Total Students
-    "linear-gradient(135deg, #6d28d9, #a78bfa)", // B - HR Contacts
-    "linear-gradient(135deg, #b91c1c, #f87171)", // C - Training
-    "linear-gradient(135deg, #047857, #34d399)", // D - Placed Data
-    "linear-gradient(135deg, #c2410c, #fb923c)", // E - Capgemini
-    "linear-gradient(135deg, #0369a1, #38bdf8)", // F - Cognizant
-    "linear-gradient(135deg, #be123c, #fb7185)", // G - Student Journey
-    "linear-gradient(135deg, #4338ca, #818cf8)", // H - IBM
-    "linear-gradient(135deg, #15803d, #4ade80)", // I - Tech Mahindra
-    "linear-gradient(135deg, #9a3412, #f97316)", // J - HCL
-    "linear-gradient(135deg, #7c3aed, #c084fc)", // K - Oracle
-    "linear-gradient(135deg, #0f766e, #2dd4bf)", // L - Amazon
-    "linear-gradient(135deg, #e11d48, #fda4af)", // M - Google
-    "linear-gradient(135deg, #2563eb, #60a5fa)", // N - Microsoft
-    "linear-gradient(135deg, #4f46e5, #a5b4fc)", // O - KPIT
-    "linear-gradient(135deg, #0d9488, #5eead4)", // P - Zoho
-    "linear-gradient(135deg, #b45309, #fbbf24)", // Q - Hexaware
-    "linear-gradient(135deg, #374151, #9ca3af)"  // R - Genpact
-];
-
 const cardNames = {
     A:"Total Students Data",
-    B:"HR Contact Details",
-    C:"Training Programs",
-    D:"Placed Students Data with Offer Letters",
-    E:"Capgemini",
-    F:"Cognizant",
-    G:"Student Enrollment & Selection Journey",
-    H:"IBM",
-    I:"Tech Mahindra",
-    J:"HCL",
-    K:"Oracle",
-    L:"Amazon",
-    M:"Google",
-    N:"Microsoft",
-    O:"KPIT",
-    P:"Zoho",
-    Q:"Hexaware",
-    R:"Genpact"
+    B:"Students Enrollment & Selection Journey",
+    C:"Placed Students Data with Offer Letters",
+    D:"Companies JD & Mail Confirmation of Selected Students", 
+    E:"HR Contact Details", 
+    F:"Placement Report",
+    G:"Training Programs with Profs",
+    H:"Circulars",
+    I:"On Campus Drives & Photos",
+    J:"Salary Details", 
+    K:"Memorandum of Understanding (MoU)",
+    L:"Nature of Offers & Internship Details",
+    M:"Employer Feedback & Survey Forms",
+    N:"NBA Visit Details",
+    O:"NAAC Visit Details",
+    P:"Stock & Infrastructure Details",
+    Q:"Budget Proposals",
+    R:"Note Submitted to the Principal & Secretary"
 };
 
-// Matching semantic icons for corporate dashboards
 const cardIcons = {
-    A: '<i class="fa-solid fa-users"></i>',
-    B: '<i class="fa-solid fa-address-book"></i>',
-    C: '<i class="fa-solid fa-graduation-cap"></i>',
-    D: '<i class="fa-solid fa-file-signature"></i>',
-    E: '<i class="fa-solid fa-laptop-code"></i>',
-    F: '<i class="fa-solid fa-network-wired"></i>',
-    G: '<i class="fa-solid fa-route"></i>',
-    H: '<i class="fa-solid fa-server"></i>',
-    I: '<i class="fa-solid fa-gears"></i>',
-    J: '<i class="fa-solid fa-terminal"></i>',
-    K: '<i class="fa-solid fa-database"></i>',
-    L: '<i class="fa-brands fa-amazon"></i>',
-    M: '<i class="fa-brands fa-google"></i>',
-    N: '<i class="fa-brands fa-microsoft"></i>',
-    O: '<i class="fa-solid fa-car-battery"></i>',
-    P: '<i class="fa-solid fa-box-open"></i>',
-    Q: '<i class="fa-solid fa-cubes"></i>',
-    R: '<i class="fa-solid fa-chart-line"></i>'
+    A: '<i class="fa-solid fa-users"></i>',               
+    B: '<i class="fa-solid fa-route"></i>',               
+    C: '<i class="fa-solid fa-file-signature"></i>',       
+    D: '<i class="fa-solid fa-envelope-open-text"></i>',  
+    E: '<i class="fa-solid fa-address-book"></i>',        
+    F: '<i class="fa-solid fa-chart-pie"></i>',           
+    G: '<i class="fa-solid fa-chalkboard-user"></i>',     
+    H: '<i class="fa-solid fa-bullhorn"></i>',            
+    I: '<i class="fa-solid fa-camera"></i>',              
+    J: '<i class="fa-solid fa-money-bill-wave"></i>',     
+    K: '<i class="fa-solid fa-file-contract"></i>',       
+    L: '<i class="fa-solid fa-business-time"></i>',       
+    M: '<i class="fa-solid fa-comments"></i>',            
+    N: '<i class="fa-solid fa-building-shield"></i>',     
+    O: '<i class="fa-solid fa-award"></i>',               
+    P: '<i class="fa-solid fa-boxes-stacked"></i>',       
+    Q: '<i class="fa-solid fa-file-invoice-dollar"></i>', 
+    R: '<i class="fa-solid fa-file-pen"></i>'             
 };
 
 const container = document.getElementById("cardsContainer");
 
-Object.keys(csvLinks).forEach((key, index) => {
+Object.keys(csvLinks).forEach((key) => {
     const card = document.createElement("div");
     card.className = "card";
-    card.style.background = gradients[index];
 
-    // Injects structured icon followed by the static text asset
-    card.innerHTML = `${cardIcons[key]} <span>${cardNames[key]}</span>`;
+    card.innerHTML = `<div class="icon-badge">${cardIcons[key]}</div> <span>${cardNames[key]}</span>`;
 
     card.onclick = () => {
         if(key === "A"){
@@ -248,37 +255,6 @@ Object.keys(csvLinks).forEach((key, index) => {
 
     container.appendChild(card);
 });
-
-function loadCSV(url){
-    if(url===""){
-        alert("CSV Link Not Added");
-        return;
-    }
-    document.getElementById("loading").innerHTML="Loading Data...";
-    Papa.parse(url,{
-        download:true,
-        complete:function(results){
-            let data=results.data;
-            let tableHTML="";
-            data.forEach((row,rowIndex)=>{
-                tableHTML+="<tr>";
-                row.forEach(cell=>{
-                    if(rowIndex===0){
-                        tableHTML+=`<th>${cell}</th>`;
-                    }else{
-                        tableHTML+=`<td>${cell}</td>`;
-                    }
-                });
-                tableHTML+="</tr>";
-            });
-            document.getElementById("dataTable").innerHTML=tableHTML;
-            document.getElementById("loading").innerHTML="";
-        },
-        error:function(){
-            document.getElementById("loading").innerHTML="Unable to Load CSV Data";
-        }
-    });
-}
 </script>
 
 </body>
